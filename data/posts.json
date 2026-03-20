@@ -1,0 +1,38 @@
+[
+    {
+        "_id": "p001",
+        "title": "Just finished my WAD assignment!",
+        "body": "Finally done with the Express + EJS project. MongoDB was tricky at first but once you understand collections and documents, it clicks. Anyone else struggling with Mongoose populate?",
+        "author": "u001",
+        "upvotedBy": ["u002", "u003"],
+        "downvotedBy": [],
+        "createdAt": "2026-03-18T10:30:00Z"
+    },
+    {
+        "_id": "p002",
+        "title": "Best bubble tea near SMU?",
+        "body": "Looking for recommendations! I've tried LiHO and KOI but want something new. Bonus points if they have brown sugar boba.",
+        "author": "u002",
+        "upvotedBy": ["u001", "u003", "u002"],
+        "downvotedBy": [],
+        "createdAt": "2026-03-19T14:15:00Z"
+    },
+    {
+        "_id": "p003",
+        "title": "Tips for surviving finals week",
+        "body": "1. Start revision early (lol who actually does this). 2. Form study groups. 3. Don't pull all-nighters, sleep is important. 4. Past year papers are your best friend.",
+        "author": "u003",
+        "upvotedBy": ["u001"],
+        "downvotedBy": ["u002"],
+        "createdAt": "2026-03-20T08:00:00Z"
+    },
+    {
+        "_id": "p004",
+        "title": "Is Node.js still worth learning in 2026?",
+        "body": "With all the new frameworks coming out, is it still worth investing time into Node.js and Express? Or should I jump straight into something like Bun or Deno?",
+        "author": "u001",
+        "upvotedBy": ["u002"],
+        "downvotedBy": ["u003"],
+        "createdAt": "2026-03-20T09:45:00Z"
+    }
+]

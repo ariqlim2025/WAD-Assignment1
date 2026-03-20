@@ -1,0 +1,23 @@
+[
+    {
+        "_id": "u001",
+        "username": "TheMonster112",
+        "email": "monster@mail.com",
+        "password": "password123",
+        "age": 21
+    },
+    {
+        "_id": "u002",
+        "username": "CodingQueen",
+        "email": "queen@mail.com",
+        "password": "password123",
+        "age": 23
+    },
+    {
+        "_id": "u003",
+        "username": "NightOwlDev",
+        "email": "owl@mail.com",
+        "password": "password123",
+        "age": 20
+    }
+]

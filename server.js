@@ -22,8 +22,12 @@ server.use(express.json());
 // 4. set EJS as view engine
 server.set("view engine", "ejs");
 
-// 5. use established root routes
+// 5. serve static files (CSS, images, favicon, etc.)
+server.use(express.static('public'));
+
+// 6. use established root routes
 server.use('/', displayPosts);
+
 
 
 
@@ -31,7 +35,16 @@ server.use('/', displayPosts);
 dotenv.config({ path: './config.env' });
 
 // async function to connect to DB
-
+// async function connectDB() {
+//   try {
+//     // connecting to Database with our config.env file and DB is constant in config.env
+//     await mongoose.connect(process.env.DB);
+//     console.log("MongoDB connected successfully");
+//   } catch (error) {
+//     console.error("MongoDB connection failed:", error.message);
+//     process.exit(1);
+//   }
+// };
 
 // function to start server
 function startServer() {
@@ -45,4 +58,5 @@ function startServer() {
 }
 
 // call connectDB first and when connection is ready we start the web server
+// connectDB().then(startServer);
 startServer();

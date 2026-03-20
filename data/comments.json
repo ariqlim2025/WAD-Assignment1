@@ -1,0 +1,37 @@
+[
+    {
+        "_id": "c001",
+        "body": "Congrats! Populate was so confusing for me too at first",
+        "author": "u002",
+        "post": "p001",
+        "createdAt": "2026-03-18T11:00:00Z"
+    },
+    {
+        "_id": "c002",
+        "body": "Try using .lean() with populate, it's way faster!",
+        "author": "u003",
+        "post": "p001",
+        "createdAt": "2026-03-18T12:30:00Z"
+    },
+    {
+        "_id": "c003",
+        "body": "Gong Cha at Tanjong Pagar is underrated. Their Earl Grey Milk Tea is next level.",
+        "author": "u001",
+        "post": "p002",
+        "createdAt": "2026-03-19T15:00:00Z"
+    },
+    {
+        "_id": "c004",
+        "body": "Each Ah Cup!! The one near Clarke Quay is amazing.",
+        "author": "u003",
+        "post": "p002",
+        "createdAt": "2026-03-19T16:20:00Z"
+    },
+    {
+        "_id": "c005",
+        "body": "Sleep IS important but here I am at 3am reading WADsUP posts...",
+        "author": "u001",
+        "post": "p003",
+        "createdAt": "2026-03-20T03:00:00Z"
+    }
+]
