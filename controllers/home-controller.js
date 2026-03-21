@@ -30,7 +30,7 @@ exports.showPosts = async (req, res) => {
     console.log(posts);
     console.log("here");
     
-    res.render('displayposts', {
+    res.render('home', {
         posts: posts,
         username: 'TheMonster112'
     })

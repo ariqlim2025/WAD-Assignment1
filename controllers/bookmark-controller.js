@@ -1,0 +1,1 @@
+const Bookmark = require('../models/Bookmark');
