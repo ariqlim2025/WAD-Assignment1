@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 const fs = require('fs');
 
 // 2. root routes
-const home = require('./routes/home-routes');
+const post = require('./routes/post-routes');
 
 
 // --------------- DEFINE SERVER  -----------------
@@ -26,7 +26,7 @@ server.set("view engine", "ejs");
 server.use(express.static('public'));
 
 // 6. use established root routes
-server.use('/', home);
+server.use('/', post);
 
 
 
