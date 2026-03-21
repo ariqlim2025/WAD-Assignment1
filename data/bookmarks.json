@@ -1,0 +1,86 @@
+[
+    {
+        "_id": "b001",
+        "userId": "u002",
+        "postId": "p001",
+        "note": "Good tips on Mongoose populate",
+        "createdAt": "2026-03-18T11:00:00Z"
+    },
+    {
+        "_id": "b002",
+        "userId": "u003",
+        "postId": "p001",
+        "note": "Reference for my own WAD project",
+        "createdAt": "2026-03-18T12:30:00Z"
+    },
+    {
+        "_id": "b003",
+        "userId": "u001",
+        "postId": "p002",
+        "note": "Try these bubble tea places",
+        "createdAt": "2026-03-19T15:00:00Z"
+    },
+    {
+        "_id": "b004",
+        "userId": "u001",
+        "postId": "p003",
+        "note": "Study tips for finals",
+        "createdAt": "2026-03-20T03:00:00Z"
+    },
+    {
+        "_id": "b005",
+        "userId": "u009",
+        "postId": "p004",
+        "note": "Node.js vs Bun comparison",
+        "createdAt": "2026-03-20T10:00:00Z"
+    },
+    {
+        "_id": "b006",
+        "userId": "u009",
+        "postId": "p006",
+        "note": "CSS centering solutions",
+        "createdAt": "2026-03-20T14:00:00Z"
+    },
+    {
+        "_id": "b007",
+        "userId": "u003",
+        "postId": "p007",
+        "note": "Compare internship options later",
+        "createdAt": "2026-03-20T17:00:00Z"
+    },
+    {
+        "_id": "b008",
+        "userId": "u002",
+        "postId": "p009",
+        "note": "Must try this ramen spot",
+        "createdAt": "2026-03-21T12:30:00Z"
+    },
+    {
+        "_id": "b009",
+        "userId": "u010",
+        "postId": "p011",
+        "note": "Cool project idea to reference",
+        "createdAt": "2026-03-21T16:30:00Z"
+    },
+    {
+        "_id": "b010",
+        "userId": "u005",
+        "postId": "p014",
+        "note": "Motivational — save for later",
+        "createdAt": "2026-03-22T11:30:00Z"
+    },
+    {
+        "_id": "b011",
+        "userId": "u004",
+        "postId": "p009",
+        "note": "Fellow food hunter — need to check this out",
+        "createdAt": "2026-03-21T13:00:00Z"
+    },
+    {
+        "_id": "b012",
+        "userId": "u006",
+        "postId": "p012",
+        "note": "Template engine comparison for future projects",
+        "createdAt": "2026-03-21T19:00:00Z"
+    }
+]

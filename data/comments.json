@@ -1,37 +1,162 @@
 [
     {
         "_id": "c001",
-        "body": "Congrats! Populate was so confusing for me too at first",
-        "author": "u002",
-        "post": "p001",
-        "createdAt": "2026-03-18T11:00:00Z"
+        "content": "Congrats! Populate was so confusing for me too at first.",
+        "authorId": "u002",
+        "postId": "p001",
+        "createdAt": "2026-03-18T11:00:00Z",
+        "updatedAt": "2026-03-18T11:00:00Z"
     },
     {
         "_id": "c002",
-        "body": "Try using .lean() with populate, it's way faster!",
-        "author": "u003",
-        "post": "p001",
-        "createdAt": "2026-03-18T12:30:00Z"
+        "content": "Try using .lean() with populate, it's way faster!",
+        "authorId": "u003",
+        "postId": "p001",
+        "createdAt": "2026-03-18T12:30:00Z",
+        "updatedAt": "2026-03-18T12:30:00Z"
     },
     {
         "_id": "c003",
-        "body": "Gong Cha at Tanjong Pagar is underrated. Their Earl Grey Milk Tea is next level.",
-        "author": "u001",
-        "post": "p002",
-        "createdAt": "2026-03-19T15:00:00Z"
+        "content": "Gong Cha at Tanjong Pagar is underrated. Their Earl Grey Milk Tea is next level.",
+        "authorId": "u001",
+        "postId": "p002",
+        "createdAt": "2026-03-19T15:00:00Z",
+        "updatedAt": "2026-03-19T15:00:00Z"
     },
     {
         "_id": "c004",
-        "body": "Each Ah Cup!! The one near Clarke Quay is amazing.",
-        "author": "u003",
-        "post": "p002",
-        "createdAt": "2026-03-19T16:20:00Z"
+        "content": "Each A Cup near Clarke Quay is amazing!",
+        "authorId": "u003",
+        "postId": "p002",
+        "createdAt": "2026-03-19T16:20:00Z",
+        "updatedAt": "2026-03-19T16:20:00Z"
     },
     {
         "_id": "c005",
-        "body": "Sleep IS important but here I am at 3am reading WADsUP posts...",
-        "author": "u001",
-        "post": "p003",
-        "createdAt": "2026-03-20T03:00:00Z"
+        "content": "Sleep IS important but here I am at 3am reading WADsUP posts...",
+        "authorId": "u001",
+        "postId": "p003",
+        "createdAt": "2026-03-20T03:00:00Z",
+        "updatedAt": "2026-03-20T03:00:00Z"
+    },
+    {
+        "_id": "c006",
+        "content": "Node.js is absolutely still worth it. The ecosystem is massive and jobs are everywhere.",
+        "authorId": "u006",
+        "postId": "p004",
+        "createdAt": "2026-03-20T10:00:00Z",
+        "updatedAt": "2026-03-20T10:00:00Z"
+    },
+    {
+        "_id": "c007",
+        "content": "Bun is cool but still immature for production. Stick with Node for now.",
+        "authorId": "u012",
+        "postId": "p004",
+        "createdAt": "2026-03-20T10:30:00Z",
+        "updatedAt": "2026-03-20T10:30:00Z"
+    },
+    {
+        "_id": "c008",
+        "content": "WHERE in the basement?? I'm running there now",
+        "authorId": "u009",
+        "postId": "p005",
+        "createdAt": "2026-03-20T11:15:00Z",
+        "updatedAt": "2026-03-20T11:15:00Z"
+    },
+    {
+        "_id": "c009",
+        "content": "display: flex; justify-content: center; align-items: center; on the parent. You're welcome.",
+        "authorId": "u006",
+        "postId": "p006",
+        "createdAt": "2026-03-20T13:30:00Z",
+        "updatedAt": "2026-03-20T13:30:00Z"
+    },
+    {
+        "_id": "c010",
+        "content": "Make sure the parent has a defined height! That's usually the issue.",
+        "authorId": "u001",
+        "postId": "p006",
+        "createdAt": "2026-03-20T13:45:00Z",
+        "updatedAt": "2026-03-20T13:45:00Z"
+    },
+    {
+        "_id": "c011",
+        "content": "Grab full-stack gives you broader experience. Go with that.",
+        "authorId": "u010",
+        "postId": "p007",
+        "createdAt": "2026-03-20T16:00:00Z",
+        "updatedAt": "2026-03-20T16:00:00Z"
+    },
+    {
+        "_id": "c012",
+        "content": "Shopee backend is intense but you'll learn a LOT about scale.",
+        "authorId": "u005",
+        "postId": "p007",
+        "createdAt": "2026-03-20T16:30:00Z",
+        "updatedAt": "2026-03-20T16:30:00Z"
+    },
+    {
+        "_id": "c013",
+        "content": "The final boss took me 47 attempts. Not even exaggerating.",
+        "authorId": "u011",
+        "postId": "p008",
+        "createdAt": "2026-03-20T21:00:00Z",
+        "updatedAt": "2026-03-20T21:00:00Z"
+    },
+    {
+        "_id": "c014",
+        "content": "Please share the location!! I love hidden gems like this.",
+        "authorId": "u002",
+        "postId": "p009",
+        "createdAt": "2026-03-21T12:30:00Z",
+        "updatedAt": "2026-03-21T12:30:00Z"
+    },
+    {
+        "_id": "c015",
+        "content": "This is literally me every day. Professional guesser.",
+        "authorId": "u005",
+        "postId": "p010",
+        "createdAt": "2026-03-21T14:30:00Z",
+        "updatedAt": "2026-03-21T14:30:00Z"
+    },
+    {
+        "_id": "c016",
+        "content": "Here's the repo: github.com/datadragon/spotify-analyzer",
+        "authorId": "u007",
+        "postId": "p011",
+        "createdAt": "2026-03-21T16:15:00Z",
+        "updatedAt": "2026-03-21T16:15:00Z"
+    },
+    {
+        "_id": "c017",
+        "content": "EJS all the way. Don't overcomplicate it, especially for WAD.",
+        "authorId": "u003",
+        "postId": "p012",
+        "createdAt": "2026-03-21T18:30:00Z",
+        "updatedAt": "2026-03-21T18:30:00Z"
+    },
+    {
+        "_id": "c018",
+        "content": "Pug's indentation-based syntax is elegant but harder to debug.",
+        "authorId": "u006",
+        "postId": "p012",
+        "createdAt": "2026-03-21T19:00:00Z",
+        "updatedAt": "2026-03-21T19:00:00Z"
+    },
+    {
+        "_id": "c019",
+        "content": "That's inspiring! What kind of projects did you build?",
+        "authorId": "u009",
+        "postId": "p014",
+        "createdAt": "2026-03-22T11:30:00Z",
+        "updatedAt": "2026-03-22T11:30:00Z"
+    },
+    {
+        "_id": "c020",
+        "content": "50 applications and 5 interviews is actually a solid conversion rate!",
+        "authorId": "u008",
+        "postId": "p014",
+        "createdAt": "2026-03-22T12:00:00Z",
+        "updatedAt": "2026-03-22T12:00:00Z"
     }
 ]

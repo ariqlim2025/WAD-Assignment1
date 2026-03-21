@@ -1,0 +1,79 @@
+[
+    {
+        "_id": "com001",
+        "name": "WAD Discussion",
+        "description": "All things Web Application Development — assignments, tips, and help",
+        "createdBy": "u001",
+        "createdAt": "2026-01-15T10:00:00Z"
+    },
+    {
+        "_id": "com002",
+        "name": "Bubble Tea Reviews",
+        "description": "Rate and review bubble tea shops around Singapore",
+        "createdBy": "u004",
+        "createdAt": "2026-01-20T14:00:00Z"
+    },
+    {
+        "_id": "com003",
+        "name": "Study Tips",
+        "description": "Share study strategies, revision notes, and exam advice",
+        "createdBy": "u003",
+        "createdAt": "2026-01-22T09:00:00Z"
+    },
+    {
+        "_id": "com004",
+        "name": "Tech Talk",
+        "description": "Discuss the latest in tech, frameworks, and tools",
+        "createdBy": "u005",
+        "createdAt": "2026-02-01T11:00:00Z"
+    },
+    {
+        "_id": "com005",
+        "name": "Campus Life",
+        "description": "Events, food spots, and everything happening on campus",
+        "createdBy": "u002",
+        "createdAt": "2026-02-05T08:00:00Z"
+    },
+    {
+        "_id": "com006",
+        "name": "Coding Help",
+        "description": "Stuck on a bug? Ask here and get help from the community",
+        "createdBy": "u006",
+        "createdAt": "2026-02-10T15:00:00Z"
+    },
+    {
+        "_id": "com007",
+        "name": "Career Advice",
+        "description": "Internships, job hunting, resume tips, and interview prep",
+        "createdBy": "u008",
+        "createdAt": "2026-02-15T10:00:00Z"
+    },
+    {
+        "_id": "com008",
+        "name": "Gaming",
+        "description": "PC, console, mobile — all gaming discussion welcome",
+        "createdBy": "u009",
+        "createdAt": "2026-02-18T20:00:00Z"
+    },
+    {
+        "_id": "com009",
+        "name": "Food Hunters",
+        "description": "Best hawker stalls, cafes, and hidden gems in SG",
+        "createdBy": "u004",
+        "createdAt": "2026-02-22T12:00:00Z"
+    },
+    {
+        "_id": "com010",
+        "name": "Memes & Fun",
+        "description": "Programming memes, jokes, and lighthearted content",
+        "createdBy": "u011",
+        "createdAt": "2026-03-01T17:00:00Z"
+    },
+    {
+        "_id": "com011",
+        "name": "Project Showcase",
+        "description": "Show off your side projects and get feedback",
+        "createdBy": "u007",
+        "createdAt": "2026-03-05T09:00:00Z"
+    }
+]
