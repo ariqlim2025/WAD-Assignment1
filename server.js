@@ -7,6 +7,7 @@ const fs = require('fs');
 
 // 2. root routes
 const post = require('./routes/post-routes');
+const vote = require('./routes/vote-routes');
 
 
 // --------------- DEFINE SERVER  -----------------
@@ -27,24 +28,23 @@ server.use(express.static('public'));
 
 // 6. use established root routes
 server.use('/', post);
-
-
+server.use('/', vote);
 
 
 // specify the path to the environment variable file 'config.env'
 dotenv.config({ path: './config.env' });
 
 // async function to connect to DB
-// async function connectDB() {
-//   try {
-//     // connecting to Database with our config.env file and DB is constant in config.env
-//     await mongoose.connect(process.env.DB);
-//     console.log("MongoDB connected successfully");
-//   } catch (error) {
-//     console.error("MongoDB connection failed:", error.message);
-//     process.exit(1);
-//   }
-// };
+async function connectDB() {
+  try {
+    // connecting to Database with our config.env file and DB is constant in config.env
+    await mongoose.connect(process.env.DB);
+    console.log("MongoDB connected successfully");
+  } catch (error) {
+    console.error("MongoDB connection failed:", error.message);
+    process.exit(1);
+  }
+};
 
 // function to start server
 function startServer() {
@@ -59,4 +59,4 @@ function startServer() {
 
 // call connectDB first and when connection is ready we start the web server
 // connectDB().then(startServer);
-startServer();
+connectDB().then(startServer);

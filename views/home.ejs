@@ -62,7 +62,7 @@
                         <!-- Downvote form -->
                         <form action="/vote" method="POST">
                             <input type="hidden" name="postId" value="<%= posts[i]._id %>">
-                            <input type="hidden" name="value" value="1">
+                            <input type="hidden" name="value" value="-1">
                             <button type="submit" style="background: none; border: none; color: <%= posts[i].userVote === -1 ? '#FA003F' : '#888' %>; cursor: pointer; font-size: 18px;">&#9660;</button>
                         </form>
                     </div>

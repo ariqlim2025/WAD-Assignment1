@@ -1,86 +1,182 @@
 [
     {
-        "_id": "b001",
-        "userId": "u002",
-        "postId": "p001",
+        "_id": {
+            "$oid": "69bf916c4e7188eacfdc6803"
+        },
+        "userId": {
+            "$oid": "69bf916c4e7188eacfdc67a7"
+        },
+        "postId": {
+            "$oid": "69bf916c4e7188eacfdc67bd"
+        },
         "note": "Good tips on Mongoose populate",
-        "createdAt": "2026-03-18T11:00:00Z"
+        "createdAt": {
+            "$date": "2026-03-18T11:00:00Z"
+        }
     },
     {
-        "_id": "b002",
-        "userId": "u003",
-        "postId": "p001",
+        "_id": {
+            "$oid": "69bf916c4e7188eacfdc6804"
+        },
+        "userId": {
+            "$oid": "69bf916c4e7188eacfdc67a8"
+        },
+        "postId": {
+            "$oid": "69bf916c4e7188eacfdc67bd"
+        },
         "note": "Reference for my own WAD project",
-        "createdAt": "2026-03-18T12:30:00Z"
+        "createdAt": {
+            "$date": "2026-03-18T12:30:00Z"
+        }
     },
     {
-        "_id": "b003",
-        "userId": "u001",
-        "postId": "p002",
+        "_id": {
+            "$oid": "69bf916c4e7188eacfdc6805"
+        },
+        "userId": {
+            "$oid": "69bf916c4e7188eacfdc67a6"
+        },
+        "postId": {
+            "$oid": "69bf916c4e7188eacfdc67be"
+        },
         "note": "Try these bubble tea places",
-        "createdAt": "2026-03-19T15:00:00Z"
+        "createdAt": {
+            "$date": "2026-03-19T15:00:00Z"
+        }
     },
     {
-        "_id": "b004",
-        "userId": "u001",
-        "postId": "p003",
+        "_id": {
+            "$oid": "69bf916c4e7188eacfdc6806"
+        },
+        "userId": {
+            "$oid": "69bf916c4e7188eacfdc67a6"
+        },
+        "postId": {
+            "$oid": "69bf916c4e7188eacfdc67bf"
+        },
         "note": "Study tips for finals",
-        "createdAt": "2026-03-20T03:00:00Z"
+        "createdAt": {
+            "$date": "2026-03-20T03:00:00Z"
+        }
     },
     {
-        "_id": "b005",
-        "userId": "u009",
-        "postId": "p004",
+        "_id": {
+            "$oid": "69bf916c4e7188eacfdc6807"
+        },
+        "userId": {
+            "$oid": "69bf916c4e7188eacfdc67ae"
+        },
+        "postId": {
+            "$oid": "69bf916c4e7188eacfdc67c0"
+        },
         "note": "Node.js vs Bun comparison",
-        "createdAt": "2026-03-20T10:00:00Z"
+        "createdAt": {
+            "$date": "2026-03-20T10:00:00Z"
+        }
     },
     {
-        "_id": "b006",
-        "userId": "u009",
-        "postId": "p006",
+        "_id": {
+            "$oid": "69bf916c4e7188eacfdc6808"
+        },
+        "userId": {
+            "$oid": "69bf916c4e7188eacfdc67ae"
+        },
+        "postId": {
+            "$oid": "69bf916c4e7188eacfdc67c2"
+        },
         "note": "CSS centering solutions",
-        "createdAt": "2026-03-20T14:00:00Z"
+        "createdAt": {
+            "$date": "2026-03-20T14:00:00Z"
+        }
     },
     {
-        "_id": "b007",
-        "userId": "u003",
-        "postId": "p007",
+        "_id": {
+            "$oid": "69bf916c4e7188eacfdc6809"
+        },
+        "userId": {
+            "$oid": "69bf916c4e7188eacfdc67a8"
+        },
+        "postId": {
+            "$oid": "69bf916c4e7188eacfdc67c3"
+        },
         "note": "Compare internship options later",
-        "createdAt": "2026-03-20T17:00:00Z"
+        "createdAt": {
+            "$date": "2026-03-20T17:00:00Z"
+        }
     },
     {
-        "_id": "b008",
-        "userId": "u002",
-        "postId": "p009",
+        "_id": {
+            "$oid": "69bf916c4e7188eacfdc680a"
+        },
+        "userId": {
+            "$oid": "69bf916c4e7188eacfdc67a7"
+        },
+        "postId": {
+            "$oid": "69bf916c4e7188eacfdc67c5"
+        },
         "note": "Must try this ramen spot",
-        "createdAt": "2026-03-21T12:30:00Z"
+        "createdAt": {
+            "$date": "2026-03-21T12:30:00Z"
+        }
     },
     {
-        "_id": "b009",
-        "userId": "u010",
-        "postId": "p011",
+        "_id": {
+            "$oid": "69bf916c4e7188eacfdc680b"
+        },
+        "userId": {
+            "$oid": "69bf916c4e7188eacfdc67af"
+        },
+        "postId": {
+            "$oid": "69bf916c4e7188eacfdc67c7"
+        },
         "note": "Cool project idea to reference",
-        "createdAt": "2026-03-21T16:30:00Z"
+        "createdAt": {
+            "$date": "2026-03-21T16:30:00Z"
+        }
     },
     {
-        "_id": "b010",
-        "userId": "u005",
-        "postId": "p014",
+        "_id": {
+            "$oid": "69bf916c4e7188eacfdc680c"
+        },
+        "userId": {
+            "$oid": "69bf916c4e7188eacfdc67aa"
+        },
+        "postId": {
+            "$oid": "69bf916c4e7188eacfdc67ca"
+        },
         "note": "Motivational — save for later",
-        "createdAt": "2026-03-22T11:30:00Z"
+        "createdAt": {
+            "$date": "2026-03-22T11:30:00Z"
+        }
     },
     {
-        "_id": "b011",
-        "userId": "u004",
-        "postId": "p009",
+        "_id": {
+            "$oid": "69bf916c4e7188eacfdc680d"
+        },
+        "userId": {
+            "$oid": "69bf916c4e7188eacfdc67a9"
+        },
+        "postId": {
+            "$oid": "69bf916c4e7188eacfdc67c5"
+        },
         "note": "Fellow food hunter — need to check this out",
-        "createdAt": "2026-03-21T13:00:00Z"
+        "createdAt": {
+            "$date": "2026-03-21T13:00:00Z"
+        }
     },
     {
-        "_id": "b012",
-        "userId": "u006",
-        "postId": "p012",
+        "_id": {
+            "$oid": "69bf916c4e7188eacfdc680e"
+        },
+        "userId": {
+            "$oid": "69bf916c4e7188eacfdc67ab"
+        },
+        "postId": {
+            "$oid": "69bf916c4e7188eacfdc67c8"
+        },
         "note": "Template engine comparison for future projects",
-        "createdAt": "2026-03-21T19:00:00Z"
+        "createdAt": {
+            "$date": "2026-03-21T19:00:00Z"
+        }
     }
 ]

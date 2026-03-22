@@ -1,30 +1,33 @@
-const Post      = require('../models/Post');
-const Community = require('../models/Community');
-const Comment   = require('../models/Comment');
-const Vote      = require('../models/Vote');
-const Bookmark  = require('../models/Bookmark');
+const Post      = require('../models/post');
+const User      = require('../models/user');
+const Community = require('../models/community');
+const Comment   = require('../models/comment');
+const Vote      = require('../models/vote');
+const Bookmark  = require('../models/bookmark');
 
 const fs = require('fs/promises');
 const path = require('path');
 
 // Controller function to list home page with all posts
 exports.showPosts = async (req, res) => {
-    // Load JSON data (To switch to MongoDB later, will remove this)
-    const users = JSON.parse(await fs.readFile(path.join(__dirname, '../data/users.json')));
-    const posts = JSON.parse(await fs.readFile(path.join(__dirname, '../data/posts.json')));
-    const comments = JSON.parse(await fs.readFile(path.join(__dirname, '../data/comments.json')));
-    const votes = JSON.parse(await fs.readFile(path.join(__dirname, '../data/votes.json')));
+    // // Load JSON data (To switch to MongoDB later, will remove this)
+    // const users = JSON.parse(await fs.readFile(path.join(__dirname, '../data/users.json')));
+    // const posts = JSON.parse(await fs.readFile(path.join(__dirname, '../data/posts.json')));
+    // const comments = JSON.parse(await fs.readFile(path.join(__dirname, '../data/comments.json')));
+    // const votes = JSON.parse(await fs.readFile(path.join(__dirname, '../data/votes.json')));
+    
+    // Get data from the database
+    const posts = await Post.find().populate('authorId');
+    const comments = await Comment.find().lean();
+    const votes = await Vote.find().lean();
+    // console.log(posts);
+    // console.log('here');
+    // console.log(comments);
 
     // For each post, attach the author and count its comment and (upvotes - downvotes)
     for (let i=0; i < posts.length; i++) {
         // Find the user whose _id mathces the post's authors ID
-        for (let j=0; j < users.length; j++) {
-            if (users[j]._id === posts[i].authorId) {
-                posts[i].author = users[j];
-                //console.log(posts[i]);
-                break;
-            }
-        }
+        posts[i].author = posts[i].authorId;
         // Count how many comments belong to this post
         let count = 0;
         for (let k = 0; k < comments.length; k++) {
@@ -33,17 +36,15 @@ exports.showPosts = async (req, res) => {
             }
         }
         posts[i].commentCount = count;
-        // console.log(posts[i]);
 
         // Count how many upvotes and downvotes the post has
         let score = 0;
         for (let v = 0; v < votes.length; v++) {
-            if (votes[v].postId === posts[i]._id) {
+            if (votes[v].postId.toString() === posts[i]._id.toString()) {
                 score += votes[v].value;
             }
         }
         posts[i].score = score;
-        // console.log(posts[i]);   
     }
     
     // Sort the posts object by vote score, highest at the top 
@@ -54,13 +55,13 @@ exports.showPosts = async (req, res) => {
     // console.log(posts);
 
 
-    const currentUserId = 'u001'; // hardcoded, swap to req.session.user_id once auth finish
+    const currentUserId = '69bf916c4e7188eacfdc67a6'; // hardcoded, swap to req.session.user_id once auth finish
     if (currentUserId) {
         // Figure out which posts did the user upvote or downvote and add to the posts dict
         for (let i = 0; i < posts.length; i++) {
             posts[i].userVote = 0;
             for (let v=0; v < votes.length; v++) {
-                if ((votes[v].postId === posts[i]._id) && (votes[v].userId === currentUserId)) {
+                if ((votes[v].postId.toString() === posts[i]._id.toString()) && (votes[v].userId.toString() === currentUserId)) {
                     posts[i].userVote = votes[v].value;
                     break;
                 }

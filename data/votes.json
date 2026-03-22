@@ -1,254 +1,542 @@
 [
     {
-        "_id": "v001",
-        "userId": "u002",
-        "postId": "p001",
+        "_id": {
+            "$oid": "69bf916c4e7188eacfdc67df"
+        },
+        "userId": {
+            "$oid": "69bf916c4e7188eacfdc67a7"
+        },
+        "postId": {
+            "$oid": "69bf916c4e7188eacfdc67bd"
+        },
         "value": 1,
-        "createdAt": "2026-03-18T11:00:00Z"
+        "createdAt": {
+            "$date": "2026-03-18T11:00:00Z"
+        }
     },
     {
-        "_id": "v002",
-        "userId": "u003",
-        "postId": "p001",
+        "_id": {
+            "$oid": "69bf916c4e7188eacfdc67e0"
+        },
+        "userId": {
+            "$oid": "69bf916c4e7188eacfdc67a8"
+        },
+        "postId": {
+            "$oid": "69bf916c4e7188eacfdc67bd"
+        },
         "value": 1,
-        "createdAt": "2026-03-18T12:00:00Z"
+        "createdAt": {
+            "$date": "2026-03-18T12:00:00Z"
+        }
     },
     {
-        "_id": "v003",
-        "userId": "u005",
-        "postId": "p001",
+        "_id": {
+            "$oid": "69bf916c4e7188eacfdc67e1"
+        },
+        "userId": {
+            "$oid": "69bf916c4e7188eacfdc67aa"
+        },
+        "postId": {
+            "$oid": "69bf916c4e7188eacfdc67bd"
+        },
         "value": 1,
-        "createdAt": "2026-03-18T13:00:00Z"
+        "createdAt": {
+            "$date": "2026-03-18T13:00:00Z"
+        }
     },
     {
-        "_id": "v004",
-        "userId": "u001",
-        "postId": "p002",
+        "_id": {
+            "$oid": "69bf916c4e7188eacfdc67e2"
+        },
+        "userId": {
+            "$oid": "69bf916c4e7188eacfdc67a6"
+        },
+        "postId": {
+            "$oid": "69bf916c4e7188eacfdc67be"
+        },
         "value": 1,
-        "createdAt": "2026-03-19T15:00:00Z"
+        "createdAt": {
+            "$date": "2026-03-19T15:00:00Z"
+        }
     },
     {
-        "_id": "v005",
-        "userId": "u003",
-        "postId": "p002",
+        "_id": {
+            "$oid": "69bf916c4e7188eacfdc67e3"
+        },
+        "userId": {
+            "$oid": "69bf916c4e7188eacfdc67a8"
+        },
+        "postId": {
+            "$oid": "69bf916c4e7188eacfdc67be"
+        },
         "value": 1,
-        "createdAt": "2026-03-19T16:00:00Z"
+        "createdAt": {
+            "$date": "2026-03-19T16:00:00Z"
+        }
     },
     {
-        "_id": "v006",
-        "userId": "u009",
-        "postId": "p002",
+        "_id": {
+            "$oid": "69bf916c4e7188eacfdc67e4"
+        },
+        "userId": {
+            "$oid": "69bf916c4e7188eacfdc67ae"
+        },
+        "postId": {
+            "$oid": "69bf916c4e7188eacfdc67be"
+        },
         "value": 1,
-        "createdAt": "2026-03-19T17:00:00Z"
+        "createdAt": {
+            "$date": "2026-03-19T17:00:00Z"
+        }
     },
     {
-        "_id": "v007",
-        "userId": "u001",
-        "postId": "p003",
+        "_id": {
+            "$oid": "69bf916c4e7188eacfdc67e5"
+        },
+        "userId": {
+            "$oid": "69bf916c4e7188eacfdc67a6"
+        },
+        "postId": {
+            "$oid": "69bf916c4e7188eacfdc67bf"
+        },
         "value": 1,
-        "createdAt": "2026-03-20T03:00:00Z"
+        "createdAt": {
+            "$date": "2026-03-20T03:00:00Z"
+        }
     },
     {
-        "_id": "v008",
-        "userId": "u002",
-        "postId": "p003",
+        "_id": {
+            "$oid": "69bf916c4e7188eacfdc67e6"
+        },
+        "userId": {
+            "$oid": "69bf916c4e7188eacfdc67a7"
+        },
+        "postId": {
+            "$oid": "69bf916c4e7188eacfdc67bf"
+        },
         "value": -1,
-        "createdAt": "2026-03-20T04:00:00Z"
+        "createdAt": {
+            "$date": "2026-03-20T04:00:00Z"
+        }
     },
     {
-        "_id": "v009",
-        "userId": "u006",
-        "postId": "p004",
+        "_id": {
+            "$oid": "69bf916c4e7188eacfdc67e7"
+        },
+        "userId": {
+            "$oid": "69bf916c4e7188eacfdc67ab"
+        },
+        "postId": {
+            "$oid": "69bf916c4e7188eacfdc67c0"
+        },
         "value": 1,
-        "createdAt": "2026-03-20T10:00:00Z"
+        "createdAt": {
+            "$date": "2026-03-20T10:00:00Z"
+        }
     },
     {
-        "_id": "v010",
-        "userId": "u012",
-        "postId": "p004",
+        "_id": {
+            "$oid": "69bf916c4e7188eacfdc67e8"
+        },
+        "userId": {
+            "$oid": "69bf916c4e7188eacfdc67b1"
+        },
+        "postId": {
+            "$oid": "69bf916c4e7188eacfdc67c0"
+        },
         "value": 1,
-        "createdAt": "2026-03-20T10:30:00Z"
+        "createdAt": {
+            "$date": "2026-03-20T10:30:00Z"
+        }
     },
     {
-        "_id": "v011",
-        "userId": "u003",
-        "postId": "p004",
+        "_id": {
+            "$oid": "69bf916c4e7188eacfdc67e9"
+        },
+        "userId": {
+            "$oid": "69bf916c4e7188eacfdc67a8"
+        },
+        "postId": {
+            "$oid": "69bf916c4e7188eacfdc67c0"
+        },
         "value": -1,
-        "createdAt": "2026-03-20T11:00:00Z"
+        "createdAt": {
+            "$date": "2026-03-20T11:00:00Z"
+        }
     },
     {
-        "_id": "v012",
-        "userId": "u009",
-        "postId": "p005",
+        "_id": {
+            "$oid": "69bf916c4e7188eacfdc67ea"
+        },
+        "userId": {
+            "$oid": "69bf916c4e7188eacfdc67ae"
+        },
+        "postId": {
+            "$oid": "69bf916c4e7188eacfdc67c1"
+        },
         "value": 1,
-        "createdAt": "2026-03-20T11:15:00Z"
+        "createdAt": {
+            "$date": "2026-03-20T11:15:00Z"
+        }
     },
     {
-        "_id": "v013",
-        "userId": "u004",
-        "postId": "p005",
+        "_id": {
+            "$oid": "69bf916c4e7188eacfdc67eb"
+        },
+        "userId": {
+            "$oid": "69bf916c4e7188eacfdc67a9"
+        },
+        "postId": {
+            "$oid": "69bf916c4e7188eacfdc67c1"
+        },
         "value": 1,
-        "createdAt": "2026-03-20T11:30:00Z"
+        "createdAt": {
+            "$date": "2026-03-20T11:30:00Z"
+        }
     },
     {
-        "_id": "v014",
-        "userId": "u006",
-        "postId": "p006",
+        "_id": {
+            "$oid": "69bf916c4e7188eacfdc67ec"
+        },
+        "userId": {
+            "$oid": "69bf916c4e7188eacfdc67ab"
+        },
+        "postId": {
+            "$oid": "69bf916c4e7188eacfdc67c2"
+        },
         "value": 1,
-        "createdAt": "2026-03-20T13:30:00Z"
+        "createdAt": {
+            "$date": "2026-03-20T13:30:00Z"
+        }
     },
     {
-        "_id": "v015",
-        "userId": "u001",
-        "postId": "p006",
+        "_id": {
+            "$oid": "69bf916c4e7188eacfdc67ed"
+        },
+        "userId": {
+            "$oid": "69bf916c4e7188eacfdc67a6"
+        },
+        "postId": {
+            "$oid": "69bf916c4e7188eacfdc67c2"
+        },
         "value": 1,
-        "createdAt": "2026-03-20T13:45:00Z"
+        "createdAt": {
+            "$date": "2026-03-20T13:45:00Z"
+        }
     },
     {
-        "_id": "v016",
-        "userId": "u010",
-        "postId": "p007",
+        "_id": {
+            "$oid": "69bf916c4e7188eacfdc67ee"
+        },
+        "userId": {
+            "$oid": "69bf916c4e7188eacfdc67af"
+        },
+        "postId": {
+            "$oid": "69bf916c4e7188eacfdc67c3"
+        },
         "value": 1,
-        "createdAt": "2026-03-20T16:00:00Z"
+        "createdAt": {
+            "$date": "2026-03-20T16:00:00Z"
+        }
     },
     {
-        "_id": "v017",
-        "userId": "u005",
-        "postId": "p007",
+        "_id": {
+            "$oid": "69bf916c4e7188eacfdc67ef"
+        },
+        "userId": {
+            "$oid": "69bf916c4e7188eacfdc67aa"
+        },
+        "postId": {
+            "$oid": "69bf916c4e7188eacfdc67c3"
+        },
         "value": 1,
-        "createdAt": "2026-03-20T16:30:00Z"
+        "createdAt": {
+            "$date": "2026-03-20T16:30:00Z"
+        }
     },
     {
-        "_id": "v018",
-        "userId": "u003",
-        "postId": "p007",
+        "_id": {
+            "$oid": "69bf916c4e7188eacfdc67f0"
+        },
+        "userId": {
+            "$oid": "69bf916c4e7188eacfdc67a8"
+        },
+        "postId": {
+            "$oid": "69bf916c4e7188eacfdc67c3"
+        },
         "value": 1,
-        "createdAt": "2026-03-20T17:00:00Z"
+        "createdAt": {
+            "$date": "2026-03-20T17:00:00Z"
+        }
     },
     {
-        "_id": "v019",
-        "userId": "u011",
-        "postId": "p008",
+        "_id": {
+            "$oid": "69bf916c4e7188eacfdc67f1"
+        },
+        "userId": {
+            "$oid": "69bf916c4e7188eacfdc67b0"
+        },
+        "postId": {
+            "$oid": "69bf916c4e7188eacfdc67c4"
+        },
         "value": 1,
-        "createdAt": "2026-03-20T21:00:00Z"
+        "createdAt": {
+            "$date": "2026-03-20T21:00:00Z"
+        }
     },
     {
-        "_id": "v020",
-        "userId": "u001",
-        "postId": "p008",
+        "_id": {
+            "$oid": "69bf916c4e7188eacfdc67f2"
+        },
+        "userId": {
+            "$oid": "69bf916c4e7188eacfdc67a6"
+        },
+        "postId": {
+            "$oid": "69bf916c4e7188eacfdc67c4"
+        },
         "value": -1,
-        "createdAt": "2026-03-20T22:00:00Z"
+        "createdAt": {
+            "$date": "2026-03-20T22:00:00Z"
+        }
     },
     {
-        "_id": "v021",
-        "userId": "u002",
-        "postId": "p009",
+        "_id": {
+            "$oid": "69bf916c4e7188eacfdc67f3"
+        },
+        "userId": {
+            "$oid": "69bf916c4e7188eacfdc67a7"
+        },
+        "postId": {
+            "$oid": "69bf916c4e7188eacfdc67c5"
+        },
         "value": 1,
-        "createdAt": "2026-03-21T12:30:00Z"
+        "createdAt": {
+            "$date": "2026-03-21T12:30:00Z"
+        }
     },
     {
-        "_id": "v022",
-        "userId": "u001",
-        "postId": "p009",
+        "_id": {
+            "$oid": "69bf916c4e7188eacfdc67f4"
+        },
+        "userId": {
+            "$oid": "69bf916c4e7188eacfdc67a6"
+        },
+        "postId": {
+            "$oid": "69bf916c4e7188eacfdc67c5"
+        },
         "value": 1,
-        "createdAt": "2026-03-21T13:00:00Z"
+        "createdAt": {
+            "$date": "2026-03-21T13:00:00Z"
+        }
     },
     {
-        "_id": "v023",
-        "userId": "u005",
-        "postId": "p010",
+        "_id": {
+            "$oid": "69bf916c4e7188eacfdc67f5"
+        },
+        "userId": {
+            "$oid": "69bf916c4e7188eacfdc67aa"
+        },
+        "postId": {
+            "$oid": "69bf916c4e7188eacfdc67c6"
+        },
         "value": 1,
-        "createdAt": "2026-03-21T14:30:00Z"
+        "createdAt": {
+            "$date": "2026-03-21T14:30:00Z"
+        }
     },
     {
-        "_id": "v024",
-        "userId": "u009",
-        "postId": "p010",
+        "_id": {
+            "$oid": "69bf916c4e7188eacfdc67f6"
+        },
+        "userId": {
+            "$oid": "69bf916c4e7188eacfdc67ae"
+        },
+        "postId": {
+            "$oid": "69bf916c4e7188eacfdc67c6"
+        },
         "value": 1,
-        "createdAt": "2026-03-21T15:00:00Z"
+        "createdAt": {
+            "$date": "2026-03-21T15:00:00Z"
+        }
     },
     {
-        "_id": "v025",
-        "userId": "u006",
-        "postId": "p010",
+        "_id": {
+            "$oid": "69bf916c4e7188eacfdc67f7"
+        },
+        "userId": {
+            "$oid": "69bf916c4e7188eacfdc67ab"
+        },
+        "postId": {
+            "$oid": "69bf916c4e7188eacfdc67c6"
+        },
         "value": 1,
-        "createdAt": "2026-03-21T15:30:00Z"
+        "createdAt": {
+            "$date": "2026-03-21T15:30:00Z"
+        }
     },
     {
-        "_id": "v026",
-        "userId": "u012",
-        "postId": "p010",
+        "_id": {
+            "$oid": "69bf916c4e7188eacfdc67f8"
+        },
+        "userId": {
+            "$oid": "69bf916c4e7188eacfdc67b1"
+        },
+        "postId": {
+            "$oid": "69bf916c4e7188eacfdc67c6"
+        },
         "value": 1,
-        "createdAt": "2026-03-21T16:00:00Z"
+        "createdAt": {
+            "$date": "2026-03-21T16:00:00Z"
+        }
     },
     {
-        "_id": "v027",
-        "userId": "u010",
-        "postId": "p011",
+        "_id": {
+            "$oid": "69bf916c4e7188eacfdc67f9"
+        },
+        "userId": {
+            "$oid": "69bf916c4e7188eacfdc67af"
+        },
+        "postId": {
+            "$oid": "69bf916c4e7188eacfdc67c7"
+        },
         "value": 1,
-        "createdAt": "2026-03-21T16:30:00Z"
+        "createdAt": {
+            "$date": "2026-03-21T16:30:00Z"
+        }
     },
     {
-        "_id": "v028",
-        "userId": "u008",
-        "postId": "p011",
+        "_id": {
+            "$oid": "69bf916c4e7188eacfdc67fa"
+        },
+        "userId": {
+            "$oid": "69bf916c4e7188eacfdc67ad"
+        },
+        "postId": {
+            "$oid": "69bf916c4e7188eacfdc67c7"
+        },
         "value": 1,
-        "createdAt": "2026-03-21T17:00:00Z"
+        "createdAt": {
+            "$date": "2026-03-21T17:00:00Z"
+        }
     },
     {
-        "_id": "v029",
-        "userId": "u003",
-        "postId": "p012",
+        "_id": {
+            "$oid": "69bf916c4e7188eacfdc67fb"
+        },
+        "userId": {
+            "$oid": "69bf916c4e7188eacfdc67a8"
+        },
+        "postId": {
+            "$oid": "69bf916c4e7188eacfdc67c8"
+        },
         "value": 1,
-        "createdAt": "2026-03-21T18:30:00Z"
+        "createdAt": {
+            "$date": "2026-03-21T18:30:00Z"
+        }
     },
     {
-        "_id": "v030",
-        "userId": "u006",
-        "postId": "p012",
+        "_id": {
+            "$oid": "69bf916c4e7188eacfdc67fc"
+        },
+        "userId": {
+            "$oid": "69bf916c4e7188eacfdc67ab"
+        },
+        "postId": {
+            "$oid": "69bf916c4e7188eacfdc67c8"
+        },
         "value": 1,
-        "createdAt": "2026-03-21T19:00:00Z"
+        "createdAt": {
+            "$date": "2026-03-21T19:00:00Z"
+        }
     },
     {
-        "_id": "v031",
-        "userId": "u009",
-        "postId": "p014",
+        "_id": {
+            "$oid": "69bf916c4e7188eacfdc67fd"
+        },
+        "userId": {
+            "$oid": "69bf916c4e7188eacfdc67ae"
+        },
+        "postId": {
+            "$oid": "69bf916c4e7188eacfdc67ca"
+        },
         "value": 1,
-        "createdAt": "2026-03-22T11:30:00Z"
+        "createdAt": {
+            "$date": "2026-03-22T11:30:00Z"
+        }
     },
     {
-        "_id": "v032",
-        "userId": "u008",
-        "postId": "p014",
+        "_id": {
+            "$oid": "69bf916c4e7188eacfdc67fe"
+        },
+        "userId": {
+            "$oid": "69bf916c4e7188eacfdc67ad"
+        },
+        "postId": {
+            "$oid": "69bf916c4e7188eacfdc67ca"
+        },
         "value": 1,
-        "createdAt": "2026-03-22T12:00:00Z"
+        "createdAt": {
+            "$date": "2026-03-22T12:00:00Z"
+        }
     },
     {
-        "_id": "v033",
-        "userId": "u001",
-        "postId": "p014",
+        "_id": {
+            "$oid": "69bf916c4e7188eacfdc67ff"
+        },
+        "userId": {
+            "$oid": "69bf916c4e7188eacfdc67a6"
+        },
+        "postId": {
+            "$oid": "69bf916c4e7188eacfdc67ca"
+        },
         "value": 1,
-        "createdAt": "2026-03-22T12:30:00Z"
+        "createdAt": {
+            "$date": "2026-03-22T12:30:00Z"
+        }
     },
     {
-        "_id": "v034",
-        "userId": "u003",
-        "postId": "p014",
+        "_id": {
+            "$oid": "69bf916c4e7188eacfdc6800"
+        },
+        "userId": {
+            "$oid": "69bf916c4e7188eacfdc67a8"
+        },
+        "postId": {
+            "$oid": "69bf916c4e7188eacfdc67ca"
+        },
         "value": 1,
-        "createdAt": "2026-03-22T13:00:00Z"
+        "createdAt": {
+            "$date": "2026-03-22T13:00:00Z"
+        }
     },
     {
-        "_id": "v035",
-        "userId": "u004",
-        "postId": "p013",
+        "_id": {
+            "$oid": "69bf916c4e7188eacfdc6801"
+        },
+        "userId": {
+            "$oid": "69bf916c4e7188eacfdc67a9"
+        },
+        "postId": {
+            "$oid": "69bf916c4e7188eacfdc67c9"
+        },
         "value": 1,
-        "createdAt": "2026-03-22T10:30:00Z"
+        "createdAt": {
+            "$date": "2026-03-22T10:30:00Z"
+        }
     },
     {
-        "_id": "v036",
-        "userId": "u001",
-        "postId": "p013",
+        "_id": {
+            "$oid": "69bf916c4e7188eacfdc6802"
+        },
+        "userId": {
+            "$oid": "69bf916c4e7188eacfdc67a6"
+        },
+        "postId": {
+            "$oid": "69bf916c4e7188eacfdc67c9"
+        },
         "value": 1,
-        "createdAt": "2026-03-22T10:45:00Z"
+        "createdAt": {
+            "$date": "2026-03-22T10:45:00Z"
+        }
     }
 ]
