@@ -8,70 +8,73 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Poppins', sans-serif; background: #141E33;}
-    </style>
-
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
     <!-- Navbar -->
-    <nav style="display: flex; justify-content: space-between; align-items: center;">
-        <div style="display: flex; align-items: center; gap: 8px;">
-            <img src="/assets/app-logo-2.png" alt="WADsUP Logo" style="width: 50px; height: 50px;">
-            <a href="/" style="font-size: 40px; font-weight: bold; color: white; text-decoration: none;">WADsUP</a>
+    <nav>
+        <div class="nav-logo">
+            <img src="/assets/app-logo-2.png" alt="WADsUP Logo">
+            <a href="/">WADsUP</a>
         </div>
 
-        <div style="font-size: 30px; color: #D9D9D9;">Your Daily KetchUp</div>
+        <div class="nav-tagline">Your Daily KetchUp</div>
 
         <!-- If user is not logged in, display register / login buttons -->
-        <% if (!username){ %>
+        <% if (!user_id){ %>
             <div>
-                <a href="/login" style="padding: 8px 16px; margin-left: 10px; text-decoration: none; color: white; border: 2px solid #ddd; border-radius: 4px;">Log-in</a>
-                <a href="/register" style="padding: 8px 16px; margin-left: 10px; text-decoration: none; color: white; border: 2px solid #ddd; border-radius: 4px;">Register</a>
+                <a href="/login" class="nav-btn">Log-in</a>
+                <a href="/register" class="nav-btn">Register</a>
             </div>
         <% } else { %>
             <!-- user is logged in, display logout /profile button -->
-
             <div>
-                <a href="" style="padding: 8px 16px; margin-left: 10px; text-decoration: none; color: white; border: 1px solid #ddd; border-radius: 4px;"</a>LogOut</a>
-                <a href="/profile" style="padding: 8px 16px; margin-left: 10px; text-decoration: none; color: white; border: 1px solid #ddd; border-radius: 4px;">Profile</a>
+                <a href="" class="nav-btn">LogOut</a>
+                <a href="/profile" class="nav-btn">Profile</a>
             </div>
         <% } %>
     </nav>
     <hr>
 
     <!-- Main Content -->
-    <section style="max-width: 900px; margin: 20px auto; padding: 0 15px;">  
+    <section class="main-content">
         <!-- Create Post Button -->
-        <a href="/posts/new" style="display: block; text-align: center; padding: 12px; background-color: #4A7DFC; color: #fff; text-decoration: none; border-radius: 6px; font-size: 16px; font-weight: bold; margin-bottom: 20px;">
-            + Create Post
-        </a>
+        <a href="/posts/new" class="create-post-btn">+ Create Post</a>
 
         <!-- View all the posts here -->
-        <!-- If there are no posts -->
         <% if (posts.length === 0) { %>
-            <p style="text-align: center; color: #888; font-size: 16px;">No posts yet. Be the first to create a post!</p>
+            <p class="no-posts">No posts yet. Be the first to create a post!</p>
         <% } else { %>
             <% for (let i = 0; i < posts.length; i++) { %>
-                <div style="display: flex; background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 15px; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
+                <div class="post-card">
                     <!-- Vote Column -->
-                    <div style="display: flex; flex-direction: column; align-items: center; margin-right: 15px; min-width: 40px;">
-                        <span style="color: #888; cursor: pointer; font-size: 18px;">&#9650;</span>
-                        <span style="font-weight: bold; font-size: 14px; margin: 4px 0;"><%= posts[i].score %></span>
-                        <span style="color: #888; cursor: pointer; font-size: 18px;">&#9660;</span>
+                    <div class="vote-column">
+                        <!-- Upvote form -->
+                        <form action="/vote" method="POST">
+                            <input type="hidden" name="postId" value="<%= posts[i]._id %>">
+                            <input type="hidden" name="value" value="1">
+                            <button type="submit" style="background: none; border: none; color: <%= posts[i].userVote === 1 ? '#00FF00' : '#888' %>; cursor: pointer; font-size: 18px;">&#9650;</button>
+                        </form>
+                        
+                        <!-- Vote Score -->
+                        <span class="vote-score"><%= posts[i].score %></span>
+
+                        <!-- Downvote form -->
+                        <form action="/vote" method="POST">
+                            <input type="hidden" name="postId" value="<%= posts[i]._id %>">
+                            <input type="hidden" name="value" value="1">
+                            <button type="submit" style="background: none; border: none; color: <%= posts[i].userVote === -1 ? '#FA003F' : '#888' %>; cursor: pointer; font-size: 18px;">&#9660;</button>
+                        </form>
                     </div>
+
                     <!-- Post Content -->
-                    <div style="flex: 1;">
-                        <a href="" style="text-decoration: none; color: #333;">
-                            <h3 style="margin: 0 0 4px 0; font-size: 18px;"><%= posts[i].title %></h3>
+                    <div class="post-content">
+                        <a href="" class="post-title">
+                            <h3><%= posts[i].title %></h3>
                         </a>
-                        <p style="margin: 0 0 8px 0; font-size: 12px; color: #888;"><%= posts[i].author.username %></p>
-                        <p style="margin: 0 0 10px 0; font-size: 14px; color: #555; overflow: hidden;">
-                            <%= posts[i].body %>
-                        </p>
-                        <p style="font-size: 12px; color: #4A7DFC; text-decoration: none;">
-                            <%= posts[i].commentCount %> Comments
-                        </p>
+                        <p class="post-author"><%= posts[i].author.username %></p>
+                        <p class="post-body"><%= posts[i].body %></p>
+                        <p class="post-comment-count"><%= posts[i].commentCount %> Comments</p>
                     </div>
                 </div>
             <% } %>

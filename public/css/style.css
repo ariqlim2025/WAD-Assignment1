@@ -1,0 +1,129 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #141E33;
+}
+
+/* ==================== Navbar ==================== */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nav-logo img {
+    width: 50px;
+    height: 50px;
+}
+
+.nav-logo a {
+    font-size: 40px;
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
+}
+
+.nav-tagline {
+    font-size: 30px;
+    color: #D9D9D9;
+}
+
+.nav-btn {
+    padding: 8px 16px;
+    margin-left: 10px;
+    text-decoration: none;
+    color: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+/* ==================== Main Content ==================== */
+.main-content {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 0 15px;
+}
+
+.create-post-btn {
+    display: block;
+    text-align: center;
+    padding: 12px;
+    background-color: #4A7DFC;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.no-posts {
+    text-align: center;
+    color: #888;
+    font-size: 16px;
+}
+
+/* ==================== Post Card ==================== */
+.post-card {
+    display: flex;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+/* ==================== Vote Column ==================== */
+.vote-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 15px;
+    min-width: 40px;
+}
+
+.vote-score {
+    font-weight: bold;
+    font-size: 14px;
+    margin: 4px 0;
+}
+
+/* ==================== Post Content ==================== */
+.post-content {
+    flex: 1;
+}
+
+.post-title {
+    text-decoration: none;
+    color: #333;
+}
+
+.post-title h3 {
+    margin: 0 0 4px 0;
+    font-size: 18px;
+}
+
+.post-author {
+    margin: 0 0 8px 0;
+    font-size: 12px;
+    color: #888;
+}
+
+.post-body {
+    margin: 0 0 10px 0;
+    font-size: 14px;
+    color: #555;
+    overflow: hidden;
+}
+
+.post-comment-count {
+    font-size: 12px;
+    color: #4A7DFC;
+    text-decoration: none;
+}

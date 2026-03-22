@@ -53,11 +53,32 @@ exports.showPosts = async (req, res) => {
     posts.sort(compareByScore);
     // console.log(posts);
 
+
+    const currentUserId = 'u001'; // hardcoded, swap to req.session.user_id once auth finish
+    if (currentUserId) {
+        // Figure out which posts did the user upvote or downvote and add to the posts dict
+        for (let i = 0; i < posts.length; i++) {
+            posts[i].userVote = 0;
+            for (let v=0; v < votes.length; v++) {
+                if ((votes[v].postId === posts[i]._id) && (votes[v].userId === currentUserId)) {
+                    posts[i].userVote = votes[v].value;
+                    break;
+                }
+            }
+        }
+    }
+    else {
+        // If user is not logged in, set all posts' userVote to 0
+        for (let i = 0; i < posts.length; i++) {
+            posts[i].userVote = 0;
+        }
+    }
+
     // Render the home page
     res.render('home', {
         // Pass in all the posts data (posts + comments + author)
         posts: posts,
-        username: 'TheMonster112'
+        user_id: 'u001'
     })
-
+    // console.log(posts);
 }
