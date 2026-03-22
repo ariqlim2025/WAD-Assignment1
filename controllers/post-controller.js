@@ -13,6 +13,7 @@ exports.showPosts = async (req, res) => {
     const users = JSON.parse(await fs.readFile(path.join(__dirname, '../data/users.json')));
     const posts = JSON.parse(await fs.readFile(path.join(__dirname, '../data/posts.json')));
     const comments = JSON.parse(await fs.readFile(path.join(__dirname, '../data/comments.json')));
+    const votes = JSON.parse(await fs.readFile(path.join(__dirname, '../data/votes.json')));
 
     // For each post, attach the author and count its comment and (upvotes - downvotes)
     for (let i=0; i < posts.length; i++) {
@@ -33,7 +34,24 @@ exports.showPosts = async (req, res) => {
         }
         posts[i].commentCount = count;
         // console.log(posts[i]);
+
+        // Count how many upvotes and downvotes the post has
+        let score = 0;
+        for (let v = 0; v < votes.length; v++) {
+            if (votes[v].postId === posts[i]._id) {
+                score += votes[v].value;
+            }
+        }
+        posts[i].score = score;
+        // console.log(posts[i]);   
     }
+    
+    // Sort the posts object by vote score, highest at the top 
+    function compareByScore(a,b) {
+        return b.score - a.score;
+    }
+    posts.sort(compareByScore);
+    // console.log(posts);
 
     // Render the home page
     res.render('home', {
@@ -42,9 +60,4 @@ exports.showPosts = async (req, res) => {
         username: 'TheMonster112'
     })
 
-    
-    // res.render('home', {
-    //     posts: posts,
-    //     username: 'TheMonster112'
-    // })
 }
