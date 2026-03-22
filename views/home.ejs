@@ -12,29 +12,7 @@
 </head>
 <body>
     <!-- Navbar -->
-    <nav>
-        <div class="nav-logo">
-            <img src="/assets/app-logo-2.png" alt="WADsUP Logo">
-            <a href="/">WADsUP</a>
-        </div>
-
-        <div class="nav-tagline">Your Daily KetchUp</div>
-
-        <!-- If user is not logged in, display register / login buttons -->
-        <% if (!user_id){ %>
-            <div>
-                <a href="/login" class="nav-btn">Log-in</a>
-                <a href="/register" class="nav-btn">Register</a>
-            </div>
-        <% } else { %>
-            <!-- user is logged in, display logout /profile button -->
-            <div>
-                <a href="" class="nav-btn">LogOut</a>
-                <a href="/profile" class="nav-btn">Profile</a>
-            </div>
-        <% } %>
-    </nav>
-    <hr>
+    <%- include('header') %>
 
     <!-- Main Content -->
     <section class="main-content">
@@ -73,7 +51,7 @@
                             <h3><%= posts[i].title %></h3>
                         </a>
                         <p class="post-author"><%= posts[i].author.username %></p>
-                        <p class="post-body"><%= posts[i].body %></p>
+                        <p class="post-body"><%= posts[i].content %></p>
                         <p class="post-comment-count"><%= posts[i].commentCount %> Comments</p>
                     </div>
                 </div>
