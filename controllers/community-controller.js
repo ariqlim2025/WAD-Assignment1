@@ -1,5 +1,22 @@
-const bcrypt = require('bcrypt');
-const User   = require('../models/User');
-const Post   = require('../models/Post');
-const Comment = require('../models/Comment');
-const Bookmark = require('../models/Bookmark');
+// const bcrypt = require('bcrypt');
+const User   = require('../models/user');
+const Post   = require('../models/post');
+const Comment = require('../models/comment');
+const Bookmark = require('../models/bookmark');
+const Vote = require('../models/vote');
+const Community = require('../models/community');
+const fs = require('fs/promises');
+const path = require('path');
+
+const communities = path.join(__dirname, '../data/communities.json');
+
+// Controller function to add a community
+exports.showCreateCommunityPage = async (req, res) => {
+    res.render('createCommunity');
+}
+
+// Controller function to add a community
+exports.addCommunity = async (req, res) => {
+    const community_data = req.body;
+    console.log('community_data: ', community_data);
+}
