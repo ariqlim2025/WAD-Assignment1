@@ -27,6 +27,7 @@ exports.addVote = async (req, res) => {
         return res.status(400).send('Invalid vote value');
     }
 
+    // Validation - if database down / load fail
     try {
         // Check if the user has already voted on this post and what was his vote
         const existingVote = await Vote.findOne({ userId: userId, postId: postId });    
