@@ -16,7 +16,8 @@ exports.showCreateCommunityPage = async (req, res) => {
 }
 
 // Controller function to add a community
-exports.addCommunity = async (req, res) => {
-    const community_data = req.body;
-    console.log('community_data: ', community_data);
+exports.addCommunity = (req, res) => {
+    res.render('createCommunity', { 
+        user_id: 'u001'
+     });
 }
