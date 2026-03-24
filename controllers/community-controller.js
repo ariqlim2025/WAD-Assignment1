@@ -11,13 +11,17 @@ const path = require('path');
 const communities = path.join(__dirname, '../data/communities.json');
 
 // Controller function to add a community
-exports.showCreateCommunityPage = async (req, res) => {
-    res.render('createCommunity');
+exports.showCreateCommunityPage = (req, res) => {
+    res.render('createCommunity', { 
+        user_id: 'u001',
+        community_name: ''
+     });
 }
 
-// Controller function to add a community
-exports.addCommunity = (req, res) => {
-    res.render('createCommunity', { 
-        user_id: 'u001'
-     });
+exports.createCommunity = async (req, res) => {
+    const community_name = req.body.community;
+    res.render('createCommunity', {
+        user_id: 'u001',
+        community_name: community_name
+    });
 }

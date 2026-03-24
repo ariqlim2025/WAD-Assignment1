@@ -9,9 +9,18 @@
 <body>
     <%- include('header') %>
     <form action="/create-community" method="post">
+        <label for="community" style="color: white;">Enter Community Name:</label>
+        <input type="text" name="community" id="community" value="<%= community_name %>">
+        <br><br>
+        <label for="description" style="color: white;">Enter Community Description:</label><br>
+        <textarea name="description" id="description" rows="5" cols="45">Description</textarea>
 
-        <input type="text" name="community" id="community" value="community_name">
+        <br>
+        <br>
         <button type="submit">Create</button>
     </form>
+    <% if (community_name) { %>
+        <p style="color: white;">Successfully created Community: <%= community_name %></p>
+    <% } %> 
 </body>
 </html>
