@@ -8,7 +8,6 @@ const fs = require('fs');
 // 2. root routes
 const post = require('./routes/post-routes');
 const vote = require('./routes/vote-routes');
-// const community = require('./routes/community-routes');
 
 
 // --------------- DEFINE SERVER  -----------------
@@ -30,7 +29,6 @@ server.use(express.static('public'));
 // 6. use established root routes
 server.use('/', post);
 server.use('/', vote);
-// server.use('/', community);
 
 
 // specify the path to the environment variable file 'config.env'
