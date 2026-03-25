@@ -116,7 +116,11 @@ exports.createCommunity = async (req, res) => {
 
 exports.showCommunitiesPage = async (req, res) => {
     const communities = await Community.find().lean();
-    res.render('communities', {
+    
+    console.log(communities);
+
+    res.render('showCommunity', {
+        user_id: 'u001',
         communities: communities
     });
 }

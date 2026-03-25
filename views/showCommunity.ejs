@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <%- include('header') %>
+
+    <!-- Main Content -->
+    <section class="main-content">
+        
+        <a href="/create-community" class="create-post-btn">+ Create Community</a>
+
+        <!-- View all the posts here -->
+        <% if (communities.length === 0) { %>
+            <p class="no-posts">No communities yet. Be the first to create a community!</p>
+        <% } else { %>
+            <% for (let i = 0; i < communities.length; i++) { %>
+                <div class="post-card">
+                    <!-- Post Content -->
+                    <div class="post-content">
+
+                        <a href="" class="post-title">
+                            <h3><%= communities[i].name %></h3>
+                        </a>
+                        <p class="post-author"><%= communities[i].description %></p>
+                    </div>
+                </div>
+            <% } %>
+        <% } %>
+    </section>
+
+</body>
+</html>
