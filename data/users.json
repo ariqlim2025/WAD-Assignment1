@@ -7,6 +7,7 @@
         "email": "monster@mail.com",
         "passwordHash": "$2b$10$examplehash1",
         "bio": "CS undergrad who loves Express and MongoDB",
+        "age": 21,
         "createdAt": {
             "$date": "2026-01-10T08:00:00Z"
         }
@@ -19,6 +20,7 @@
         "email": "queen@mail.com",
         "passwordHash": "$2b$10$examplehash2",
         "bio": "Full-stack dev in training. Coffee addict.",
+        "age": 23,
         "createdAt": {
             "$date": "2026-01-12T09:30:00Z"
         }
@@ -31,6 +33,7 @@
         "email": "owl@mail.com",
         "passwordHash": "$2b$10$examplehash3",
         "bio": "I code best after midnight",
+        "age": 25,
         "createdAt": {
             "$date": "2026-01-15T23:00:00Z"
         }
@@ -43,6 +46,7 @@
         "email": "boba@mail.com",
         "passwordHash": "$2b$10$examplehash4",
         "bio": "Will review every bubble tea shop in Singapore",
+        "age": 20,
         "createdAt": {
             "$date": "2026-01-20T12:00:00Z"
         }
@@ -55,6 +59,7 @@
         "email": "survivor@mail.com",
         "passwordHash": "$2b$10$examplehash5",
         "bio": "Copy-paste engineer turned real developer",
+        "age": 27,
         "createdAt": {
             "$date": "2026-02-01T10:00:00Z"
         }
@@ -67,6 +72,7 @@
         "email": "wizard@mail.com",
         "passwordHash": "$2b$10$examplehash6",
         "bio": "I center divs for fun",
+        "age": 22,
         "createdAt": {
             "$date": "2026-02-05T14:00:00Z"
         }
@@ -79,6 +85,7 @@
         "email": "dragon@mail.com",
         "passwordHash": "$2b$10$examplehash7",
         "bio": "Data science enthusiast. Pandas > people.",
+        "age": 24,
         "createdAt": {
             "$date": "2026-02-10T07:00:00Z"
         }
@@ -91,6 +98,7 @@
         "email": "ninja@mail.com",
         "passwordHash": "$2b$10$examplehash8",
         "bio": "AWS certified, sleep deprived",
+        "age": 26,
         "createdAt": {
             "$date": "2026-02-14T16:00:00Z"
         }
@@ -103,6 +111,7 @@
         "email": "rookie@mail.com",
         "passwordHash": "$2b$10$examplehash9",
         "bio": "Learning React one useState at a time",
+        "age": 19,
         "createdAt": {
             "$date": "2026-02-20T11:00:00Z"
         }
@@ -115,6 +124,7 @@
         "email": "panda@mail.com",
         "passwordHash": "$2b$10$examplehash10",
         "bio": "Python is my first love. Don't @ me.",
+        "age": 22,
         "createdAt": {
             "$date": "2026-02-25T09:00:00Z"
         }
@@ -127,6 +137,7 @@
         "email": "junkie@mail.com",
         "passwordHash": "$2b$10$examplehash11",
         "bio": "AbstractSingletonProxyFactoryBean enjoyer",
+        "age": 28,
         "createdAt": {
             "$date": "2026-03-01T13:00:00Z"
         }
@@ -139,6 +150,7 @@
         "email": "guru@mail.com",
         "passwordHash": "$2b$10$examplehash12",
         "bio": "I rebase for breakfast",
+        "age": 30,
         "createdAt": {
             "$date": "2026-03-05T08:30:00Z"
         }
