@@ -10,17 +10,21 @@
     <%- include('header') %>
     <form action="/create-community" method="post">
         <label for="community" style="color: white;">Enter Community Name:</label>
-        <input type="text" name="community" id="community" value="<%= community_name %>">
+        <input type="text" name="community" id="community" value="<%= community_name %>" required>
         <br><br>
         <label for="description" style="color: white;">Enter Community Description:</label><br>
-        <textarea name="description" id="description" rows="5" cols="45">Description</textarea>
+        <textarea name="description" id="description" rows="5" cols="45" required><%= description_details%></textarea>
 
         <br>
         <br>
         <button type="submit">Create</button>
     </form>
-    <% if (community_name) { %>
+    <% if (community_name && description_details && !communityNameError && !communityDescriptionError) { %>
         <p style="color: white;">Successfully created Community: <%= community_name %></p>
-    <% } %> 
+        <p style="color: white;">Description: <%= description_details %></p>
+    <% } else { %> 
+        <p style="color: white;"><%= communityNameError %></p>
+        <p style="color: white;"><%= communityDescriptionError %></p>
+    <% } %>
 </body>
 </html>

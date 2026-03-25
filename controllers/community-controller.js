@@ -14,14 +14,109 @@ const communities = path.join(__dirname, '../data/communities.json');
 exports.showCreateCommunityPage = (req, res) => {
     res.render('createCommunity', { 
         user_id: 'u001',
-        community_name: ''
+        community_name: '',
+        description_details: '',
+        communityNameError: '',
+        communityDescriptionError: ''
      });
 }
 
 exports.createCommunity = async (req, res) => {
-    const community_name = req.body.community;
-    res.render('createCommunity', {
-        user_id: 'u001',
-        community_name: community_name
+
+    // Get the user ID from the session
+    const userId = "69bf916c4e7188eacfdc67a6"; // hardcoded, swap to req.session.user_id once auth finish
+
+    const communityRegex = /^[A-Za-z0-9_&]+(?: [A-Za-z0-9_&]+)*$/;
+
+    let communityNameError = '';
+    let communityDescriptionError = '';
+
+    // Get the community name and description from the request body
+    const community_name = (req.body.community ?? '').trim();
+    const description_details = (req.body.description ?? '').trim();
+
+    // validation for community name
+    if (!community_name) {
+        communityNameError = 'Community name is required';
+    }
+    else if (!communityRegex.test(community_name)) {
+      communityNameError = "Community name can only contain letters, numbers, '_', '&', and spaces";
+    }
+    else {
+        communityNameError = '';
+    }
+
+    // validation for description details
+    if (!description_details) {
+        communityDescriptionError = 'Description detail is required';
+    }
+    else if (!communityRegex.test(description_details)) {
+        communityDescriptionError = "Description detail can only contain letters, numbers, '_', '&', and spaces";
+    }
+    else {
+        communityDescriptionError = '';
+    }
+
+    // If validation failed, re-render the same page with error messages.
+    if (communityNameError || communityDescriptionError) {
+        return res.render('createCommunity', {
+            user_id: 'u001',
+            community_name,
+            description_details,
+            communityNameError,
+            communityDescriptionError
+        });
+    }
+
+    try {
+        // Friendly check first (so you can show an error message on the page).
+        // `unique: true` on `name` also protects you at the DB level.
+        const existingCommunity = await Community.findOne({ name: community_name });
+        if (existingCommunity) {
+            communityNameError = 'Community name already exists';
+            return res.render('createCommunity', {
+                user_id: 'u001',
+                community_name,
+                description_details,
+                communityNameError,
+                communityDescriptionError
+            });
+        }
+
+        await Community.create({
+            name: community_name,
+            description: description_details,
+            createdBy: userId // optional; Mongoose can cast this to ObjectId if it matches
+        });
+
+        return res.render('createCommunity', {
+            user_id: 'u001',
+            community_name,
+            description_details,
+            communityNameError: '',
+            communityDescriptionError: ''
+        });
+    } catch (error) {
+        // If two requests race, MongoDB throws duplicate key error (11000)
+        if (error && error.code === 11000) {
+            communityNameError = 'Community name already exists';
+            return res.render('createCommunity', {
+                user_id: 'u001',
+                community_name,
+                description_details,
+                communityNameError,
+                communityDescriptionError
+            });
+        }
+
+        console.error('Error creating community:', error);
+        return res.status(500).send('Internal Server Error');
+    }
+}
+
+exports.showCommunitiesPage = async (req, res) => {
+    const communities = await Community.find().lean();
+    res.render('communities', {
+        communities: communities
     });
 }
