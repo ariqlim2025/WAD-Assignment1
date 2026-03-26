@@ -115,6 +115,12 @@ nav {
     color: #888;
 }
 
+.post-community {
+    margin: 0 0 8px 0;
+    font-size: 12px;
+    color: #888;
+}
+
 .post-body {
     margin: 0 0 10px 0;
     font-size: 14px;
@@ -126,4 +132,11 @@ nav {
     font-size: 12px;
     color: #4A7DFC;
     text-decoration: none;
+}
+
+/* ==================== Post Content ==================== */
+
+.community-title h3 {
+    margin: 0 0 4px 0;
+    font-size: 18px;
 }

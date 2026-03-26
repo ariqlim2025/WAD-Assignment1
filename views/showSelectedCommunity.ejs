@@ -16,15 +16,17 @@
 
     <!-- Main Content -->
     <section class="main-content">
-        <!-- Create Post Button -->
-        <a href="/posts/new" class="create-post-btn">+ Create Post</a>
-        <a href="/communities" class="create-post-btn">All Community</a>
 
         <!-- View all the posts here -->
         <% if (posts.length === 0) { %>
             <p class="no-posts">No posts yet. Be the first to create a post!</p>
         <% } else { %>
             <% for (let i = 0; i < posts.length; i++) { %>
+                
+
+                <!-- add in line that shows only selected community  -->
+
+
                 <div class="post-card">
                     <!-- Vote Column -->
                     <div class="vote-column">
@@ -60,6 +62,5 @@
             <% } %>
         <% } %>
     </section>
-
 </body>
 </html>
