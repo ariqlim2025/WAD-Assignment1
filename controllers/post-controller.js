@@ -19,7 +19,7 @@ exports.showPosts = async (req, res) => {
     // Get data from the database
     const posts = await Post.find().populate('authorId');
     const comments = await Comment.find().lean();
-    const votes = await Vote.find().lean();
+    const votes = await Vote.retrieveAllVotes().lean();
     // console.log(posts);
     // console.log('here');
     // console.log(comments);

@@ -30,7 +30,8 @@ exports.addVote = async (req, res) => {
     // Validation - if database down / load fail
     try {
         // Check if the user has already voted on this post and what was his vote
-        const existingVote = await Vote.findOne({ userId: userId, postId: postId });    
+        const existingVote = await Vote.findOneVote(userId, postId);    
+
         // console.log(existingVote);
         if (existingVote) {
             // check if user upvoted or downvoted
@@ -46,14 +47,14 @@ exports.addVote = async (req, res) => {
             // if he vote the different thing > update database > reload '/' page (vote will minus 2)
             if (current_vote !== selected_value) {
                 // vote will minus 2
-                await Vote.updateOne({ _id: existingVote._id }, { $set: { value: selected_value } });
+                await Vote.updateOneVote(existingVote._id, selected_value);
             }
             else {
-                await Vote.deleteOne({ _id: existingVote._id });
+                await Vote.deleteOneVote(existingVote._id);
             }
         }
         else {
-            await Vote.create({ userId, postId, value: selected_value });
+            await Vote.createOneVote(userId, postId, selected_value);
         }
         res.redirect('/');
     } catch (error) {
