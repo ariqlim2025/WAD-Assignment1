@@ -31,7 +31,7 @@ exports.showPosts = async (req, res) => {
         // Count how many comments belong to this post
         let count = 0;
         for (let k = 0; k < comments.length; k++) {
-            if (comments[k].postId === posts[i]._id) {
+            if (comments[k].postId.toString() === posts[i]._id.toString()) {
                 count++;
             }
         }
