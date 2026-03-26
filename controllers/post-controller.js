@@ -7,7 +7,7 @@ const Bookmark  = require('../models/bookmark');
 
 const fs = require('fs/promises');
 const path = require('path');
-
+//comment
 // Controller function to list home page with all posts
 exports.showPosts = async (req, res) => {
     // // Load JSON data (To switch to MongoDB later, will remove this)
