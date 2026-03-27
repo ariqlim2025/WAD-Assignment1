@@ -134,9 +134,19 @@ nav {
     text-decoration: none;
 }
 
-/* ==================== Post Content ==================== */
+/* ==================== Community Content ==================== */
 
 .community-title h3 {
     margin: 0 0 4px 0;
     font-size: 18px;
 }
+
+.link-button {
+    background: none;
+    border: none;
+    color: blue; /* link color */
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 0;
+    font-size: 18px; /* Inherit font styles */
+  }

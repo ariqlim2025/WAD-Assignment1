@@ -28,10 +28,24 @@
                     <!-- Post Content -->
                     <div class="post-content">
 
-                        <a href="" class="community-title">
+                        <% const communityName = communities[i].name %>
+                        
+                        <% const splitCommunityName = communityName.split(' ') %>
+
+                        <% const joinCommunityName = splitCommunityName.join('_') %>
+
+                        <a href="/<%= joinCommunityName %>" class="community-title">
                             <h3><%= communities[i].name %></h3>
                         </a>
                         <p class="post-author"><%= communities[i].description %></p>
+
+                        <form action="/<%= joinCommunityName %>" method="post" class="community-title">
+                           
+                            <button type="submit" class="link-button"><h3><%= communities[i].name %></h3></button>
+                            
+                            <p class="post-author"><%= communities[i].description %></p>
+                        </form>
+
                     </div>
                 </div>
             <% } %>
