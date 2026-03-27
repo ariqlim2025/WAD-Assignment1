@@ -8,6 +8,7 @@ router.get("/create-community", communityController.showCreateCommunityPage);
 router.post("/create-community", communityController.createCommunity);
 
 router.get("/communities", communityController.showCommunitiesPage);
-// router.get("/", communityController);
+
+router.get("/communities/:communitySlug", communityController.showSelectedCommunity);
 
 module.exports = router;

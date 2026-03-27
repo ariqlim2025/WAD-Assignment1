@@ -34,17 +34,17 @@
 
                         <% const joinCommunityName = splitCommunityName.join('_') %>
 
-                        <a href="/<%= joinCommunityName %>" class="community-title">
+                        <a href="/communities/<%= joinCommunityName %>" class="community-title">
                             <h3><%= communities[i].name %></h3>
                         </a>
                         <p class="post-author"><%= communities[i].description %></p>
 
-                        <form action="/<%= joinCommunityName %>" method="post" class="community-title">
+                        <!-- <form action="/<%= joinCommunityName %>" method="post" class="community-title">
                            
                             <button type="submit" class="link-button"><h3><%= communities[i].name %></h3></button>
                             
                             <p class="post-author"><%= communities[i].description %></p>
-                        </form>
+                        </form> -->
 
                     </div>
                 </div>

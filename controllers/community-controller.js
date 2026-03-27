@@ -123,6 +123,47 @@ exports.showCommunitiesPage = async (req, res) => {
     });
 }
 
-// exports.showSelectedCommunity = async (req, res) => {
-//     // const selectedCommunity = await req.body.
-// }
+exports.showSelectedCommunity = async (req, res) => {
+    try {
+        const { communitySlug } = req.params;
+        splitCommunitySlug = communitySlug.split('_');
+        joinCommunitySlug = splitCommunitySlug.join(' ');
+
+        const selectedCommunity = await Community.findOne({
+            name: joinCommunitySlug
+        }).lean();
+
+        if (!selectedCommunity) {
+            return res.status(404).send('Community not found');
+        }
+        const posts = await Post.find({ communityId: selectedCommunity._id })
+            .populate('authorId')
+            .populate('communityId');
+        const comments = await Comment.find().lean();
+
+        for (let i = 0; i < posts.length; i++) {
+            posts[i].author = posts[i].authorId;
+            let count = 0;
+            for (let k = 0; k < comments.length; k++) {
+                if (comments[k].postId.toString() === posts[i]._id.toString()) {
+                    count++;
+                }
+            }
+            posts[i].commentCount = count;
+        }
+
+
+
+        return res.render('showSelectedCommunity', {
+            user_id: 'u001',
+            community: selectedCommunity,
+            posts
+        });
+
+        
+    }
+    catch(error) {
+        console.error("Error loading selected community: ", error);
+        return res.status(500).send("Internal Server Error");
+    }
+}
