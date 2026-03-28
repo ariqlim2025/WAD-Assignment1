@@ -115,7 +115,7 @@ exports.createCommunity = async (req, res) => {
 }
 
 exports.showCommunitiesPage = async (req, res) => {
-    const communities = await Community.find().lean();
+    const communities = await Community.find();
 
     res.render('showCommunity', {
         user_id: 'u001',
@@ -126,12 +126,13 @@ exports.showCommunitiesPage = async (req, res) => {
 exports.showSelectedCommunity = async (req, res) => {
     try {
         const { communitySlug } = req.params;
-        splitCommunitySlug = communitySlug.split('_');
-        joinCommunitySlug = splitCommunitySlug.join(' ');
+        const splitCommunitySlug = communitySlug.split('_');
+        const joinCommunitySlug = splitCommunitySlug.join(' ');
+
 
         const selectedCommunity = await Community.findOne({
             name: joinCommunitySlug
-        }).lean();
+        });
 
         if (!selectedCommunity) {
             return res.status(404).send('Community not found');
