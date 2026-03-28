@@ -1,0 +1,25 @@
+<html>
+<head></head>
+<body>
+
+  <h1>Edit Bookmark</h1>
+  <hr>
+
+  <% if (success) { %>
+    <p><strong>Bookmark updated successfully!</strong></p>
+  <% } %>
+
+  <h3><%= bookmark.postId.title %></h3>
+
+  <form action="/bookmarks/edit" method="POST">
+    <input type="hidden" name="postId" value="<%= bookmark.postId._id %>">
+    <p><label for="note"><strong>Note</strong></label></p>
+    <textarea name="note" id="note" rows="4" cols="40"><%= bookmark.note %></textarea>
+    <br><br>
+    <button type="submit">Save</button>
+    &nbsp;
+    <a href="/bookmarks"><button type="button">Back to Bookmarks</button></a>
+  </form>
+
+</body>
+</html>
