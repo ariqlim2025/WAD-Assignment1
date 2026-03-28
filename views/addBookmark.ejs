@@ -1,0 +1,21 @@
+<html>
+<head></head>
+<body>
+
+  <h1>Add Bookmark</h1>
+  <hr>
+
+<%- // gonna add post title and post content later %>
+
+  <form action="/bookmarks" method="post">
+    <input type="hidden" name="postId" value="<%= postId %>">
+    <p><label for="note"><strong>Note</strong></label></p>
+    <textarea name="note" id="note" rows="4" cols="40" placeholder="Write your note here"></textarea>
+    <br><br>
+    <button type="submit">Save Bookmark</button>
+    &nbsp;
+    <a href="/bookmarks"><button type="button">Back to Bookmarks</button></a>
+  </form>
+
+</body>
+</html>
