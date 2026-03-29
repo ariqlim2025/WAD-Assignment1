@@ -10,6 +10,7 @@ const session = require('express-session')
 const post = require('./routes/post-routes');
 const vote = require('./routes/vote-routes');
 const bookmarkRoutes = require("./routes/bookmark-routes")
+const user = require('./routes/user-routes');
 
 
 // --------------- DEFINE SERVER  -----------------
@@ -28,12 +29,6 @@ server.set("view engine", "ejs");
 // 5. serve static files (CSS, images, favicon, etc.)
 server.use(express.static('public'));
 
-// 6. use established root routes
-server.use('/', post);
-server.use('/', vote);
-server.use("/", bookmarkRoutes)
-
-
 // specify the path to the environment variable file 'config.env'
 dotenv.config({ path: './config.env' });
 
@@ -43,6 +38,12 @@ server.use(session({
     resave: false,
     saveUninitialized: false
 }))
+
+// 6. use established root routes
+server.use('/', post);
+server.use('/', vote);
+server.use("/", bookmarkRoutes)
+server.use('/', user);
 
 // async function to connect to DB
 async function connectDB() {
