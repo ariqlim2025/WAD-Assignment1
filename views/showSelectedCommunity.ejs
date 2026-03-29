@@ -18,7 +18,24 @@
     <section class="main-content">
         <!-- Selected Community Label -->
         
-        <p class="selected-community-label"> <%= community.name %> </p>
+        <div class="selected-community-label">
+            <div class="community-label-row">
+                <span class="community-label-title"><%= community.name %></span>
+                <% if (isCreator) { %>
+                <details class="community-menu">
+                    <summary class="community-menu-trigger" aria-label="Community options">⋯</summary>
+                    <div class="community-menu-dropdown">
+                        <a href="/communities/<%= community.name %>/edit" class="community-menu-item">Update community</a>
+                        <form action="/communities/<%= community.name %>/delete" method="post" class="community-menu-delete-form"
+                              onsubmit="return confirm('Delete this community and all posts in it?');">
+                            <button type="submit" class="community-menu-item community-menu-danger">Delete community</button>
+                        </form>
+                    </div>
+                </details>
+                <% } %>
+            </div>
+            <p class="community-label-description"><%= community.description %></p>
+        </div>
 
         <!-- View all the posts here -->
         <% if (posts.length === 0) { %>

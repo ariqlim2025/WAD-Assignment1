@@ -48,7 +48,21 @@
 
                     <!-- Post Content -->
                     <div class="post-content">
-                        <p class="post-community"><%= posts[i].communityId.name %></p>
+
+                        <!-- For the case where there is no community name -->
+                        <!-- But all posts should have a community name -->
+                        <% if (!posts[i].communityId) { %>
+
+                            <h3>No community</h3>
+
+                        <% } else { %>
+                                                        
+                            <a href="/communities/<%= posts[i].communityId.name %>" class="community-title">
+                                <h3><%= posts[i].communityId.name %></h3>
+                            </a>
+
+                        <% } %>
+
                         <a href="" class="post-title">
                             <h3><%= posts[i].title %></h3>
                         </a>

@@ -154,7 +154,7 @@ nav {
 .selected-community-label {
     display: block;
     text-align: center;
-    padding: 12px;
+    padding: 12px 16px;
     background-color: #4A7DFC;
     color: #fff;
     text-decoration: none;
@@ -162,4 +162,97 @@ nav {
     font-size: 16px;
     font-weight: bold;
     margin-bottom: 20px;
+}
+
+.community-label-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.community-label-title {
+    margin: 0;
+}
+
+.community-label-description {
+    margin: 12px 0 0;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1.4;
+    opacity: 0.95;
+}
+
+.community-menu {
+    position: relative;
+    list-style: none;
+}
+
+.community-menu-trigger {
+    cursor: pointer;
+    list-style: none;
+    width: 36px;
+    height: 36px;
+    line-height: 32px;
+    text-align: center;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    color: #fff;
+    font-size: 20px;
+    user-select: none;
+}
+
+.community-menu-trigger::-webkit-details-marker {
+    display: none;
+}
+
+.community-menu-trigger:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.community-menu-dropdown {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 6px);
+    min-width: 200px;
+    padding: 8px 0;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    text-align: left;
+    z-index: 20;
+}
+
+.community-menu-item {
+    display: block;
+    width: 100%;
+    padding: 10px 14px;
+    border: none;
+    background: none;
+    font: inherit;
+    color: #141E33;
+    text-decoration: none;
+    text-align: left;
+    cursor: pointer;
+}
+
+.community-menu-item:hover {
+    background: #f0f4ff;
+}
+
+.community-menu-delete-form {
+    margin: 0;
+    border-top: 1px solid #eee;
+    padding-top: 4px;
+    margin-top: 4px;
+}
+
+.community-menu-danger {
+    color: #c62828;
+}
+
+.community-menu-danger:hover {
+    background: #ffebee;
 }

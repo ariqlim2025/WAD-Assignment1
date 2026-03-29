@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit community · WADsUp</title>
+    <link rel="icon" type="image/png" href="/assets/app-logo-2.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <%- include('header') %>
+    <section class="main-content">
+        <p style="color: #fff; margin-bottom: 12px;"><a href="/communities/<%= communitySlug %>" style="color: #9ec5ff;">← Back to community</a></p>
+        <form action="/communities/<%= communitySlug %>/edit" method="post">
+            <label for="community" style="color: white;">Community name:</label>
+            <input type="text" name="community" id="community" value="<%= community_name %>" required>
+            <br><br>
+            <label for="description" style="color: white;">Description:</label><br>
+            <textarea name="description" id="description" rows="5" cols="45" required><%= description_details %></textarea>
+            <br><br>
+            <button type="submit">Save changes</button>
+        </form>
+        <% if (communityNameError || communityDescriptionError) { %>
+            <p style="color: #ffb4b4;"><%= communityNameError %></p>
+            <p style="color: #ffb4b4;"><%= communityDescriptionError %></p>
+        <% } %>
+    </section>
+</body>
+</html>
