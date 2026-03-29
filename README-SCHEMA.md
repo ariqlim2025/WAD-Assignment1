@@ -27,6 +27,7 @@ This project uses **Mongoose** (MongoDB ODM) with 6 collections that model a Red
 │ passwordHash │
 │ bio          │
 │ createdAt    │
+| age          |
 └──────┬───────┘
        │
        │ 1 ─── * (authorId)
@@ -75,7 +76,8 @@ The central entity. Users create posts, comments, communities, bookmarks, and vo
     email:        { type: String, required: true, unique: true },
     passwordHash: { type: String, required: true },
     bio:          { type: String },
-    createdAt:    { type: Date, default: Date.now }
+    createdAt:    { type: Date, default: Date.now },
+    age:          { type: Number, required:true }
 }
 ```
 

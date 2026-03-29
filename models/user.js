@@ -11,4 +11,17 @@ const userSchema = new mongoose.Schema({
 });
 
 const User = mongoose.model('User', userSchema);
-module.exports = User;
+
+exports.findByEmail = function(email) {
+    return User.findOne({ email });
+}
+
+exports.findByUsername = function(username) {
+    return User.findOne({ username });
+}
+
+exports.addUser = function(username, email, passwordHash, age) {
+    return User.create({username, email, passwordHash, age});
+}
+
+// module.exports = User;
