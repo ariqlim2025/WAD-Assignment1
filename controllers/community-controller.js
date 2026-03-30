@@ -26,9 +26,11 @@ exports.showCreateCommunityPage = (req, res) => {
 
 exports.createCommunity = async (req, res) => {
 
+    // To validate the name and the description
     const communityRegex = /^[A-Za-z0-9_]+$/;
     const descriptionRegex = /^[A-Za-z0-9_.,]+(?: [A-Za-z0-9_.,]+)*$/;
 
+    // To store error messages
     let communityNameError = '';
     let communityDescriptionError = '';
 
@@ -71,7 +73,7 @@ exports.createCommunity = async (req, res) => {
 
     try {
         // Friendly check first (so you can show an error message on the page).
-        // `unique: true` on `name` also protects you at the DB level.
+        // `unique: true` on `name` will protect at the DB level.
         const existingCommunity = await Community.findOne({ name: community_name });
         if (existingCommunity) {
             communityNameError = 'Community name already exists';
@@ -83,13 +85,15 @@ exports.createCommunity = async (req, res) => {
                 communityDescriptionError
             });
         }
-
+        
+        // create community
         await Community.create({
             name: community_name,
             description: description_details,
-            createdBy: user_id // optional; Mongoose can cast this to ObjectId if it matches
+            createdBy: user_id 
         });
 
+        // show success message
         return res.render('createCommunity', {
             user_id,
             community_name,
@@ -97,6 +101,7 @@ exports.createCommunity = async (req, res) => {
             communityNameError: '',
             communityDescriptionError: ''
         });
+
     } catch (error) {
         // If two requests race, MongoDB throws duplicate key error (11000)
         if (error && error.code === 11000) {
@@ -109,12 +114,13 @@ exports.createCommunity = async (req, res) => {
                 communityDescriptionError
             });
         }
-
+        // any error in general
         console.error('Error creating community:', error);
         return res.status(500).send('Internal Server Error');
     }
 }
 
+// show all communities page
 exports.showCommunitiesPage = async (req, res) => {
     const communities = await Community.find();
 
@@ -124,22 +130,32 @@ exports.showCommunitiesPage = async (req, res) => {
     });
 }
 
+// show the community that the user selected
 exports.showSelectedCommunity = async (req, res) => {
     try {
+        
+        // get the community name from the url
         const { communitySlug } = req.params;
 
+        // find if there is such community
         const selectedCommunity = await Community.findOne({
             name: communitySlug
         });
 
+        // if no community
         if (!selectedCommunity) {
             return res.status(404).send('Community not found');
         }
+
+        // if there is community, find all related posts
         const posts = await Post.find({ communityId: selectedCommunity._id })
             .populate('authorId')
             .populate('communityId');
+        
+        // find all related comments also
         const comments = await Comment.find().lean();
 
+        // for each post, count the comments in the posts
         for (let i = 0; i < posts.length; i++) {
             posts[i].author = posts[i].authorId;
             let count = 0;
@@ -151,6 +167,7 @@ exports.showSelectedCommunity = async (req, res) => {
             posts[i].commentCount = count;
         }
 
+        // check if the user is the creator of the community, then can edit community
         const creatorId = selectedCommunity.createdBy.toString();
         
         const isCreator = (creatorId === user_id) ? 'Yes' : "";
@@ -170,18 +187,23 @@ exports.showSelectedCommunity = async (req, res) => {
     }
 }
 
+// show the edit community page
 exports.showEditCommunityPage = async (req, res) => {
     try {
+        // get community name from url
         const { communitySlug } = req.params;
 
+        // find if there is such community
         const selectedCommunity = await Community.findOne({
             name: communitySlug
         });
 
+        // if no such community
         if (!selectedCommunity) {
             return res.status(404).send('Community not found');
         }
 
+        // check if user is creator of the community again
         const creatorId = selectedCommunity.createdBy.toString();
         
         const isCreator = (creatorId === user_id) ? 'Yes' : "";
@@ -189,6 +211,8 @@ exports.showEditCommunityPage = async (req, res) => {
         if (!isCreator) {
             return res.status(403).send('You can only edit communities you created');
         }
+
+        // if user is creator, then render the edit page
         return res.render('editCommunity', {
             user_id,
             communitySlug,
@@ -204,26 +228,33 @@ exports.showEditCommunityPage = async (req, res) => {
     }
 }
 
+// after checking if user is the creator, then they can update the community
 exports.updateCommunity = async (req, res) => {
 
+    // check the community name and description
     const communityRegex = /^[A-Za-z0-9_]+$/;
     const descriptionRegex = /^[A-Za-z0-9_.,]+(?: [A-Za-z0-9_.,]+)*$/;
 
+    // string to store errors
     let communityNameError = '';
     let communityDescriptionError = '';
 
+    // the previous name is taken from the url
     const { communitySlug } = req.params;
     const oldName = communitySlug;
 
+    // new name and description from the body 
     const community_name = (req.body.community ?? '').trim();
     const description_details = (req.body.description ?? '').trim();
 
+    // validating the name
     if (!community_name) {
         communityNameError = 'Community name is required';
     } else if (!communityRegex.test(community_name)) {
         communityNameError = "Community name can only contain letters, numbers and '_'";
     }
 
+    // validating the description
     if (!description_details) {
         communityDescriptionError = 'Description detail is required';
     } else if (!descriptionRegex.test(description_details)) {
@@ -231,12 +262,15 @@ exports.updateCommunity = async (req, res) => {
     }
 
     try {
+        // find if community exist
         const community = await Community.findOne({ name: oldName });
 
+        // if not exist
         if (!community) {
             return res.status(404).send('Community not found');
         }
 
+        // check if user is creator
         const creatorId = community.createdBy.toString();
         
         const isCreator = (creatorId === user_id) ? 'Yes' : "";
@@ -245,6 +279,7 @@ exports.updateCommunity = async (req, res) => {
             return res.status(403).send('You can only edit communities you created');
         }
 
+        // if there is any error, render the error on the page
         if (communityNameError || communityDescriptionError) {
             return res.render('editCommunity', {
                 user_id,
@@ -255,8 +290,12 @@ exports.updateCommunity = async (req, res) => {
                 communityDescriptionError
             });
         }
+
+        // check if user changed the name of community
         if (community_name !== community.name) {
+            // then check if new name already exist
             const taken = await Community.findOne({ name: community_name });
+            // render error if new name already exist
             if (taken) {
                 communityNameError = 'Community name already exists';
                 return res.render('editCommunity', {
@@ -269,13 +308,18 @@ exports.updateCommunity = async (req, res) => {
                 });
             }
         }
+
+        // update the name and the description
         community.name = community_name;
         community.description = description_details;
+        // save the changes
         await community.save();
         const newSlug = community_name;
+        // create the new slug to redirect user to the new page
         return res.redirect(`/communities/${newSlug}`);
 
     } catch (error) {
+        // If two requests race, MongoDB throws duplicate key error (11000)
         if (error && error.code === 11000) {
             return res.render('editCommunity', {
                 user_id,
@@ -292,16 +336,21 @@ exports.updateCommunity = async (req, res) => {
     }
 }
 
+// to delete community
 exports.deleteCommunity = async (req, res) => {
     try {
+        // community name from url
         const { communitySlug } = req.params;
 
+        // find if exist
         const community = await Community.findOne({ name: communitySlug });
 
+        // if not found 
         if (!community) {
             return res.status(404).send('Community not found');
         }
 
+        // check if user is creator
         const creatorId = community.createdBy.toString();
         
         const isCreator = (creatorId === user_id) ? 'Yes' : "";
@@ -310,6 +359,7 @@ exports.deleteCommunity = async (req, res) => {
             return res.status(403).send('You can only delete communities you created');
         }
 
+        // delete relevant posts and community
         // await Post.deleteMany({ communityId: community._id });
         await Community.deleteOne({ _id: community._id });
         return res.redirect('/communities');
