@@ -12,23 +12,37 @@
 </head>
 <body>
     <%- include('header') %>
-    <form action="/create-community" method="post">
-        <label for="community" style="color: white;">Enter Community Name:</label>
-        <input type="text" name="community" id="community" value="<%= community_name %>" required>
-        <br><br>
-        <label for="description" style="color: white;">Enter Community Description:</label><br>
-        <textarea name="description" id="description" rows="5" cols="45" required><%= description_details%></textarea>
 
-        <br>
-        <br>
-        <button type="submit">Create</button>
-    </form>
-    <% if (community_name && description_details && !communityNameError && !communityDescriptionError) { %>
-        <p style="color: white;">Successfully created Community: <%= community_name %></p>
-        <p style="color: white;">Description: <%= description_details %></p>
-    <% } else { %> 
-        <p style="color: white;"><%= communityNameError %></p>
-        <p style="color: white;"><%= communityDescriptionError %></p>
-    <% } %>
+    <section class="main-content">
+        <div class="community-form-card">
+            <h2 class="community-form-title">Create Community</h2>
+
+            <form class="community-form" action="/create-community" method="post">
+                <div class="community-form-field">
+                    <label for="community">Enter Community Name:</label>
+                    <input class="community-input" type="text" name="community" id="community" value="<%= community_name %>" required>
+                </div>
+
+                <div class="community-form-field">
+                    <label for="description">Enter Community Description:</label>
+                    <textarea class="community-textarea" name="description" id="description" rows="5" required><%= description_details%></textarea>
+                </div>
+
+                <button type="submit" class="community-submit-btn">Create</button>
+            </form>
+
+            <% if (community_name && description_details && !communityNameError && !communityDescriptionError) { %>
+                <p class="community-feedback community-feedback-success">Successfully created Community: <%= community_name %></p>
+                <p class="community-feedback community-feedback-success">Description: <%= description_details %></p>
+            <% } else { %>
+                <% if (communityNameError) { %>
+                    <p class="community-feedback community-feedback-error"><%= communityNameError %></p>
+                <% } %>
+                <% if (communityDescriptionError) { %>
+                    <p class="community-feedback community-feedback-error"><%= communityDescriptionError %></p>
+                <% } %>
+            <% } %>
+        </div>
+    </section>
 </body>
 </html>

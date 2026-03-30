@@ -164,6 +164,94 @@ nav {
     margin-bottom: 20px;
 }
 
+/* ==================== Create Community Form ==================== */
+.community-form-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 18px;
+    margin: 0 auto;
+    max-width: 520px;
+}
+
+.community-form-title {
+    margin: 0 0 14px 0;
+    color: #141E33;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.community-form {
+    display: block;
+}
+
+.community-form-field {
+    margin-bottom: 14px;
+}
+
+.community-form-field label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #141E33;
+}
+
+.community-input,
+.community-textarea {
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 8px;
+    border: 1px solid #d0d7e2;
+    background: #f7f9fc;
+    padding: 10px 12px;
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
+}
+
+.community-textarea {
+    resize: vertical;
+}
+
+.community-input:focus,
+.community-textarea:focus {
+    border-color: #4A7DFC;
+    box-shadow: 0 0 0 3px rgba(74, 125, 252, 0.15);
+}
+
+.community-submit-btn {
+    width: 100%;
+    display: block;
+    box-sizing: border-box;
+    padding: 12px;
+    background-color: #4A7DFC;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 6px;
+}
+
+.community-submit-btn:hover {
+    background-color: #3c6fe0;
+}
+
+.community-feedback {
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.community-feedback-success {
+    color: #0a7a2f;
+}
+
+.community-feedback-error {
+    color: #c62828;
+}
+
 .community-label-row {
     display: flex;
     align-items: center;
@@ -220,6 +308,8 @@ nav {
     padding: 8px 0;
     background: #fff;
     border-radius: 8px;
+    /* Clip hover backgrounds so they don't render outside the rounded box */
+    overflow: hidden;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
     text-align: left;
     z-index: 20;
@@ -236,6 +326,7 @@ nav {
     text-decoration: none;
     text-align: left;
     cursor: pointer;
+    box-sizing: border-box;
 }
 
 .community-menu-item:hover {
