@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post</title>
+</head>
+<body>
+    <!--only when the post exists, then the user can edit or delete-->
+    <%  if (typeof post !== "undefined" && post !== null) {%>
+    <h3>Edit Post</h3>
+    <form action="/updatepost" method="POST">
+        <input type="hidden" name="postId" value="<%= post._id %>">
+        <input type="text" name="title" value="<%= post.title %>"><br><br>
+        <textarea name="content"><%= post.content %></textarea><br><br>
+        <button type="submit">Save Changes</button>
+    </form>
+
+    <br>
+
+    <h3>Delete Post</h3>
+    <form action="/deletepost" method="POST" onsubmit="return confirm('Delete this post forever?')">
+        <input type="hidden" name="postId" value="<%= post._id %>">
+        <button type="submit">Delete Post</button>
+
+    </form>
+<% } else {%>
+    <h3>Create Post</h3>
+    <form action="/createpost" method="POST">
+        <!-- Input field for post title -->
+        <input type="text" name="title" placeholder="Title" required><br><br>
+        <!-- Text area for post content -->
+        <textarea name="content" placeholder="Write something..." required></textarea><br><br>
+        <!-- Optional: community ID -->
+        <input type="text" name="communityId" placeholder="Community ID (optional)"><br><br>
+        <!-- Submit button -->
+        <button type="submit">Post</button>
+    </form>
+<% } %>
+    <br>
+    <a href="/">Back to Home</a>
+</body>
+</html>
