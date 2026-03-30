@@ -31,8 +31,19 @@
         <input type="text" name="title" placeholder="Title" required><br><br>
         <!-- Text area for post content -->
         <textarea name="content" placeholder="Write something..." required></textarea><br><br>
-        <!-- Optional: community ID -->
-        <input type="text" name="communityId" placeholder="Community ID (optional)"><br><br>
+
+        <!-- Dropdown of all the commuinities -->
+        <select name="communityId" required>
+            <% if (communities.length === 0) { %>
+                <option value="" disabled selected>No communities available - create one first</option>
+            <% } else { %>
+                <option value="" disabled selected>Select a community</option>
+                <% communities.forEach(function(community) { %>
+                    <option value="<%= community._id %>"><%= community.name %></option>
+                <% }); %>
+            <% } %>
+        </select><br><br>
+
         <!-- Submit button -->
         <button type="submit">Post</button>
     </form>

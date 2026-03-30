@@ -1,12 +1,3 @@
-require('dotenv').config({ path: '../config.env' });; // load .env file
-console.log('DB connection string:', process.env.DB);
-const mongoose = require('mongoose');
-
-// Connect to MongoDB using the DB variable from .env
-mongoose.connect(process.env.DB)
-.then(() => console.log('MongoDB connected'))
-.catch(err => console.error('MongoDB connection error:', err));
-
 //import models
 const Post      = require('../models/post');
 const User      = require('../models/user');
@@ -15,14 +6,11 @@ const Comment   = require('../models/comment');
 const Vote      = require('../models/vote');
 const Bookmark  = require('../models/bookmark');
 
-const fs = require('fs/promises');
-const path = require('path');
 
 // Controller function to list home page with all posts
 exports.showPosts = async (req, res) => {
     try {
         // Get data from the database
-   
         const postId = req.query.id; // get id from URL
 
         // find a specific post and populate author details 
@@ -112,7 +100,6 @@ exports.showPosts = async (req, res) => {
     
 
 //create post
-
 exports.createpost = async(req,res) => {
     try {
         // get data sent from HTML form
@@ -135,7 +122,7 @@ exports.createpost = async(req,res) => {
         res.redirect('/?message=Post created successfully!');
     } catch(err){
         // if any error happens show error message and go back to the create page
-        console,error(err);
+        console.error(err);
         res.send('/create?message=Error creating post');
     }
 };
