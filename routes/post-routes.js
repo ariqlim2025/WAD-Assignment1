@@ -6,13 +6,12 @@ const postController = require('./../controllers/post-controller');
 router.get('/', postController.showPosts);
 
 // GET route to display the createpost page
-router.get('/posts/new',(req,res) => {
-    // if there is no data in the database, this will crash so pass null to say that the variable exists but it is currently empty
-    res.render('posts', {post:null});
-});
+router.get('/posts/new', postController.showCreatePage);
+// GET route to show create page
+
 
 //handles form submission
-router.post('/createpost', postController.createpost);
+router.post('/createpost', postController.validatepost);
 
 // updates form
 router.post('/updatepost', postController.updatePost);

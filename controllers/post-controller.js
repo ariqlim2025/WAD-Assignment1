@@ -2,11 +2,6 @@ require('dotenv').config({ path: '../config.env' });; // load .env file
 console.log('DB connection string:', process.env.DB);
 const mongoose = require('mongoose');
 
-// Connect to MongoDB using the DB variable from .env
-mongoose.connect(process.env.DB)
-.then(() => console.log('MongoDB connected'))
-.catch(err => console.error('MongoDB connection error:', err));
-
 //import models
 const Post      = require('../models/post');
 const User      = require('../models/user');
@@ -22,19 +17,32 @@ const path = require('path');
 exports.showPosts = async (req, res) => {
     try {
         // Get data from the database
-   
         const postId = req.query.id; // get id from URL
+        const currentUserId = '69bf916c4e7188eacfdc67a6' // hardcoded, swap to req.session.user_id once auth finish
 
         // find a specific post and populate author details 
+        //const communities = await Community.find().lean();
+
+        const communities = [
+        { _id: '650000000000000000000001', name: 'javascript' },
+        { _id: '650000000000000000000002', name: 'webdev' },
+        { _id: '650000000000000000000003', name: 'funny' }
+        ]
+
         if (postId){
             const post = await Post.findById(postId).populate('authorId');
 
             if (!post) {
                 return res.send("Post not found");
             }
-
-            return res.render('posts', {post:post});
+            // pass currentUserId so that EJS knows who is looking at the page 
+            return res.render('posts', {
+                post:post,
+                communityList:communities,
+                currentUserId: currentUserId
+            });
         }
+
 
         const posts = await Post.find().populate('authorId');
         const comments = await Comment.find().lean();
@@ -75,7 +83,6 @@ exports.showPosts = async (req, res) => {
         // console.log(posts);
 
 
-        const currentUserId = '69bf916c4e7188eacfdc67a6'; // hardcoded, swap to req.session.user_id once auth finish
         if (currentUserId) {
             // Figure out which posts did the user upvote or downvote and add to the posts dict
             // check if the user upvote, downvote or never vote
@@ -101,6 +108,7 @@ exports.showPosts = async (req, res) => {
             // Pass in all the posts data (posts + comments + author)
             posts: posts,
             user_id: 'u001',
+            communityList: communities,
             currentUserId: currentUserId
         })
         // console.log(posts);
@@ -109,11 +117,20 @@ exports.showPosts = async (req, res) => {
         res.send("Error loading posts")
         }
     };
-    
 
 //create post
 
-exports.createpost = async(req,res) => {
+exports.showCreatePage = (req, res) => {
+    const communities = [
+        { _id: '650000000000000000000001', name: 'javascript' },
+        { _id: '650000000000000000000002', name: 'webdev' },
+        { _id: '650000000000000000000003', name: 'funny' }
+    ];
+    res.render('posts', { post: null, communityList: communities });
+};
+
+// ensure that the post is with the correct inputs
+exports.validatepost = async(req,res) => {
     try {
         // get data sent from HTML form
         const {title, content,communityId} = req.body;
@@ -135,7 +152,7 @@ exports.createpost = async(req,res) => {
         res.redirect('/?message=Post created successfully!');
     } catch(err){
         // if any error happens show error message and go back to the create page
-        console,error(err);
+        console.error(err);
         res.send('/create?message=Error creating post');
     }
 };
