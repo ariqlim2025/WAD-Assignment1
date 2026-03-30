@@ -9,6 +9,7 @@ const session = require('express-session')
 // 2. root routes
 const post = require('./routes/post-routes');
 const vote = require('./routes/vote-routes');
+const comment = require('./routes/comment-routes');
 const bookmarkRoutes = require("./routes/bookmark-routes")
 
 
@@ -31,7 +32,8 @@ server.use(express.static('public'));
 // 6. use established root routes
 server.use('/', post);
 server.use('/', vote);
-server.use("/", bookmarkRoutes)
+server.use('/', comment);
+server.use('/', bookmarkRoutes);
 
 
 // specify the path to the environment variable file 'config.env'

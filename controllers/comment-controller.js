@@ -8,6 +8,7 @@ exports.createComment = async (req, res) => {
         const postId = req.params.id;
         console.log(commentContent)
 
+
         // PLACEHOLDER USER !!!
         const placeholderUser = await User.findOne({ username: 'CodingQueen' });
 

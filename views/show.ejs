@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post: <%= currentPost.title %></title>
+</head>
+<body>
+    <!-- <%- include('header') %> -->
+
+    <h1><%= currentPost.title %></h1>
+    <p>by <%= currentPost.authorId.username %> in <%= community.name %></p><br>
+
+    <p><%= currentPost.content %></p>
+
+    <!-- If current user is the same as the logged in user
+    (current user id === logged in user id)
+    display edit and delete
+    # TODO
+
+    Display current vote count
+    # TODO
+
+    Display bookmark
+    # TODO -->
+
+    <hr>
+
+    <h2>Comments (<%= currentComments.length %>)</h2>
+
+    <% currentComments.forEach((comment) => { %>
+        <p>
+            <strong><%= comment.authorId.username %> : </strong>
+            <%= comment.content %>
+
+        </p><br>
+
+    <% }) %>
+    
+    <br><hr><br>
+    <form action="./<%= currentPost._id %>" method="post">
+        <textarea name="newComment" rows="4" cols="70">Comment here...</textarea><br>
+
+        <button type="submit">Post Comment</button>
+    </form>
+
+    <br><br><br><br><br><br><br><br><br>
+    <br><br><br><br><br><br><br><br><br>
+
+</body>
+</html>

@@ -10,6 +10,8 @@ const voteSchema = new mongoose.Schema({
 
 const Vote = mongoose.model('Vote', voteSchema);
 
+exports.Vote = Vote;
+
 // ----- Vote Methods -----
 // Retrieve all votes
 exports.retrieveAllVotes = function() {

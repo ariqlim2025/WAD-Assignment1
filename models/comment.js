@@ -10,4 +10,20 @@ const commentSchema = new mongoose.Schema({
 });
 
 const Comment = mongoose.model('Comment', commentSchema);
-module.exports = Comment;
+
+exports.Comment = Comment;
+
+// Methods 
+exports.addComment = (comment) => {
+    console.log('entered')
+    return Comment.create(comment)
+}
+
+// exports.editComment = (comment) => {
+//     return Comment
+// }
+
+exports.removeComment = (comment) => {
+    // TODO
+    return
+}
