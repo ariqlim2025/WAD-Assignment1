@@ -309,7 +309,12 @@ exports.updateCommunity = async (req, res) => {
         const isCreator = (creatorId === user_id) ? 'Yes' : "";
 
         if (!isCreator) {
-            return res.status(403).send('You can only edit communities you created');
+            return res.send(
+                `<script>
+                    alert("You can only edit communities you created.");
+                    window.location.href = window.location.origin + "/communities/${communitySlug}";
+                </script>`
+            );
         }
 
         // if there is any error, render the error on the page
@@ -366,7 +371,13 @@ exports.updateCommunity = async (req, res) => {
         }
 
         console.error('Error updating community:', error);
-        return res.status(500).send('Internal Server Error');
+        // return res.status(500).send('Internal Server Error');
+        return res.send(
+            `<script>
+                alert("An internal server error occurred.");
+                window.location.href = window.location.origin + "/communities/${communitySlug}";
+            </script>`
+        );
     }
 }
 
@@ -381,7 +392,12 @@ exports.deleteCommunity = async (req, res) => {
 
         // if not found 
         if (!community) {
-            return res.status(404).send('Community not found');
+            return res.send(
+                `<script>
+                    alert("Community cannot be found.");
+                    window.location.href = window.location.origin + "/communities/${communitySlug}";
+                </script>`
+            );
         }
 
         // check if user is creator
@@ -390,7 +406,12 @@ exports.deleteCommunity = async (req, res) => {
         const isCreator = (creatorId === user_id) ? 'Yes' : "";
 
         if (!isCreator) {
-            return res.status(403).send('You can only delete communities you created');
+            return res.send(
+                `<script>
+                    alert("You can only edit communities you created.");
+                    window.location.href = window.location.origin + "/communities/${communitySlug}";
+                </script>`
+            );
         }
 
         // delete relevant posts and community
@@ -400,6 +421,11 @@ exports.deleteCommunity = async (req, res) => {
 
     } catch (error) {
         console.error('Error deleting community:', error);
-        return res.status(500).send('Internal Server Error');
+        return res.send(
+            `<script>
+                alert("An internal server error occurred.");
+                window.location.href = window.location.origin + "/communities/${communitySlug}";
+            </script>`
+        );
     }
 };
