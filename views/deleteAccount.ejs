@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WADsUp</title>
+    <link rel="icon" type="image/png" href="/assets/app-logo-2.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="/css/style.css"> -->
+</head>
+<body>
+    <!-- Navbar -->
+
+    <!-- Main content -->
+    <form action="/deleteAccount" method="post" <%= accountDeleted ? "hidden" : "" %>>
+        <h1>Are you sure?</h1>
+        <h3>Input your password to confirm</h3>
+        <p><strong><%= passError %></strong></p>
+        <p><input type="password" name="password" required></p>
+        <input type="submit" value="Delete Account">
+        <a href="/profile"><input type="button" value="Cancel"></a>
+    </form>
+    <div <%= accountDeleted ? "" : "hidden" %>>
+        <h2>Your account has been deleted, thank you for having been part of WADsUP!</h2>
+    </div>
+</body>
+</html>

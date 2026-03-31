@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WADsUp</title>
+    <link rel="icon" type="image/png" href="/assets/app-logo-2.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="/css/style.css"> -->
+</head>
+<body>
+    <!-- Navbar -->
+
+    <!-- Main content -->
+    <h1>Reset your password</h1>
+    <form action="/forgetPass" method="get" <%= emailExists ? "hidden" : "" %>>
+        <h3><%= emailError %></h3>
+        <p>
+            Enter your email: <input type="email" name="email" value="<%= email %>" required>
+        </p>
+        <input type="submit" value="Submit">
+        <a href="/login"><input type="button" value="Back"></a>
+    </form>
+    <form action="/forgetPass" method="post" <%= emailExists && (passError || !password)  ? "" : "hidden" %>>
+        <input type="email" name="email" value="<%= email %>" hidden>
+        <p>
+            <ul class="user-error-msg"><strong><%- passError %></strong></ul>
+            <strong>Password</strong><br>
+            <input type="password" name="password" required>
+        </p>
+        <p>
+            <strong>Confirm Password</strong><br>
+            <input type="password" name="confirmPassword" required>
+        </p>
+        <input type="submit" value="Submit">
+    </form>
+    <p <%= emailExists && !passError && password ? "" : "hidden" %>>Password updated! <a href="/login">Login here</a></p>
+</body>
+</html>
