@@ -15,6 +15,7 @@ exports.Comment = Comment;
 
 // Methods 
 exports.addComment = (comment) => {
+    console.log('entered')
     return Comment.create(comment)
 }
 
@@ -26,9 +27,8 @@ exports.retrieveComment = (commentId) => {
     return Comment.findById(commentId)
 }
 
-exports.removeComment = (comment) => {
-    // TODO
-    return
+exports.removeComment = (commentId) => {
+    return Comment.findByIdAndDelete(commentId);
 }
 
 exports.toEditComment = (commentId, newContent) => {

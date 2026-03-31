@@ -86,37 +86,37 @@ exports.showPosts = async (req, res) => {
 // Controller function to show a singular post 
 exports.showSinglePost = async (req, res) => {
 
-    // Get data from database
-    const posts = await Post.find().populate('authorId').populate('communityId');
-    const comments = await Comment.find().populate('authorId');
-    const votes = await Vote.find().lean();
-    const postId = req.params.id
+    try {
+        // Get data from database
+        const posts = await Post.find().populate('authorId').populate('communityId');
+        const comments = await Comment.find().populate('authorId');
+        const postId = req.params.id
 
-    // console.log(postId)
+        let currentPost = posts.find(post => post._id.toString() === postId) || null; 
 
-    // console.log(posts)
-    // let currentPost = null
+        let community;
+        let currentComments = [];
 
-    let currentPost = posts.find(post => post._id.toString() === postId) || null; 
+        if (currentPost) {
+            community = currentPost.communityId || null
+        }
 
-    let community;
-    let currentComments = [];
+        comments.forEach((comment) => {
+            if (comment.postId.toString() === postId) {
+                currentComments.push(comment);
+            }
+        })
 
-    if (currentPost) {
-        community = currentPost.communityId || null
+
+        // console.log(currentPost);
+        // console.log(comments);
+
+        // console.log(currentComments)
+
+        res.render('show', {currentPost, community, currentComments, user_id : 'u001', isAuthenticated:true});
+    } catch (error) {
+        res.status(500).send(`Error showing post: ${error.message}`);
     }
 
-    comments.forEach((comment) => {
-        if (comment.postId.toString() === postId) {
-            currentComments.push(comment);
-        }
-    })
 
-
-    // console.log(currentPost);
-    // console.log(comments);
-
-    // console.log(currentComments)
-
-    res.render('show', {currentPost, community, currentComments, user_id : 'u001'});
 };

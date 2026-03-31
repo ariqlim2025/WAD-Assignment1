@@ -11,7 +11,7 @@ exports.createComment = async (req, res) => {
 
 
         // PLACEHOLDER USER !!!
-        const placeholderUser = await User.findOne({ username: 'CodingQueen' });
+        const placeholderUser = await User.findOne({ username: 'AdminTester' });
 
         let newComment = {
             content : commentContent,
@@ -21,7 +21,7 @@ exports.createComment = async (req, res) => {
             updatedAt: Date.now()
         };
 
-        let result = await Comment.addComment(newComment)
+        let result = await addComment(newComment)
 
         console.log('Added Comment:' + result)
 
@@ -71,6 +71,16 @@ exports.editComment = async (req, res) => {
 }
 // delete comment, and update database accordingly
 exports.deleteComment = async (req, res) => {
-    const postId = req.params.id
-    res.redirect(`/posts/${postId}`)
+    try {
+        const postId = req.params.id;
+        const commentId = req.body.commentId;
+
+        // delete comment
+        await removeComment(commentId)
+
+        res.redirect(`/posts/${postId}`)
+    } catch(error) {
+        res.status(500).send(`Error editing comment: ${error.message}`);
+    }
+
 }

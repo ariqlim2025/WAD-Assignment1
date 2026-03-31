@@ -75,6 +75,7 @@
             font-size: 0.9rem;
             line-height: 1.65;
             color: #333;
+            white-space: pre-wrap;
         }
 
         .comment-form-wrapper {
@@ -93,7 +94,7 @@
         }
 
         .comment-form-wrapper textarea {
-            width: 100%;
+            width: 95%;
             padding: 12px;
             border: 1px solid #ddd;
             border-radius: 6px;
@@ -161,15 +162,19 @@
                     <p class="comment-author">u/<%= comment.authorId.username %></p>
                     <p class="comment-text"><%= comment.content %></p>
 
-                    <form action="./<%= currentPost._id %>/edit-comment" method="GET">
-                        <input type="hidden" name="commentId" value="<%= comment._id %>">
-                        <!-- <%= comment._id%> -->
-                        <button type="submit" class="link-btn">Edit</button>
-                    </form>
+                    <% if (isAuthenticated) { %>
 
-                     <form action="./<%= currentPost._id %>/delete-comment" method="POST">
-                        <button type="submit" class="link-btn">Delete</button>
-                    </form>
+                        <form action="./<%= currentPost._id %>/edit-comment" method="GET">
+                            <input type="hidden" name="commentId" value="<%= comment._id %>">
+                            <!-- <%= comment._id%> -->
+                            <button type="submit" class="link-btn">Edit</button>
+                        </form>
+
+                        <form action="./<%= currentPost._id %>/delete-comment" method="POST">
+                            <input type="hidden" name="commentId" value="<%= comment._id %>">
+                            <button type="submit" class="link-btn">Delete</button>
+                        </form>
+                    <% } %>
                 </div>
             <% }) %>
 
