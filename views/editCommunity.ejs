@@ -13,6 +13,7 @@
 <body>
     <%- include('header') %>
     <section class="main-content">
+        <!-- back button -->
         <p style="color: #fff; margin-bottom: 12px;"><a href="/communities/<%= communitySlug %>" style="color: #9ec5ff;">← Back to community</a></p>
         <form action="/communities/<%= communitySlug %>/edit" method="post">
             <label for="community" style="color: white;">Community name:</label>

@@ -16,6 +16,10 @@
 
     <!-- Main Content -->
     <section class="main-content">
+        <!-- back buttons -->
+        <p style="color: #fff; margin-bottom: 12px;"><a href="/" style="color: #9ec5ff;">← Back to home</a></p>
+        <p style="color: #fff; margin-bottom: 12px;"><a href="/communities" style="color: #9ec5ff;">← Back to communities</a></p>
+
         <!-- Selected Community Label -->
         
         <div class="selected-community-label">
@@ -65,10 +69,15 @@
 
                     <!-- Post Content -->
                     <div class="post-content">
-                        <p class="post-community"><%= posts[i].communityId.name %></p>
+                                                        
+                        <a href="/communities/<%= posts[i].communityId.name %>" class="community-title">
+                            <h3><%= posts[i].communityId.name %></h3>
+                        </a>
+
                         <a href="" class="post-title">
                             <h3><%= posts[i].title %></h3>
                         </a>
+
                         <p class="post-author"><%= posts[i].author.username %></p>
                         <p class="post-body"><%= posts[i].content %></p>
                         <p class="post-comment-count"><%= posts[i].commentCount %> Comments</p>

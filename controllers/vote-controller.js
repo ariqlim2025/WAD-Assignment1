@@ -56,7 +56,10 @@ exports.addVote = async (req, res) => {
         else {
             await Vote.createOneVote(userId, postId, selected_value);
         }
-        res.redirect('/');
+        // res.redirect('/');
+        // stay on current page instead of redirecting back to root page
+        res.redirect(req.get('Referrer') || '/');
+
     } catch (error) {
         console.error('Error adding vote:', error);
         res.status(500).send('Internal Server Error');

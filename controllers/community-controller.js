@@ -8,13 +8,14 @@ const Community = require('../models/community');
 const fs = require('fs/promises');
 const path = require('path');
 
-const communities = path.join(__dirname, '../data/communities.json');
+// const communities = path.join(__dirname, '../data/communities.json');
 
 // Get the user ID from the session
 const user_id = "69bf916c4e7188eacfdc67b0"; // hardcoded, swap to req.session.user_id once auth finish
 
 // Controller function to add a community
 exports.showCreateCommunityPage = (req, res) => {
+
     res.render('createCommunity', { 
         user_id,
         community_name: '',
@@ -86,11 +87,11 @@ exports.createCommunity = async (req, res) => {
             });
         }
         
+        // making community object and calling model to add to mongodb
         const newCommunity = {
             name: community_name,
             description: description_details,
             createdBy: user_id 
-
         };
         await Community.createCommunity(newCommunity);
 
@@ -163,10 +164,12 @@ exports.showSelectedCommunity = async (req, res) => {
         
         // find all related comments also
         const comments = await Comment.find().lean();
+        const votes = await Vote.retrieveAllVotes().lean();
 
-        // for each post, count the comments in the posts
         for (let i = 0; i < posts.length; i++) {
+            // Find the user whose _id mathces the post's authors ID
             posts[i].author = posts[i].authorId;
+            // Count how many comments belong to this post
             let count = 0;
             for (let k = 0; k < comments.length; k++) {
                 if (comments[k].postId.toString() === posts[i]._id.toString()) {
@@ -174,6 +177,42 @@ exports.showSelectedCommunity = async (req, res) => {
                 }
             }
             posts[i].commentCount = count;
+    
+            // Count how many upvotes and downvotes the post has
+            let score = 0;
+            for (let v = 0; v < votes.length; v++) {
+                if (votes[v].postId.toString() === posts[i]._id.toString()) {
+                    score += votes[v].value;
+                }
+            }
+            posts[i].score = score;
+        }
+    
+        // Sort the posts object by vote score, highest at the top 
+        function compareByScore(a,b) {
+            return b.score - a.score;
+        }
+        posts.sort(compareByScore);
+        // console.log(posts);
+
+
+        if (user_id) {
+            // Figure out which posts did the user upvote or downvote and add to the posts dict
+            for (let i = 0; i < posts.length; i++) {
+                posts[i].userVote = 0;
+                for (let v=0; v < votes.length; v++) {
+                    if ((votes[v].postId.toString() === posts[i]._id.toString()) && (votes[v].userId.toString() === user_id)) {
+                        posts[i].userVote = votes[v].value;
+                        break;
+                    }
+                }
+            }
+        }
+        else {
+            // If user is not logged in, set all posts' userVote to 0
+            for (let i = 0; i < posts.length; i++) {
+                posts[i].userVote = 0;
+            }
         }
 
         // check if the user is the creator of the community, then can edit community
@@ -185,7 +224,7 @@ exports.showSelectedCommunity = async (req, res) => {
             user_id,
             community: selectedCommunity,
             posts,
-            isCreator
+            isCreator,
         });
 
         
@@ -402,7 +441,7 @@ exports.deleteCommunity = async (req, res) => {
 
         // check if user is creator
         const creatorId = community.createdBy.toString();
-        
+
         const isCreator = (creatorId === user_id) ? 'Yes' : "";
 
         if (!isCreator) {
@@ -417,6 +456,7 @@ exports.deleteCommunity = async (req, res) => {
         // delete relevant posts and community
         // await Post.deleteMany({ communityId: community._id });
         await Community.deleteCommunity(community._id);
+        
         return res.redirect('/communities');
 
     } catch (error) {
