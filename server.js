@@ -3,18 +3,14 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
-const session = require('express-session')
+const session = require('express-session');
 
 
 // 2. root routes
 const post = require('./routes/post-routes');
 const vote = require('./routes/vote-routes');
-<<<<<<< HEAD
 const community = require('./routes/community-routes');
-=======
-const bookmarkRoutes = require("./routes/bookmark-routes")
-
->>>>>>> main
+const bookmarkRoutes = require("./routes/bookmark-routes");
 
 // --------------- DEFINE SERVER  -----------------
 // 1. start express application server
@@ -35,11 +31,8 @@ server.use(express.static('public'));
 // 6. use established root routes
 server.use('/', post);
 server.use('/', vote);
-<<<<<<< HEAD
 server.use('/', community);
-=======
-server.use("/", bookmarkRoutes)
->>>>>>> main
+server.use("/", bookmarkRoutes);
 
 
 // specify the path to the environment variable file 'config.env'
@@ -50,7 +43,7 @@ server.use(session({
     secret: process.env.SECRET,
     resave: false,
     saveUninitialized: false
-}))
+}));
 
 // async function to connect to DB
 async function connectDB() {
