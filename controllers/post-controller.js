@@ -1,4 +1,4 @@
-const Post      = require('../models/post');
+const { Post, findSinglePost }      = require('../models/post');
 const User      = require('../models/user');
 const Community = require('../models/community');
 const { Comment, addComment, removeComment } = require('../models/comment');
