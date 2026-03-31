@@ -1,7 +1,3 @@
-require('dotenv').config({ path: '../config.env' });; // load .env file
-console.log('DB connection string:', process.env.DB);
-const mongoose = require('mongoose');
-
 //import models
 const Post      = require('../models/post');
 const User      = require('../models/user');
@@ -9,9 +5,6 @@ const Community = require('../models/community');
 const Comment   = require('../models/comment');
 const Vote      = require('../models/vote');
 const Bookmark  = require('../models/bookmark');
-
-const fs = require('fs/promises');
-const path = require('path');
 
 // Controller function to list home page with all posts
 exports.showPosts = async (req, res) => {
@@ -35,14 +28,13 @@ exports.showPosts = async (req, res) => {
             if (!post) {
                 return res.send("Post not found");
             }
-            // pass currentUserId so that EJS knows who is looking at the page 
+            // pass currentUserId so that EJS
             return res.render('posts', {
                 post:post,
                 communityList:communities,
                 currentUserId: currentUserId
             });
         }
-
 
         const posts = await Post.find().populate('authorId');
         const comments = await Comment.find().lean();
@@ -51,7 +43,7 @@ exports.showPosts = async (req, res) => {
         // For each post, attach the author and count its comment and (upvotes - downvotes)
         for (let i=0; i < posts.length; i++) {
         // Find the user whose _id matches the post's authors ID
-        posts[i].author = posts[i].authorId;
+        posts[i].author = posts[i].authorId 
         // Count how many comments belong to this post
         let count = 0;
         for (let k = 0; k < comments.length; k++) {
