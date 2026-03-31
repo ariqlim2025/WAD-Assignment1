@@ -3,7 +3,7 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
-const session = require('express-session')
+const session = require('express-session');
 
 
 // 2. root routes
@@ -43,7 +43,7 @@ server.use(session({
     secret: process.env.SECRET,
     resave: false,
     saveUninitialized: false
-}))
+}));
 
 // async function to connect to DB
 async function connectDB() {
