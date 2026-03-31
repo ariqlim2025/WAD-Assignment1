@@ -15,19 +15,30 @@
     <section class="main-content">
         <!-- back button -->
         <p style="color: #fff; margin-bottom: 12px;"><a href="/communities/<%= communitySlug %>" style="color: #9ec5ff;">← Back to community</a></p>
-        <form action="/communities/<%= communitySlug %>/edit" method="post">
-            <label for="community" style="color: white;">Community name:</label>
-            <input type="text" name="community" id="community" value="<%= community_name %>" required>
-            <br><br>
-            <label for="description" style="color: white;">Description:</label><br>
-            <textarea name="description" id="description" rows="5" cols="45" required><%= description_details %></textarea>
-            <br><br>
-            <button type="submit">Save changes</button>
-        </form>
-        <% if (communityNameError || communityDescriptionError) { %>
-            <p style="color: #ffb4b4;"><%= communityNameError %></p>
-            <p style="color: #ffb4b4;"><%= communityDescriptionError %></p>
-        <% } %>
+
+        <div class="community-form-card">
+            <h2 class="community-form-title">Update Community</h2>
+
+            <form class="community-form" action="/communities/<%= communitySlug %>/edit" method="post">
+                <div class="community-form-field">
+                    <label for="community">Enter Community Name:</label>
+                    <input class="community-input" type="text" name="community" id="community" value="<%= community_name %>" required>
+                </div>
+
+                <div class="community-form-field">
+                    <label for="description">Enter Community Description:</label>
+                    <textarea class="community-textarea" name="description" id="description" rows="5" required><%= description_details%></textarea>
+                </div>
+
+                <button type="submit" class="community-submit-btn">Save changes</button>
+            </form>
+
+            <% if (communityNameError || communityDescriptionError) { %>
+                <p class="community-feedback community-feedback-error"><%= communityNameError %></p>
+                <p class="community-feedback community-feedback-error"><%= communityDescriptionError %></p>
+            <% } %>
+        </div>
+
     </section>
 </body>
 </html>
