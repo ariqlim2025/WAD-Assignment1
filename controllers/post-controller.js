@@ -19,7 +19,7 @@ exports.showPosts = async (req, res) => {
     // Get data from the database
     const posts = await Post.find().populate('authorId').populate('communityId');
     const comments = await Comment.find().lean();
-    const votes = await Vote.find().lean();
+    const votes = await Vote.retrieveAllVotes().lean();
     // console.log(posts);
     // console.log('here');
     // console.log(comments);
@@ -31,7 +31,7 @@ exports.showPosts = async (req, res) => {
         // Count how many comments belong to this post
         let count = 0;
         for (let k = 0; k < comments.length; k++) {
-            if (comments[k].postId === posts[i]._id) {
+            if (comments[k].postId.toString() === posts[i]._id.toString()) {
                 count++;
             }
         }
