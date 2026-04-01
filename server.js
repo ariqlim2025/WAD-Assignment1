@@ -3,13 +3,15 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
-const session = require('express-session')
+const session = require('express-session');
 
 
 // 2. root routes
 const post = require('./routes/post-routes');
 const vote = require('./routes/vote-routes');
-const bookmarkRoutes = require("./routes/bookmark-routes")
+const comment = require('./routes/comment-routes');
+const bookmarkRoutes = require("./routes/bookmark-routes");
+const community = require('./routes/community-routes');
 const user = require('./routes/user-routes');
 
 
@@ -42,7 +44,9 @@ server.use(session({
 // 6. use established root routes
 server.use('/', post);
 server.use('/', vote);
-server.use("/", bookmarkRoutes)
+server.use('/', comment);
+server.use('/', bookmarkRoutes);
+server.use('/', community);
 server.use('/', user);
 
 // async function to connect to DB
