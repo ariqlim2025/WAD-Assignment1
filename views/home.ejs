@@ -48,23 +48,20 @@
 
                     <!-- Post Content -->
                     <div class="post-content">
-                        <a href="/posts/<%= posts[i]._id %>" class="post-title">
 
+                        <!--------------------- WHEN USER CLICK THE COMMUNITY > VIEW POST COMMUNITIES ----------------------->
                         <!-- For the case where there is no community name -->
                         <!-- But all posts should have a community name -->
                         <% if (!posts[i].communityId) { %>
-
                             <h3>No community</h3>
-
-                        <% } else { %>
-                                                        
+                        <% } else { %>       
                             <a href="/communities/<%= posts[i].communityId.name %>" class="community-title">
                                 <h3><%= posts[i].communityId.name %></h3>
                             </a>
-
                         <% } %>
-
-                        <a href="" class="post-title">
+                        
+                        <!--------------------- WHEN USER CLICK THE POST TITLE > VIEW THE POST IN DETAIL ----------------------->
+                        <a href="/posts/<%= posts[i]._id %>" class="post-title">
                             <h3><%= posts[i].title %></h3>
                         </a>
                         <p class="post-author"><%= posts[i].author.username %></p>

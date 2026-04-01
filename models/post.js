@@ -13,7 +13,15 @@ const postSchema = new mongoose.Schema({
 const Post = mongoose.model('Post', postSchema);
 exports.Post = Post;
 
+exports.findAllPosts = () => {
+    return Post.find()
+}
+
 exports.findSinglePost = (postId) => {
     return Post.findById(postId)
+}
+
+exports.findPostsByCommunity = (communityId) => {
+    return Post.find({ communityId: communityId })
 }
 

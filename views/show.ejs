@@ -141,6 +141,8 @@
         }
     </style>
 </head>
+
+
 <body>
     <%- include('header') %>
 
@@ -180,11 +182,15 @@
 
             <!-- Comment Form -->
             <div class="comment-form-wrapper">
-                <h3>Leave a comment</h3>
-                <form action="./<%= currentPost._id %>" method="post">
-                    <textarea name="newComment" rows="4" placeholder="What are your thoughts?"></textarea>
-                    <button type="submit">Post Comment</button>
-                </form>
+                <% if (isAuthenticated) { %>
+                    <h3>Leave a comment</h3>
+                    <form action="./<%= currentPost._id %>" method="post">
+                        <textarea name="newComment" rows="4" placeholder="What are your thoughts?"></textarea>
+                        <button type="submit">Post Comment</button>
+                    </form>
+                <% } else { %>
+                    <h3>Please login to leave a comment</h3>
+                <% } %>
             </div>
         </div>
     </div>

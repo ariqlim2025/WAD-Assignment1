@@ -22,6 +22,13 @@ exports.addComment = (comment) => {
 // exports.editComment = (comment) => {
 //     return Comment
 // }
+exports.findAllComments = () => {
+    return Comment.find()
+}
+
+exports.findCommentsByPost = (postId) => {
+    return Comment.find({ postId: postId })
+}
 
 exports.retrieveComment = (commentId) => {
     return Comment.findById(commentId)

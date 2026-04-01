@@ -1,21 +1,13 @@
-// const bcrypt = require('bcrypt');
-const User   = require('../models/user');
-const Post   = require('../models/post');
+const Post = require('../models/post');
 const Comment = require('../models/comment');
 const Bookmark = require('../models/bookmark');
 const Vote = require('../models/vote');
 const Community = require('../models/community');
-const fs = require('fs/promises');
-const path = require('path');
-
-// const communities = path.join(__dirname, '../data/communities.json');
-
-// Get the user ID from the session
-const user_id = "69bf916c4e7188eacfdc67b0"; // hardcoded, swap to req.session.user_id once auth finish
 
 // Controller function to add a community
 exports.showCreateCommunityPage = (req, res) => {
-
+    // Get the userID from the session
+    const user_id = req.session.user?.user_id || null;
     res.render('createCommunity', { 
         user_id,
         community_name: '',
@@ -26,6 +18,8 @@ exports.showCreateCommunityPage = (req, res) => {
 }
 
 exports.createCommunity = async (req, res) => {
+    // Get the userID from the session
+    const user_id = req.session.user?.user_id || null;
 
     // To validate the name and the description
     const communityRegex = /^[A-Za-z0-9_]+$/;
@@ -129,6 +123,9 @@ exports.createCommunity = async (req, res) => {
 
 // show all communities page
 exports.showCommunitiesPage = async (req, res) => {
+    // Get the userID from the session
+    const user_id = req.session.user?.user_id || null;
+
     const communities = await Community.allCommunities();
 
     res.render('showCommunity', {
@@ -140,6 +137,8 @@ exports.showCommunitiesPage = async (req, res) => {
 // show the community that the user selected
 exports.showSelectedCommunity = async (req, res) => {
     try {
+        // Get the userID from the session
+        const user_id = req.session.user?.user_id || null;
         
         // get the community name from the url
         const { communitySlug } = req.params;
@@ -158,12 +157,12 @@ exports.showSelectedCommunity = async (req, res) => {
         }
 
         // if there is community, find all related posts
-        const posts = await Post.find({ communityId: selectedCommunity._id })
+        const posts = await Post.findPostsByCommunity(selectedCommunity._id)
             .populate('authorId')
             .populate('communityId');
         
         // find all related comments also
-        const comments = await Comment.find().lean();
+        const comments = await Comment.findAllComments().lean();
         const votes = await Vote.retrieveAllVotes().lean();
 
         for (let i = 0; i < posts.length; i++) {
@@ -194,7 +193,6 @@ exports.showSelectedCommunity = async (req, res) => {
         }
         posts.sort(compareByScore);
         // console.log(posts);
-
 
         if (user_id) {
             // Figure out which posts did the user upvote or downvote and add to the posts dict
@@ -243,6 +241,9 @@ exports.showSelectedCommunity = async (req, res) => {
 // show the edit community page
 exports.showEditCommunityPage = async (req, res) => {
     try {
+        // Get the userID from the session
+        const user_id = req.session.user?.user_id || null;
+        
         // get community name from url
         const { communitySlug } = req.params;
 
@@ -297,6 +298,8 @@ exports.showEditCommunityPage = async (req, res) => {
 
 // after checking if user is the creator, then they can update the community
 exports.updateCommunity = async (req, res) => {
+    // Get the userID from the session
+    const user_id = req.session.user?.user_id || null;
 
     // check the community name and description
     const communityRegex = /^[A-Za-z0-9_]+$/;
@@ -423,6 +426,9 @@ exports.updateCommunity = async (req, res) => {
 // to delete community
 exports.deleteCommunity = async (req, res) => {
     try {
+        // Get the userID from the session
+        const user_id = req.session.user?.user_id || null;
+
         // community name from url
         const { communitySlug } = req.params;
 

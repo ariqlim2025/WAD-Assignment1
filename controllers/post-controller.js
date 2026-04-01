@@ -1,33 +1,21 @@
-const { Post, findSinglePost }      = require('../models/post');
-const User      = require('../models/user');
-const Community = require('../models/community');
-const { Comment, addComment, removeComment } = require('../models/comment');
-const { Vote, retrieveAllVotes } = require('../models/vote');
-const Bookmark  = require('../models/bookmark');
+const Post = require('../models/post');
+const Comment = require('../models/comment');
+const Vote = require('../models/vote');
 
-const fs = require('fs/promises');
-const path = require('path');
 
-// Controller function to list home page with all posts
+// ------------ CONTROLLLER FUNCTION TO SHOW ALL POSTS ------------
 exports.showPosts = async (req, res) => {
-    // // Load JSON data (To switch to MongoDB later, will remove this)
-    // const users = JSON.parse(await fs.readFile(path.join(__dirname, '../data/users.json')));
-    // const posts = JSON.parse(await fs.readFile(path.join(__dirname, '../data/posts.json')));
-    // const comments = JSON.parse(await fs.readFile(path.join(__dirname, '../data/comments.json')));
-    // const votes = JSON.parse(await fs.readFile(path.join(__dirname, '../data/votes.json')));
     
     // Get data from the database
-    const posts = await Post.find().populate('authorId').populate('communityId');
-    const comments = await Comment.find().lean();
-    const votes = await retrieveAllVotes().lean();
-    // console.log(posts);
-    // console.log('here');
-    // console.log(comments);
+    const posts = await Post.findAllPosts().populate('authorId').populate('communityId');
+    const comments = await Comment.findAllComments().lean();
+    const votes = await Vote.retrieveAllVotes().lean();
 
     // For each post, attach the author and count its comment and (upvotes - downvotes)
     for (let i=0; i < posts.length; i++) {
         // Find the user whose _id mathces the post's authors ID
         posts[i].author = posts[i].authorId;
+
         // Count how many comments belong to this post
         let count = 0;
         for (let k = 0; k < comments.length; k++) {
@@ -52,10 +40,10 @@ exports.showPosts = async (req, res) => {
         return b.score - a.score;
     }
     posts.sort(compareByScore);
-    // console.log(posts);
 
+    // Get the current user ID from the session (else it would be null)
+    const currentUserId = req.session.user?.user_id || null;
 
-    const currentUserId = '69bf916c4e7188eacfdc67a6'; // hardcoded, swap to req.session.user_id once auth finish
     if (currentUserId) {
         // Figure out which posts did the user upvote or downvote and add to the posts dict
         for (let i = 0; i < posts.length; i++) {
@@ -79,44 +67,33 @@ exports.showPosts = async (req, res) => {
     res.render('home', {
         // Pass in all the posts data (posts + comments + author)
         posts: posts,
-        user_id: 'u001'
+        user_id: currentUserId
     })
-    // console.log(posts);
 };
-// Controller function to show a singular post 
+
+
+// ------------ CONTROLLLER FUNCTION TO SHOW A SINGLE POST DETAIL ------------
 exports.showSinglePost = async (req, res) => {
-
     try {
-        // Get data from database
-        const posts = await Post.find().populate('authorId').populate('communityId');
-        const comments = await Comment.find().populate('authorId');
-        const postId = req.params.id
+        // Get the selected post data
+        const postId = req.params.id;
+        const currentPost = await Post.findSinglePost(postId).populate('authorId').populate('communityId');
+        const comments = await Comment.findCommentsByPost(postId).populate('authorId');
 
-        let currentPost = posts.find(post => post._id.toString() === postId) || null; 
+        // get the community name
+        const community = currentPost.communityId.name || null;
 
-        let community;
-        let currentComments = [];
+        // get user authentication status
+        const currentUserId = req.session.user?.user_id || null;
 
-        if (currentPost) {
-            community = currentPost.communityId || null
-        }
-
-        comments.forEach((comment) => {
-            if (comment.postId.toString() === postId) {
-                currentComments.push(comment);
-            }
-        })
-
-
-        // console.log(currentPost);
-        // console.log(comments);
-
-        // console.log(currentComments)
-
-        res.render('show', {currentPost, community, currentComments, user_id : 'u001', isAuthenticated:true});
+        res.render('show', {
+            currentPost,
+            community,
+            currentComments: comments,
+            user_id: currentUserId,
+            isAuthenticated: !!currentUserId
+        });
     } catch (error) {
         res.status(500).send(`Error showing post: ${error.message}`);
     }
-
-
 };
