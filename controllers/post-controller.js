@@ -1,8 +1,8 @@
-const Post      = require('../models/post');
+const { Post, findSinglePost }      = require('../models/post');
 const User      = require('../models/user');
 const Community = require('../models/community');
-const Comment   = require('../models/comment');
-const Vote      = require('../models/vote');
+const { Comment, addComment, removeComment } = require('../models/comment');
+const { Vote, retrieveAllVotes } = require('../models/vote');
 const Bookmark  = require('../models/bookmark');
 
 const fs = require('fs/promises');
@@ -19,7 +19,7 @@ exports.showPosts = async (req, res) => {
     // Get data from the database
     const posts = await Post.find().populate('authorId').populate('communityId');
     const comments = await Comment.find().lean();
-    const votes = await Vote.retrieveAllVotes().lean();
+    const votes = await retrieveAllVotes().lean();
     // console.log(posts);
     // console.log('here');
     // console.log(comments);
@@ -82,4 +82,41 @@ exports.showPosts = async (req, res) => {
         user_id: 'u001'
     })
     // console.log(posts);
-}
+};
+// Controller function to show a singular post 
+exports.showSinglePost = async (req, res) => {
+
+    try {
+        // Get data from database
+        const posts = await Post.find().populate('authorId').populate('communityId');
+        const comments = await Comment.find().populate('authorId');
+        const postId = req.params.id
+
+        let currentPost = posts.find(post => post._id.toString() === postId) || null; 
+
+        let community;
+        let currentComments = [];
+
+        if (currentPost) {
+            community = currentPost.communityId || null
+        }
+
+        comments.forEach((comment) => {
+            if (comment.postId.toString() === postId) {
+                currentComments.push(comment);
+            }
+        })
+
+
+        // console.log(currentPost);
+        // console.log(comments);
+
+        // console.log(currentComments)
+
+        res.render('show', {currentPost, community, currentComments, user_id : 'u001', isAuthenticated:true});
+    } catch (error) {
+        res.status(500).send(`Error showing post: ${error.message}`);
+    }
+
+
+};

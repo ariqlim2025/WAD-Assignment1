@@ -9,8 +9,9 @@ const session = require('express-session');
 // 2. root routes
 const post = require('./routes/post-routes');
 const vote = require('./routes/vote-routes');
-const community = require('./routes/community-routes');
+const comment = require('./routes/comment-routes');
 const bookmarkRoutes = require("./routes/bookmark-routes");
+const community = require('./routes/community-routes');
 
 // --------------- DEFINE SERVER  -----------------
 // 1. start express application server
@@ -31,8 +32,9 @@ server.use(express.static('public'));
 // 6. use established root routes
 server.use('/', post);
 server.use('/', vote);
+server.use('/', comment);
+server.use('/', bookmarkRoutes);
 server.use('/', community);
-server.use("/", bookmarkRoutes);
 
 
 // specify the path to the environment variable file 'config.env'
