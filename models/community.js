@@ -9,4 +9,27 @@ const communitySchema = new mongoose.Schema({
 });
 
 const Community = mongoose.model('Community', communitySchema);
-module.exports = Community;
+// module.exports = Community;
+
+exports.createCommunity = function(newCommunity) {
+    return Community.create(newCommunity);
+};
+
+exports.findCommunity = function(community_name) {
+    return Community.findOne({ name: community_name });
+};
+
+exports.allCommunities = function() {
+    return Community.find();
+};
+
+exports.updateCommunityDetails = function(communityId, updates) {
+    return Community.updateOne(
+        { _id: communityId },
+        { $set: updates }
+    );
+};
+
+exports.deleteCommunity = function(communityId) {
+    return Community.deleteOne({ _id: communityId });
+};

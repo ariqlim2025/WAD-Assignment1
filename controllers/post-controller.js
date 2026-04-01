@@ -17,7 +17,7 @@ exports.showPosts = async (req, res) => {
     // const votes = JSON.parse(await fs.readFile(path.join(__dirname, '../data/votes.json')));
     
     // Get data from the database
-    const posts = await Post.find().populate('authorId');
+    const posts = await Post.find().populate('authorId').populate('communityId');
     const comments = await Comment.find().lean();
     const votes = await retrieveAllVotes().lean();
     // console.log(posts);
