@@ -1,5 +1,5 @@
 const { Post, findSinglePost }      = require('../models/post');
-const User      = require('../models/user');
+const { User, addUser, findByEmail, findByUsername, findByID, updateDetails, updatePassword, deleteUser} = require('../models/user');
 const Community = require('../models/community');
 const { Comment, addComment, removeComment } = require('../models/comment');
 const { Vote, retrieveAllVotes } = require('../models/vote');
@@ -90,7 +90,12 @@ exports.showSinglePost = async (req, res) => {
         // Get data from database
         const posts = await Post.find().populate('authorId').populate('communityId');
         const comments = await Comment.find().populate('authorId');
-        const postId = req.params.id
+        const postId = req.params.id;
+        const user_id = req.session.user.user_id; 
+        // placeholder
+        // const user_id = '69bf916c4e7188eacfdc67a7';
+
+        console.log(user_id)
 
         let currentPost = posts.find(post => post._id.toString() === postId) || null; 
 
@@ -108,12 +113,12 @@ exports.showSinglePost = async (req, res) => {
         })
 
 
-        // console.log(currentPost);
+        console.log(currentPost);
         // console.log(comments);
 
         // console.log(currentComments)
 
-        res.render('show', {currentPost, community, currentComments, user_id : 'u001', isAuthenticated:true});
+        res.render('show', {currentPost, community, currentComments, user_id});
     } catch (error) {
         res.status(500).send(`Error showing post: ${error.message}`);
     }
