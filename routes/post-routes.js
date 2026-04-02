@@ -9,7 +9,7 @@ router.get('/', authMiddleware.isLoggedIn, postController.showPosts);
 // GET route to display the createpost page
 router.get('/posts/new', authMiddleware.isLoggedIn, postController.showCreatePostPage);
 
-// GET route to display one single post
+// GET route to display one single post, from home.ejs
 router.get('/posts/:id', authMiddleware.isLoggedIn, postController.showSinglePost);
 
 //handles form submission

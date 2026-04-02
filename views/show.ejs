@@ -152,15 +152,24 @@
             <p class="post-meta">posted by u/<%= currentPost.authorId.username %> in <%= community.name %></p><br>
             <p class="post-body"><%= currentPost.content %></p>
         </div>
+        <% for (let error of errors) { %>
+            <p><%= error %></p>
+        <% } %>
 
         <!-- Comments Section -->
         <div class="comments-section">
             <h2>Comments (<%= currentComments.length %>)</h2>
 
+            <!-- Loop through array of comments, render each comment accordingly -->
+
             <% currentComments.forEach((comment) => { %>
                 <div class="comment">
+                    <!-- display username -->
                     <p class="comment-author">u/<%= comment.authorId.username %></p>
+                    <!-- display content -->
                     <p class="comment-text"><%= comment.content %></p>
+
+                    <!-- check if logged in user is the same as user who made the comment -->
                     <% let isAuthenticated; %>
 
                     <% if (comment.authorId._id.toString() === user_id) { %>
@@ -169,16 +178,23 @@
                         <% isAuthenticated = false %>
                     <% } %>
 
+                    <!-- if user is the author of the comment -->
+                    <!-- Render the edit and delete button -->
+
                     <% if (isAuthenticated) { %>
 
+                        <!-- Create edit button that sends u to edit-comment route (GET) -->
+
                         <form action="/posts/<%= currentPost._id %>/edit-comment" method="GET">
-                            <input type="hidden" name="commentId" value="<%= comment._id %>">
+                            <input type="hidden" name="commentId" value="<%= comment._id %>" required>
                             <!-- <%= comment._id%> -->
                             <button type="submit" class="link-btn">Edit</button>
                         </form>
 
+                        <!-- Create delete button that sends u to delete-comment route (POST) -->
+
                         <form action="/posts/<%= currentPost._id %>/delete-comment" method="POST">
-                            <input type="hidden" name="commentId" value="<%= comment._id %>">
+                            <input type="hidden" name="commentId" value="<%= comment._id %>" required>
                             <button type="submit" class="link-btn">Delete</button>
                         </form>
                     <% } %>
@@ -186,10 +202,12 @@
             <% }) %>
 
             <!-- Comment Form -->
+
+            <!-- Send back to same url (posts/:id) but as a POST method -->
             <div class="comment-form-wrapper">
                 <h3>Leave a comment</h3>
                 <form action="/posts/<%= currentPost._id %>/" method="post">
-                    <textarea name="newComment" rows="4" placeholder="What are your thoughts?"></textarea>
+                    <textarea name="newComment" rows="4" placeholder="What are your thoughts?" required></textarea>
                     <button type="submit">Post Comment</button>
                 </form>
             </div>
