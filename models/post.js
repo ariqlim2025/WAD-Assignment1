@@ -27,6 +27,13 @@ exports.createPost = function(newPost) {
     return Post.create(newPost);
 }
 
+exports.updatePostContent = function(_id, title, content) {
+    return Post.updateOne(
+        { _id },
+        { $set: { title, content, updatedAt }}
+    );
+}
+
 exports.deleteMany = function(filter) {
     return Post.deleteMany(filter);
 }
