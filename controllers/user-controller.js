@@ -13,7 +13,8 @@ exports.showRegister = async (req, res) => {
         ageError: undefined,
         username: undefined,
         email: undefined,
-        dateBirth: undefined
+        dateBirth: undefined,
+        success: undefined
     });
 };
 
@@ -39,7 +40,8 @@ exports.handleRegister = async (req, res) => {
             ageError,
             username,
             email,
-            dateBirth
+            dateBirth,
+            success
         });
     }
 
@@ -62,7 +64,8 @@ exports.handleRegister = async (req, res) => {
             ageError,
             username,
             email,
-            dateBirth
+            dateBirth,
+            success
         });
     }
 
@@ -77,7 +80,8 @@ exports.handleRegister = async (req, res) => {
             ageError,
             username,
             email,
-            dateBirth
+            dateBirth,
+            success
         });
     }
 
@@ -93,7 +97,8 @@ exports.handleRegister = async (req, res) => {
             ageError,
             username,
             email,
-            dateBirth
+            dateBirth,
+            success
         });
     }
 
@@ -108,7 +113,8 @@ exports.handleRegister = async (req, res) => {
             ageError,
             username,
             email,
-            dateBirth
+            dateBirth,
+            success
         });
     }
 
@@ -123,7 +129,8 @@ exports.handleRegister = async (req, res) => {
             ageError,
             username,
             email,
-            dateBirth
+            dateBirth,
+            success
         });
     }
 
@@ -142,13 +149,25 @@ exports.handleRegister = async (req, res) => {
             ageError,
             username,
             email,
-            dateBirth
+            dateBirth,
+            success
         });
     }
 
     const passwordHash = await bcrypt.hash(password, 10);
     await User.addUser(username, email, passwordHash, age);
-    res.redirect('/')
+    success = true;
+
+    res.render('register', {
+        usernameError,
+        emailError,
+        passError,
+        ageError,
+        username,
+        email,
+        dateBirth,
+        success
+    });
 };
 
 exports.showLogin = async (req, res) => {
@@ -374,6 +393,20 @@ exports.handlePass = async (req, res) => {
     [isPassValid, passError] = validPassword(password);
 
     if (!isPassValid) {
+        return res.render('forgetPass', { 
+            email, 
+            emailExists,
+            emailError: undefined,
+            passError,
+            password
+        });
+    }
+
+    const matchPrevious = await bcrypt.compare(password, userCreds.passwordHash);
+    
+    if (matchPrevious) {
+        passError = '<li>New password cannot be the same as the old password, u dummy!</li>';
+
         return res.render('forgetPass', { 
             email, 
             emailExists,

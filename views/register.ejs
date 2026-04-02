@@ -15,35 +15,41 @@
 
     <!-- Main Content -->
     <section class="main-content">
-        <form action="/register" method="post">
-            <h1>Register</h1>
-            <p>
-                <ul class="user-error-msg"><strong><%- usernameError %></strong></ul>
-                <strong>Username</strong><br>
-                <input type="text" name="username" value="<%= username %>" required>
-            </p>
-            <p>
-                <ul class="user-error-msg"><strong><%- emailError %></strong></ul>
-                <strong>Email</strong><br>
-                <input type="email" name="email" value="<%= email %>" required>
-            </p>
-            <p>
-                <ul class="user-error-msg"><strong><%- passError %></strong></ul>
-                <strong>Password</strong><br>
-                <input type="password" name="password" required>
-            </p>
-            <p>
-                <strong>Confirm Password</strong><br>
-                <input type="password" name="confirmPassword" required>
-            </p>
-            <p>
-                <ul class="user-error-msg"><strong><%- ageError %></strong></ul>
-                <strong>Date of Birth</strong><br>
-                <input type="date" name="dateBirth" value="<%= dateBirth %>" required>
-            </p>
-            <input type="submit" value="Register">
-        </form>
-        <p>Already have an account? Log in <a href="/login">here.</a></p>
+        <div <%= success ? "hidden" : "" %> >
+            <form action="/register" method="post">
+                <h1>Register</h1>
+                <p>
+                    <ul class="user-error-msg"><strong><%- usernameError %></strong></ul>
+                    <strong>Username</strong><br>
+                    <input type="text" name="username" value="<%= username %>" required>
+                </p>
+                <p>
+                    <ul class="user-error-msg"><strong><%- emailError %></strong></ul>
+                    <strong>Email</strong><br>
+                    <input type="email" name="email" value="<%= email %>" required>
+                </p>
+                <p>
+                    <ul class="user-error-msg"><strong><%- passError %></strong></ul>
+                    <strong>Password</strong><br>
+                    <input type="password" name="password" required>
+                </p>
+                <p>
+                    <strong>Confirm Password</strong><br>
+                    <input type="password" name="confirmPassword" required>
+                </p>
+                <p>
+                    <ul class="user-error-msg"><strong><%- ageError %></strong></ul>
+                    <strong>Date of Birth</strong><br>
+                    <input type="date" name="dateBirth" value="<%= dateBirth %>" required>
+                </p>
+                <input type="submit" value="Register">
+            </form>
+            <p>Already have an account? Log in <a href="/login">here.</a></p>
+        </div>
+        <div <%= success ? "" : "hidden" %>>
+            <h2>Registration successful! Please log in now.</h2>
+            <p><a href="/login"><input type="button" value="Log in"></a></p>
+        </div>
     </section>
 </body>
 </html>
