@@ -14,5 +14,6 @@ router.get('/forgetPass', userController.showForget);
 router.post('/forgetPass', userController.handlePass);
 router.get('/deleteAccount', authMiddleware.isLoggedIn, userController.showDelete);
 router.post('/deleteAccount', authMiddleware.isLoggedIn, userController.handleDelete);
+router.get('/logout', authMiddleware.isLoggedIn, userController.handleLogout);
 
 module.exports = router;

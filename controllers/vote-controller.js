@@ -1,19 +1,10 @@
-const Post      = require('../models/post');
-const Community = require('../models/community');
-const Comment   = require('../models/comment');
 const Vote      = require('../models/vote');
-const Bookmark  = require('../models/bookmark');
-
-const fs = require('fs/promises');
-const path = require('path');
-
-const votes = path.join(__dirname, '../data/votes.json');
+const Post = require('../models/post');
 
 // Controller function to add a vote to a post
 exports.addVote = async (req, res) => {
 
-    // Get the user ID from the session
-    const userId = "69bf916c4e7188eacfdc67a6"; // hardcoded, swap to req.session.user_id once auth finish
+    const user_id = req.session.user.user_id;
 
     // Read the vote data from the post that is being selected
     const vote_data = req.body;
@@ -29,19 +20,16 @@ exports.addVote = async (req, res) => {
 
     // Validation - if database down / load fail
     try {
-        // Check if the user has already voted on this post and what was his vote
-        const existingVote = await Vote.findOneVote(userId, postId);    
+        const post = await Post.findById(postId);
 
-        // console.log(existingVote);
+        if (!post) {
+            return res.status(404).send('Post not found');
+        }
+
+        // Check if the user has already voted on this post and what was his vote
+        const existingVote = await Vote.findOneVote(user_id, postId);
+
         if (existingVote) {
-            // check if user upvoted or downvoted
-            // console.log(existingVote);
-            // {
-            //     _id: new ObjectId('69bf916c4e7188eacfdc67ff'),
-            //     userId: new ObjectId('69bf916c4e7188eacfdc67a6'),
-            //     postId: new ObjectId('69bf916c4e7188eacfdc67ca'),
-            //     value: 1,
-            // }
             const current_vote = existingVote.value;
 
             // if he vote the different thing > update database > reload '/' page (vote will minus 2)
@@ -54,7 +42,7 @@ exports.addVote = async (req, res) => {
             }
         }
         else {
-            await Vote.createOneVote(userId, postId, selected_value);
+            await Vote.createOneVote(user_id, postId, selected_value);
         }
         // res.redirect('/');
         // stay on current page instead of redirecting back to root page

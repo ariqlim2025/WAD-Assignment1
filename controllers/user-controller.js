@@ -1,26 +1,20 @@
 const bcrypt = require('bcrypt');
 const User   = require('../models/user');
-const Post   = require('../models/post');
-const Comment = require('../models/comment');
-const Bookmark = require('../models/bookmark');
 
 exports.showRegister = async (req, res) => {
-    // Redirects user to profile if already logged in
-    try {
-        if (req.session.user.user_id) {
-            res.redirect('/profile');
-        }
-    } catch (err) {
-        res.render("register", {
-            usernameError: undefined, 
-            emailError: undefined, 
-            passError: undefined,
-            ageError: undefined,
-            username: undefined,
-            email: undefined,
-            dateBirth: undefined
-        });
+    if (req.session.user && req.session.user.user_id) {
+        return res.redirect('/');
     }
+
+    res.render("register", {
+        usernameError: undefined, 
+        emailError: undefined, 
+        passError: undefined,
+        ageError: undefined,
+        username: undefined,
+        email: undefined,
+        dateBirth: undefined
+    });
 };
 
 exports.handleRegister = async (req, res) => {
@@ -36,16 +30,41 @@ exports.handleRegister = async (req, res) => {
     let passError = '';
     let ageError = '';
 
+    if (!dateBirth || dateBirth.indexOf('-') === -1) {
+        ageError = '<li>Date of birth is required</li>';
+        return res.render('register', {
+            usernameError,
+            emailError,
+            passError,
+            ageError,
+            username,
+            email,
+            dateBirth
+        });
+    }
+
     // Get birth date and current date for calculating age
     let [bYear, bMonth, bDay] = dateBirth.split('-');
-    birthDate = new Date(parseInt(bYear), parseInt(bMonth)-1, parseInt(bDay));
-    currDate = new Date();
+    const birthDate = new Date(parseInt(bYear), parseInt(bMonth)-1, parseInt(bDay));
+    const currDate = new Date();
 
     // Gets age and checks for date if birthday has passed
     let age = currDate.getFullYear() - birthDate.getFullYear();
     let monthDiff = currDate.getMonth() - birthDate.getMonth();
     if (monthDiff < 0 || (monthDiff === 0 && currDate.getDate() < birthDate.getDate())) { age--; }
     if (age < 13) { ageError = '<li>You must be 13 and above to use the app!</li>'; }
+
+    if (ageError) {
+        return res.render('register', {
+            usernameError,
+            emailError,
+            passError,
+            ageError,
+            username,
+            email,
+            dateBirth
+        });
+    }
 
     // Check if password and confirm password matches, else send error message
     if (password != conf_password) {
@@ -128,19 +147,16 @@ exports.handleRegister = async (req, res) => {
     }
 
     const passwordHash = await bcrypt.hash(password, 10);
-    User.addUser(username, email, passwordHash, age);
+    await User.addUser(username, email, passwordHash, age);
     res.redirect('/')
 };
 
 exports.showLogin = async (req, res) => {
-    // Redirects user to profile if already logged in
-    try {
-        if (req.session.user.user_id) {
-            res.redirect('/profile');
-        }
-    } catch (err) {
-        res.render("login", { loginCred: undefined, loginMsg: undefined });
+    if (req.session.user && req.session.user.user_id) {
+        return res.redirect('/');
     }
+
+    res.render("login", { loginCred: undefined, loginMsg: undefined });
 };
 
 exports.handleLogin = async (req, res) => {
@@ -152,6 +168,7 @@ exports.handleLogin = async (req, res) => {
     const emailCheck = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     let userCreds = emailCheck.test(loginCred) ? await User.findByEmail(loginCred) : await User.findByUsername(loginCred);
+
     let match = userCreds ? await bcrypt.compare(password, userCreds.passwordHash) : null;
     let loginMsg = !match ? 'Incorrect username or password' : '';
 
@@ -162,13 +179,20 @@ exports.handleLogin = async (req, res) => {
         };
     }
 
-    if (req.session.user) { return res.redirect('/profile'); }
+    if (req.session.user) { return res.redirect('/'); }
     res.render("login", { loginCred, loginMsg });
 };
 
 exports.showProfile = async (req, res) => {
     const user_id = req.session.user.user_id;
-    const userCreds = await User.findByID(_id = user_id);
+    const userCreds = await User.findByID(user_id);
+
+    if (!userCreds) {
+        req.session.destroy(function() {
+            res.redirect('/login');
+        });
+        return;
+    }
 
     let username = userCreds.username;
     let email = userCreds.email;
@@ -186,7 +210,14 @@ exports.showProfile = async (req, res) => {
 
 exports.handleProfile = async (req, res) => {
     const user_id = req.session.user.user_id;
-    const userCreds = await User.findByID(_id = user_id);
+    const userCreds = await User.findByID(user_id);
+
+    if (!userCreds) {
+        req.session.destroy(function() {
+            res.redirect('/login');
+        });
+        return;
+    }
 
     // Current values
     let username = userCreds.username;
@@ -211,7 +242,9 @@ exports.handleProfile = async (req, res) => {
         [isUsernameValid, userError] = validUsername(new_username);
         const existingUser = isUsernameValid ? await User.findByUsername(new_username) : null;
 
-        if (existingUser) { userError = '<li>Username already exists</li>'; }
+        if (existingUser && existingUser._id.toString() !== user_id.toString()) {
+            userError = '<li>Username already exists</li>';
+        }
     }
 
     if (emailCheck) {
@@ -219,7 +252,9 @@ exports.handleProfile = async (req, res) => {
         [isEmailValid, emailError] = validEmail(new_email);
         const existingEmail = isEmailValid ? await User.findByEmail(new_email) : null;
 
-        if (existingEmail) { emailError = '<li>Email already exists</li>'; }
+        if (existingEmail && existingEmail._id.toString() !== user_id.toString()) {
+            emailError = '<li>Email already exists</li>';
+        }
     }
 
     // If error then render
@@ -240,7 +275,7 @@ exports.handleProfile = async (req, res) => {
     if (bioCheck) { bio = new_bio ; }
 
     // Updates values in DB
-    await User.updateDetails(_id = user_id, email, username, bio);
+    await User.updateDetails(user_id, email, username, bio);
     res.render('profile', {
         username, 
         email, 
@@ -300,6 +335,16 @@ exports.handlePass = async (req, res) => {
     const userCreds = await User.findByEmail(email);
     let passError = '';
 
+    if (!userCreds) {
+        return res.render('forgetPass', {
+            email,
+            emailExists: false,
+            emailError: 'Email does not exist',
+            passError: undefined,
+            password: undefined
+        });
+    }
+
     // Checks if password field has any input (if none means user just passed GET form)
     if (!password) {
         return res.render('forgetPass', {
@@ -343,7 +388,7 @@ exports.handlePass = async (req, res) => {
     const passwordHash = await bcrypt.hash(password, 10);
 
     // Update DB with new password
-    await User.updatePassword(_id = user_id, passwordHash);
+    await User.updatePassword(user_id, passwordHash);
     
     res.render('forgetPass', { 
         email, 
@@ -361,9 +406,16 @@ exports.showDelete = (req, res) => {
 exports.handleDelete = async (req, res) => {
     const user_id = req.session.user.user_id;
     const password = req.body.password;
-    const userCreds = await User.findByID(_id = user_id);
+    const userCreds = await User.findByID(user_id);
     let passError = '';
     let accountDeleted = false;
+
+    if (!userCreds) {
+        req.session.destroy(function() {
+            res.redirect('/login');
+        });
+        return;
+    }
 
     // Comparing input field with user password
     const match = await bcrypt.compare(password, userCreds.passwordHash);
@@ -376,10 +428,17 @@ exports.handleDelete = async (req, res) => {
 
     // Delete user account
     console.log('deleting account...')
-    await User.deleteUser(_id = user_id)
+    await User.deleteUser(user_id)
+    req.session.destroy(function() {});
     accountDeleted = true;
 
     res.render('deleteAccount', { passError, accountDeleted });
+}
+
+exports.handleLogout = async (req, res) => {
+    req.session.destroy(function() {
+        res.redirect('/login');
+    });
 }
 
 function validUsername(username) {

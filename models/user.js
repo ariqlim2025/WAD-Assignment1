@@ -52,5 +52,3 @@ exports.updatePassword = function(_id, passwordHash) {
 exports.deleteUser =  async function(_id) {
     await User.deleteOne({ _id });
 }
-
-// module.exports = User;

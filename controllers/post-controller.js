@@ -1,232 +1,244 @@
-const { Post, findSinglePost }      = require('../models/post');
-const { User, addUser, findByEmail, findByUsername, findByID, updateDetails, updatePassword, deleteUser} = require('../models/user');
-//import models
-const Post      = require('../models/post');
-const User      = require('../models/user');
+const Post = require('../models/post');
 const Community = require('../models/community');
-const { Comment, addComment, removeComment } = require('../models/comment');
-const { Vote, retrieveAllVotes } = require('../models/vote');
-const Bookmark  = require('../models/bookmark');
-
+const Comment = require('../models/comment');
+const Vote = require('../models/vote');
+const Bookmark = require('../models/bookmark');
 
 // Controller function to list home page with all posts
 exports.showPosts = async (req, res) => {
     try {
-        // Get data from the database
-        const postId = req.query.id; // get id from URL
-        const currentUserId = '69bf916c4e7188eacfdc67a6' // hardcoded, swap to req.session.user_id once auth finish
+        const postId = req.query.id;
+        const user_id = req.session.user.user_id;
+        const communities = await Community.allCommunities();
 
-        // find a specific post and populate author details 
-        //const communities = await Community.find().lean();
-
-        const communities = [
-        { _id: '650000000000000000000001', name: 'javascript' },
-        { _id: '650000000000000000000002', name: 'webdev' },
-        { _id: '650000000000000000000003', name: 'funny' }
-        ]
-
-        if (postId){
+        // Edit page flow (kept from current app behaviour)
+        if (postId) {
             const post = await Post.findById(postId).populate('authorId');
 
             if (!post) {
                 return res.send("Post not found");
             }
-            // pass currentUserId so that EJS
+
             return res.render('posts', {
-                post:post,
-                communityList:communities,
-                currentUserId: currentUserId
+                post: post,
+                communities: communities,
+                currentUserId: user_id,
+                user_id: user_id
             });
         }
 
-        const posts = await Post.find().populate('authorId');
-        const comments = await Comment.find().lean();
-        const votes = await Vote.find().lean();
+        const posts = await Post.find().populate('authorId').populate('communityId');
+        const comments = await Comment.find();
+        const votes = await Vote.find();
 
-        // For each post, attach the author and count its comment and (upvotes - downvotes)
-        for (let i=0; i < posts.length; i++) {
-        // Find the user whose _id matches the post's authors ID
-        posts[i].author = posts[i].authorId 
-        // Count how many comments belong to this post
-        let count = 0;
-        for (let k = 0; k < comments.length; k++) {
-            // if comment postid is the same as postid, +1 to the count of the comment 
-            if (comments[k].postId === posts[i]._id) {
-                count++;
+        for (let i = 0; i < posts.length; i++) {
+            if (posts[i].authorId) {
+                posts[i].author = posts[i].authorId;
             }
-        }
-        posts[i].commentCount = count;
+            else {
+                posts[i].author = { username: 'deleted_user' };
+            }
 
-        // Count how many upvotes and downvotes the post has
-        let score = 0;
-        for (let v = 0; v < votes.length; v++) {
-            // if votes postid is the same as postid, +1 or -1 to the count of the votes 
-            if (votes[v].postId.toString() === posts[i]._id.toString()) {
-                // add or minus from the score according to if the votes.value is +1 or -1 
-                score += votes[v].value;
+            let count = 0;
+            for (let k = 0; k < comments.length; k++) {
+                if (comments[k].postId && comments[k].postId.toString() === posts[i]._id.toString()) {
+                    count++;
+                }
             }
+            posts[i].commentCount = count;
+
+            let score = 0;
+            for (let v = 0; v < votes.length; v++) {
+                if (votes[v].postId && votes[v].postId.toString() === posts[i]._id.toString()) {
+                    score += votes[v].value;
+                }
+            }
+            posts[i].score = score;
         }
-        // display the score
-        posts[i].score = score;
-    }
-    
-        // Create a function to sort the posts object by vote score, highest at the top 
-        function compareByScore(a,b) {
+
+        function compareByScore(a, b) {
             return b.score - a.score;
         }
         posts.sort(compareByScore);
-        // console.log(posts);
 
-
-        if (currentUserId) {
-            // Figure out which posts did the user upvote or downvote and add to the posts dict
-            // check if the user upvote, downvote or never vote
-            for (let i = 0; i < posts.length; i++) {
-                posts[i].userVote = 0;
-                for (let v=0; v < votes.length; v++) {
-                    if ((votes[v].postId.toString() === posts[i]._id.toString()) && (votes[v].userId.toString() === currentUserId)) {
-                        posts[i].userVote = votes[v].value;
-                        break;
-                    }
+        for (let i = 0; i < posts.length; i++) {
+            posts[i].userVote = 0;
+            for (let v = 0; v < votes.length; v++) {
+                if (
+                    votes[v].postId &&
+                    votes[v].userId &&
+                    votes[v].postId.toString() === posts[i]._id.toString() &&
+                    votes[v].userId.toString() === user_id.toString()
+                ) {
+                    posts[i].userVote = votes[v].value;
+                    break;
                 }
             }
         }
-        else {
-            // If user is not logged in, set all posts' userVote to 0
-            for (let i = 0; i < posts.length; i++) {
-                posts[i].userVote = 0;
-            }
-        }
 
-        // Render the home page
         res.render('home', {
-            // Pass in all the posts data (posts + comments + author)
             posts: posts,
-            user_id: 'u001',
-            communityList: communities,
-            currentUserId: currentUserId
-        })
-        // console.log(posts);
-        } catch (err) {
-        console.error(err);
-        res.send("Error loading posts")
-        }
-    };
-
-//create post
-exports.createpost = async(req,res) => {
-    try {
-        // Get data from database
-        const posts = await Post.find().populate('authorId').populate('communityId');
-        const comments = await Comment.find().populate('authorId');
-        const postId = req.params.id;
-        const user_id = req.session.user.user_id; 
-        // placeholder
-        // const user_id = '69bf916c4e7188eacfdc67a7';
-
-        console.log(user_id)
-
-        let currentPost = posts.find(post => post._id.toString() === postId) || null; 
-
-        let community;
-        let currentComments = [];
-
-        if (currentPost) {
-            community = currentPost.communityId || null
-        }
-
-        comments.forEach((comment) => {
-            if (comment.postId.toString() === postId) {
-                currentComments.push(comment);
-            }
-        })
-
-
-        console.log(currentPost);
-        // console.log(comments);
-
-        // console.log(currentComments)
-
-        res.render('show', {currentPost, community, currentComments, user_id});
-    } catch (error) {
-        res.status(500).send(`Error showing post: ${error.message}`);
-        // get data sent from HTML form
-        const {title, content,communityId} = req.body;
-
-        const currentUserId = '69bf916c4e7188eacfdc67a6'
-
-        //Create a new post object using the MongoDB schema 
-        const newPost = new Post({
-            title: title, //post title
-            content: content, // post content
-            authorId : currentUserId, // who created post
-            communityId: communityId || null // optional, can be null
+            communities: communities,
+            currentUserId: user_id,
+            user_id: user_id
         });
-
-        // save post into mongodb
-        await newPost.save();
-
-        // after saving, redirect to homepage and go back to the homepage
-        res.redirect('/?message=Post created successfully!');
-    } catch(err){
-        // if any error happens show error message and go back to the create page
+    } catch (err) {
         console.error(err);
-        res.send('/create?message=Error creating post');
+        res.send("Error loading posts");
     }
 };
 
-// update post 
-
-exports.updatePost = async(req,res) => {
+// Show create-post page
+exports.showCreatePostPage = async (req, res) => {
     try {
-        const {postId, title, content } = req.body;
+        const communities = await Community.allCommunities();
+        const user_id = req.session.user.user_id;
 
-        const currentUserId = '69bf916c4e7188eacfdc67a6';
+        res.render('posts', {
+            post: null,
+            communities: communities,
+            currentUserId: user_id,
+            user_id: user_id
+        });
+    } catch (error) {
+        console.error(error);
+        res.send("Error loading create post page");
+    }
+};
+
+// Show single post page with comments
+exports.showSinglePost = async (req, res) => {
+    try {
+        const postId = req.params.id;
+        const user_id = req.session.user.user_id;
+
+        const currentPost = await Post.findById(postId).populate('authorId').populate('communityId');
+
+        if (!currentPost) {
+            return res.send("Post not found");
+        }
+
+        const currentComments = await Comment.find({ postId: postId }).populate('authorId');
+        let community;
+        if (currentPost.communityId) {
+            community = currentPost.communityId;
+        }
+        else {
+            community = { name: "No community" };
+        }
+
+        if (!currentPost.authorId) {
+            currentPost.authorId = { username: 'deleted_user' };
+        }
+
+        for (let i = 0; i < currentComments.length; i++) {
+            if (!currentComments[i].authorId) {
+                currentComments[i].authorId = { _id: 'deleted', username: 'deleted_user' };
+            }
+        }
+
+        res.render('show', {
+            currentPost: currentPost,
+            community: community,
+            currentComments: currentComments,
+            user_id: user_id
+        });
+    } catch (error) {
+        console.error(error);
+        res.send("Error showing post");
+    }
+};
+
+// Create post
+exports.createPost = async (req, res) => {
+    try {
+        const title = (req.body.title || '').trim();
+        const content = (req.body.content || '').trim();
+        const communityId = req.body.communityId;
+        const user_id = req.session.user.user_id;
+        const selectedCommunity = await Community.findCommunityById(communityId);
+
+        if (!title || !content) {
+            return res.send("Title and content are required");
+        }
+
+        if (!communityId) {
+            return res.send("Community is required");
+        }
+
+        if (!selectedCommunity) {
+            return res.send("Community not found");
+        }
+
+        const newPost = {
+            title: title,
+            content: content,
+            authorId: user_id,
+            communityId: communityId || null
+        };
+
+        await Post.createPost(newPost);
+        res.redirect('/');
+    } catch (err) {
+        console.error(err);
+        res.send("Error creating post");
+    }
+};
+
+// Update post
+exports.updatePost = async (req, res) => {
+    try {
+        const postId = req.body.postId;
+        const title = (req.body.title || '').trim();
+        const content = (req.body.content || '').trim();
+        const user_id = req.session.user.user_id;
 
         const post = await Post.findById(postId);
 
-        if (!post){
+        if (!post) {
             return res.send('Post not found');
         }
 
-        if (post.authorId.toString() !== currentUserId) {
+        if (post.authorId.toString() !== user_id.toString()) {
             return res.send('Unauthorized');
         }
 
+        if (!title || !content) {
+            return res.send('Title and content are required');
+        }
 
-    post.title = title;
-    post.content = content;
-    post.updatedAt = new Date();
+        post.title = title;
+        post.content = content;
+        post.updatedAt = new Date();
 
-    await post.save();
-    
-    res.redirect('/');
-
-} catch(err) {
-    console.error(err);
-    res.send('Error updating post');
+        await post.save();
+        res.redirect('/');
+    } catch (err) {
+        console.error(err);
+        res.send('Error updating post');
     }
 };
 
-//delete post
-exports.deletePost = async(req,res) => {
+// Delete post
+exports.deletePost = async (req, res) => {
     try {
-        const {postId} = req.body;
+        const postId = req.body.postId;
+        const user_id = req.session.user.user_id;
         const post = await Post.findById(postId);
-        const currentUserId = '69bf916c4e7188eacfdc67a6'
 
-        // authenticate
         if (!post) {
             return res.send("Post not found");
         }
 
-        if (post.authorId.toString() !== currentUserId.toString()){
-            return res.send("Unauthorized: You cannot delete posts that do not belong to you")
+        if (post.authorId.toString() !== user_id.toString()) {
+            return res.send("Unauthorized: You cannot delete posts that do not belong to you");
         }
 
+        await Comment.deleteMany({ postId: postId });
+        await Vote.deleteMany({ postId: postId });
+        await Bookmark.deleteMany({ postId: postId });
         await Post.findByIdAndDelete(postId);
         res.redirect('/');
-
     } catch (err) {
         console.error(err);
         res.send("Error deleting post. Please try again.");

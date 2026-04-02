@@ -2,19 +2,18 @@ const express = require('express')
 const router = express.Router()
 
 const bookmarkController = require("../controllers/bookmark-controller")
+const authMiddleware = require('./../middleware/auth-middleware');
 
-// need to add middleware function to check if user is logged in for every route
+router.get("/bookmarks", authMiddleware.isLoggedIn, bookmarkController.showBookmarks) 
 
-router.get("/bookmarks", bookmarkController.showBookmarks) 
+router.post("/bookmarks", authMiddleware.isLoggedIn, bookmarkController.createBookmark)
 
-router.post("/bookmarks", bookmarkController.createBookmark)
+router.get("/addBookmark", authMiddleware.isLoggedIn, bookmarkController.showAddBookmarkForm)
 
-router.get("/addBookmark", bookmarkController.showAddBookmarkForm)
+router.get("/bookmarks/edit", authMiddleware.isLoggedIn, bookmarkController.showEditBookmarkForm)
 
-router.get("/bookmarks/edit", bookmarkController.showEditBookmarkForm)
+router.post("/bookmarks/edit", authMiddleware.isLoggedIn, bookmarkController.editBookmark)
 
-router.post("/bookmarks/edit", bookmarkController.editBookmark)
-
-router.post("/bookmarks/delete", bookmarkController.deleteBookmark)
+router.post("/bookmarks/delete", authMiddleware.isLoggedIn, bookmarkController.deleteBookmark)
 
 module.exports = router;

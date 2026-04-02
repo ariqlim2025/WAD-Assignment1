@@ -171,13 +171,13 @@
 
                     <% if (isAuthenticated) { %>
 
-                        <form action="./<%= currentPost._id %>/edit-comment" method="GET">
+                        <form action="/posts/<%= currentPost._id %>/edit-comment" method="GET">
                             <input type="hidden" name="commentId" value="<%= comment._id %>">
                             <!-- <%= comment._id%> -->
                             <button type="submit" class="link-btn">Edit</button>
                         </form>
 
-                        <form action="./<%= currentPost._id %>/delete-comment" method="POST">
+                        <form action="/posts/<%= currentPost._id %>/delete-comment" method="POST">
                             <input type="hidden" name="commentId" value="<%= comment._id %>">
                             <button type="submit" class="link-btn">Delete</button>
                         </form>
@@ -188,7 +188,7 @@
             <!-- Comment Form -->
             <div class="comment-form-wrapper">
                 <h3>Leave a comment</h3>
-                <form action="./<%= currentPost._id %>" method="post">
+                <form action="/posts/<%= currentPost._id %>/" method="post">
                     <textarea name="newComment" rows="4" placeholder="What are your thoughts?"></textarea>
                     <button type="submit">Post Comment</button>
                 </form>

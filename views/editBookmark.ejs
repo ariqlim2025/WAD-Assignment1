@@ -14,7 +14,7 @@
   <form action="/bookmarks/edit" method="POST">
     <input type="hidden" name="postId" value="<%= bookmark.postId._id %>">
     <p><label for="note"><strong>Note</strong></label></p>
-    <textarea name="note" id="note" rows="4" cols="40"><%= bookmark.note %></textarea>
+    <textarea name="note" id="note" rows="4" cols="40" required><%= bookmark.note %></textarea>
     <br><br>
     <button type="submit">Save</button>
     &nbsp;

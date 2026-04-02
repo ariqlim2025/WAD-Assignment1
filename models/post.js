@@ -11,9 +11,27 @@ const postSchema = new mongoose.Schema({
 });
 
 const Post = mongoose.model('Post', postSchema);
-exports.Post = Post;
+exports.find = function(filter) {
+    return Post.find(filter);
+}
 
-exports.findSinglePost = (postId) => {
-    return Post.findById(postId)
+exports.findById = function(postId) {
+    return Post.findById(postId);
+}
+
+exports.findSinglePost = function(postId) {
+    return Post.findById(postId);
+}
+
+exports.createPost = function(newPost) {
+    return Post.create(newPost);
+}
+
+exports.deleteMany = function(filter) {
+    return Post.deleteMany(filter);
+}
+
+exports.findByIdAndDelete = function(postId) {
+    return Post.findByIdAndDelete(postId);
 }
 

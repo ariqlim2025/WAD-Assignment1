@@ -9,9 +9,6 @@ const voteSchema = new mongoose.Schema({
 });
 
 const Vote = mongoose.model('Vote', voteSchema);
-
-exports.Vote = Vote;
-
 // ----- Vote Methods -----
 // Retrieve all votes
 exports.retrieveAllVotes = function() {
@@ -34,4 +31,10 @@ exports.createOneVote = function(userId, postId, value) {
     return Vote.create({ userId: userId, postId: postId, value: value });
 }
 
-// module.exports = Vote;
+exports.find = function(filter) {
+    return Vote.find(filter);
+}
+
+exports.deleteMany = function(filter) {
+    return Vote.deleteMany(filter);
+}

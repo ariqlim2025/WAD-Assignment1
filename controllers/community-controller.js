@@ -1,20 +1,12 @@
-// const bcrypt = require('bcrypt');
-const User   = require('../models/user');
-const Post   = require('../models/post');
+const Post = require('../models/post');
 const Comment = require('../models/comment');
 const Bookmark = require('../models/bookmark');
 const Vote = require('../models/vote');
 const Community = require('../models/community');
-const fs = require('fs/promises');
-const path = require('path');
-
-// const communities = path.join(__dirname, '../data/communities.json');
-
-// Get the user ID from the session
-const user_id = "69bf916c4e7188eacfdc67b0"; // hardcoded, swap to req.session.user_id once auth finish
 
 // Controller function to add a community
 exports.showCreateCommunityPage = (req, res) => {
+    const user_id = req.session.user.user_id;
 
     res.render('createCommunity', { 
         user_id,
@@ -26,6 +18,7 @@ exports.showCreateCommunityPage = (req, res) => {
 }
 
 exports.createCommunity = async (req, res) => {
+    const user_id = req.session.user.user_id;
 
     // To validate the name and the description
     const communityRegex = /^[A-Za-z0-9_]+$/;
@@ -36,8 +29,16 @@ exports.createCommunity = async (req, res) => {
     let communityDescriptionError = '';
 
     // Get the community name and description from the request body
-    const community_name = (req.body.community ?? '').trim();
-    const description_details = (req.body.description ?? '').trim();
+    let community_name = '';
+    let description_details = '';
+
+    if (req.body.community) {
+        community_name = req.body.community.trim();
+    }
+
+    if (req.body.description) {
+        description_details = req.body.description.trim();
+    }
 
     // validation for community name
     if (!community_name) {
@@ -129,6 +130,7 @@ exports.createCommunity = async (req, res) => {
 
 // show all communities page
 exports.showCommunitiesPage = async (req, res) => {
+    const user_id = req.session.user.user_id;
     const communities = await Community.allCommunities();
 
     res.render('showCommunity', {
@@ -140,6 +142,7 @@ exports.showCommunitiesPage = async (req, res) => {
 // show the community that the user selected
 exports.showSelectedCommunity = async (req, res) => {
     try {
+        const user_id = req.session.user.user_id;
         
         // get the community name from the url
         const { communitySlug } = req.params;
@@ -163,16 +166,21 @@ exports.showSelectedCommunity = async (req, res) => {
             .populate('communityId');
         
         // find all related comments also
-        const comments = await Comment.find().lean();
-        const votes = await Vote.retrieveAllVotes().lean();
+        const comments = await Comment.find();
+        const votes = await Vote.find();
 
         for (let i = 0; i < posts.length; i++) {
             // Find the user whose _id mathces the post's authors ID
-            posts[i].author = posts[i].authorId;
+            if (posts[i].authorId) {
+                posts[i].author = posts[i].authorId;
+            }
+            else {
+                posts[i].author = { username: 'deleted_user' };
+            }
             // Count how many comments belong to this post
             let count = 0;
             for (let k = 0; k < comments.length; k++) {
-                if (comments[k].postId.toString() === posts[i]._id.toString()) {
+                if (comments[k].postId && comments[k].postId.toString() === posts[i]._id.toString()) {
                     count++;
                 }
             }
@@ -181,7 +189,7 @@ exports.showSelectedCommunity = async (req, res) => {
             // Count how many upvotes and downvotes the post has
             let score = 0;
             for (let v = 0; v < votes.length; v++) {
-                if (votes[v].postId.toString() === posts[i]._id.toString()) {
+                if (votes[v].postId && votes[v].postId.toString() === posts[i]._id.toString()) {
                     score += votes[v].value;
                 }
             }
@@ -201,9 +209,11 @@ exports.showSelectedCommunity = async (req, res) => {
             for (let i = 0; i < posts.length; i++) {
                 posts[i].userVote = 0;
                 for (let v=0; v < votes.length; v++) {
-                    if ((votes[v].postId.toString() === posts[i]._id.toString()) && (votes[v].userId.toString() === user_id)) {
-                        posts[i].userVote = votes[v].value;
-                        break;
+                    if (votes[v].postId && votes[v].userId) {
+                        if (votes[v].postId.toString() === posts[i]._id.toString() && votes[v].userId.toString() === user_id.toString()) {
+                            posts[i].userVote = votes[v].value;
+                            break;
+                        }
                     }
                 }
             }
@@ -216,9 +226,15 @@ exports.showSelectedCommunity = async (req, res) => {
         }
 
         // check if the user is the creator of the community, then can edit community
-        const creatorId = selectedCommunity.createdBy.toString();
-        
-        const isCreator = (creatorId === user_id) ? 'Yes' : "";
+        let creatorId = "";
+        if (selectedCommunity.createdBy) {
+            creatorId = selectedCommunity.createdBy.toString();
+        }
+
+        let isCreator = "";
+        if (creatorId && creatorId === user_id.toString()) {
+            isCreator = 'Yes';
+        }
 
         return res.render('showSelectedCommunity', {
             user_id,
@@ -243,6 +259,7 @@ exports.showSelectedCommunity = async (req, res) => {
 // show the edit community page
 exports.showEditCommunityPage = async (req, res) => {
     try {
+        const user_id = req.session.user.user_id;
         // get community name from url
         const { communitySlug } = req.params;
 
@@ -260,9 +277,15 @@ exports.showEditCommunityPage = async (req, res) => {
         }
 
         // check if user is creator of the community again
-        const creatorId = selectedCommunity.createdBy.toString();
-        
-        const isCreator = (creatorId === user_id) ? 'Yes' : "";
+        let creatorId = "";
+        if (selectedCommunity.createdBy) {
+            creatorId = selectedCommunity.createdBy.toString();
+        }
+
+        let isCreator = "";
+        if (creatorId && creatorId === user_id.toString()) {
+            isCreator = 'Yes';
+        }
 
         if (!isCreator) {
             return res.send(
@@ -297,6 +320,7 @@ exports.showEditCommunityPage = async (req, res) => {
 
 // after checking if user is the creator, then they can update the community
 exports.updateCommunity = async (req, res) => {
+    const user_id = req.session.user.user_id;
 
     // check the community name and description
     const communityRegex = /^[A-Za-z0-9_]+$/;
@@ -311,8 +335,16 @@ exports.updateCommunity = async (req, res) => {
     const oldName = communitySlug;
 
     // new name and description from the body 
-    const community_name = (req.body.community ?? '').trim();
-    const description_details = (req.body.description ?? '').trim();
+    let community_name = '';
+    let description_details = '';
+
+    if (req.body.community) {
+        community_name = req.body.community.trim();
+    }
+
+    if (req.body.description) {
+        description_details = req.body.description.trim();
+    }
 
     // validating the name
     if (!community_name) {
@@ -343,9 +375,15 @@ exports.updateCommunity = async (req, res) => {
         }
 
         // check if user is creator
-        const creatorId = community.createdBy.toString();
-        
-        const isCreator = (creatorId === user_id) ? 'Yes' : "";
+        let creatorId = "";
+        if (community.createdBy) {
+            creatorId = community.createdBy.toString();
+        }
+
+        let isCreator = "";
+        if (creatorId && creatorId === user_id.toString()) {
+            isCreator = 'Yes';
+        }
 
         if (!isCreator) {
             return res.send(
@@ -423,6 +461,7 @@ exports.updateCommunity = async (req, res) => {
 // to delete community
 exports.deleteCommunity = async (req, res) => {
     try {
+        const user_id = req.session.user.user_id;
         // community name from url
         const { communitySlug } = req.params;
 
@@ -440,9 +479,15 @@ exports.deleteCommunity = async (req, res) => {
         }
 
         // check if user is creator
-        const creatorId = community.createdBy.toString();
+        let creatorId = "";
+        if (community.createdBy) {
+            creatorId = community.createdBy.toString();
+        }
 
-        const isCreator = (creatorId === user_id) ? 'Yes' : "";
+        let isCreator = "";
+        if (creatorId && creatorId === user_id.toString()) {
+            isCreator = 'Yes';
+        }
 
         if (!isCreator) {
             return res.send(
@@ -453,13 +498,27 @@ exports.deleteCommunity = async (req, res) => {
             );
         }
 
-        // delete relevant posts and community
-        // await Post.deleteMany({ communityId: community._id });
+        // delete relevant posts and related post data
+        const postsInCommunity = await Post.find({ communityId: community._id });
+        const postIds = [];
+
+        for (let i = 0; i < postsInCommunity.length; i++) {
+            postIds.push(postsInCommunity[i]._id);
+        }
+
+        if (postIds.length > 0) {
+            await Comment.deleteMany({ postId: { $in: postIds } });
+            await Bookmark.deleteMany({ postId: { $in: postIds } });
+            await Vote.deleteMany({ postId: { $in: postIds } });
+        }
+
+        await Post.deleteMany({ communityId: community._id });
         await Community.deleteCommunity(community._id);
         
         return res.redirect('/communities');
 
     } catch (error) {
+        const communitySlug = req.params.communitySlug;
         console.error('Error deleting community:', error);
         return res.send(
             `<script>

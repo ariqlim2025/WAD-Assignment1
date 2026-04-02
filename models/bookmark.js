@@ -9,25 +9,26 @@ const bookmarkSchema = new mongoose.Schema({
 })
 
 const Bookmark = mongoose.model('Bookmark', bookmarkSchema, "bookmarks");
-
-
-exports.createBookmark = (newBookmark) => {
-    return Bookmark.create(newBookmark)
+exports.createBookmark = function(newBookmark) {
+    return Bookmark.create(newBookmark);
 }
 
-exports.viewAllBookmarksByUser = (userId) => {
-     return Bookmark.find({ userId }).populate('postId').sort({ createdAt: -1 })
+exports.viewAllBookmarksByUser = function(userId) {
+     return Bookmark.find({ userId: userId }).populate('postId').sort({ createdAt: -1 })
 }
 
-exports.findBookmarkByUserAndPost = (userId, postId) => {
-    return Bookmark.findOne({userId: userId, postId: postId}).populate('postId')
+exports.findBookmarkByUserAndPost = function(userId, postId) {
+    return Bookmark.findOne({ userId: userId, postId: postId }).populate('postId')
 }
 
-exports.editBookmark = (userId, postId, newNote) => {
-    return Bookmark.updateOne({userId: userId, postId: postId}, {note: newNote})
+exports.editBookmark = function(userId, postId, newNote) {
+    return Bookmark.updateOne({ userId: userId, postId: postId }, { note: newNote })
 }
 
-exports.deleteBookmark = (userId, postId) => {
-    return Bookmark.deleteOne({userId: userId, postId: postId})
+exports.deleteBookmark = function(userId, postId) {
+    return Bookmark.deleteOne({ userId: userId, postId: postId })
 }
 
+exports.deleteMany = function(filter) {
+    return Bookmark.deleteMany(filter)
+}

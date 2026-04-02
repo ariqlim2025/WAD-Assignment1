@@ -10,31 +10,31 @@ const commentSchema = new mongoose.Schema({
 });
 
 const Comment = mongoose.model('Comment', commentSchema);
-
-exports.Comment = Comment;
-
 // Methods 
-exports.addComment = (comment) => {
-    console.log('entered')
-    return Comment.create(comment)
+exports.addComment = function(comment) {
+    return Comment.create(comment);
 }
 
-// exports.editComment = (comment) => {
-//     return Comment
-// }
-
-exports.retrieveComment = (commentId) => {
-    return Comment.findById(commentId)
+exports.retrieveComment = function(commentId) {
+    return Comment.findById(commentId);
 }
 
-exports.removeComment = (commentId) => {
+exports.removeComment = function(commentId) {
     return Comment.findByIdAndDelete(commentId);
 }
 
-exports.toEditComment = (commentId, newContent) => {
+exports.toEditComment = function(commentId, newContent) {
     return Comment.findByIdAndUpdate(
         commentId,
         { content: newContent, updatedAt: Date.now() },
         { new: true }
     );
+}
+
+exports.find = function(filter) {
+    return Comment.find(filter);
+}
+
+exports.deleteMany = function(filter) {
+    return Comment.deleteMany(filter);
 }

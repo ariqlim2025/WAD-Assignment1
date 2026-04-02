@@ -9,7 +9,10 @@ const communitySchema = new mongoose.Schema({
 });
 
 const Community = mongoose.model('Community', communitySchema);
-// module.exports = Community;
+
+exports.findCommunityById = function(communityId) {
+    return Community.findById(communityId);
+};
 
 exports.createCommunity = function(newCommunity) {
     return Community.create(newCommunity);

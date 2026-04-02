@@ -105,7 +105,7 @@
 
         <div class="edit-form-wrapper">
             <h3>Editing Comment</h3>
-            <form action="./edit-comment" method="POST">
+            <form action="/posts/<%= currentPost._id %>/edit-comment" method="POST">
                 <input type="hidden" name="commentId" value="<%= currentComment._id %>">
                 <textarea name="newComment"><%= currentComment.content %></textarea><br>
                 <button type="submit">Make Changes</button>
