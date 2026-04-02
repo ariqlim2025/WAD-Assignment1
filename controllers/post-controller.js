@@ -109,17 +109,28 @@ exports.showCreatePostPage = async (req, res) => {
 // Show single post page with comments
 exports.showSinglePost = async (req, res) => {
     try {
+        // get post ID from the url
         const postId = req.params.id;
+        // get user ID from session object 
         const user_id = req.session.user.user_id;
-
+        // get current post object, populate authorid and communityid
         const currentPost = await Post.findById(postId).populate('authorId').populate('communityId');
 
+        // errors array
+        const errors = [];
+
+        // if current post cannot be retrieved, send error
         if (!currentPost) {
             return res.send("Post not found");
         }
 
+        // get all comments under the selected post 
         const currentComments = await Comment.find({ postId: postId }).populate('authorId');
+
+        // declare community variable
         let community;
+
+        // Handle case where current post has no community. let community = communityId if true, if not it has no community
         if (currentPost.communityId) {
             community = currentPost.communityId;
         }
@@ -127,25 +138,32 @@ exports.showSinglePost = async (req, res) => {
             community = { name: "No community" };
         }
 
+        // Handle case where user gets deleted for POSTS
+        // Keep the post and its contents, but the username is now 'deleted_user'
         if (!currentPost.authorId) {
             currentPost.authorId = { username: 'deleted_user' };
         }
 
+        // Handle case where user get deleted for COMMENTS
+        // Loop through an array to check if the author of the comment exists. 
+        // If it doesnt exist, set a new id and deleted_user
         for (let i = 0; i < currentComments.length; i++) {
             if (!currentComments[i].authorId) {
                 currentComments[i].authorId = { _id: 'deleted', username: 'deleted_user' };
             }
         }
 
+        // Display show.ejs (webpage that shows single post)
         res.render('show', {
             currentPost: currentPost,
             community: community,
             currentComments: currentComments,
-            user_id: user_id
+            user_id: user_id,
+            errors
         });
     } catch (error) {
         console.error(error);
-        res.send("Error showing post");
+        res.send("Error showing post" + error);
     }
 };
 

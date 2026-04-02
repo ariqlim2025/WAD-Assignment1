@@ -103,11 +103,15 @@
             <p class="post-body"><%= currentPost.content %></p>
         </div>
 
+        <% for (let error of errors) { %>
+            <p><%= error %></p>
+        <% } %>
+
         <div class="edit-form-wrapper">
             <h3>Editing Comment</h3>
             <form action="/posts/<%= currentPost._id %>/edit-comment" method="POST">
                 <input type="hidden" name="commentId" value="<%= currentComment._id %>">
-                <textarea name="newComment"><%= currentComment.content %></textarea><br>
+                <textarea name="newComment" required><%= currentComment.content %></textarea><br>
                 <button type="submit">Make Changes</button>
             </form>
         </div>
