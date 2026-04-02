@@ -1,25 +1,56 @@
-# G12IS113-GROUP2-ASSIGNMENT
+# Wadsup - Setup and Run Guide
 
----
+This README provides the required step-by-step instructions for:
 
-# 🚀 Steps to Set-Up Application
+- a. Setting up the application from the submitted folder
+- b. Running the application
 
-## Step 1: Install Dependences
+## a. Setup the Application
 
-```
-npm install
-```
+1. Extract/open the submitted folder.
+   The project root should contain files such as `server.js`, `package.json`, `routes/`, `controllers/`, and `views/`.
 
-## Step 2: Run the Application
+2. Open a terminal in the project root directory.
 
-```
-npm run nodemon
-```
+3. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-## Step 3: Access the Application
+4. Create a `config.env` file in the project root (same level as `server.js`) with:
+   ```env
+   DB=<your_mongodb_connection_string>
+   SECRET=<your_session_secret>
+   ```
+   Example:
+   ```env
+   DB=mongodb://127.0.0.1:27017/wadsup
+   SECRET=replace_with_a_long_random_secret
+   ```
 
-```
-http://localhost:8000
-```
+5. Make sure your MongoDB database is available (local MongoDB or MongoDB Atlas).
 
----
+## b. Run the Application
+
+1. Start the server (development mode):
+   ```bash
+   npm run nodemon
+   ```
+
+   Or run without nodemon:
+   ```bash
+   npm start
+   ```
+
+2. Open your browser and go to:
+   ```text
+   http://localhost:8000
+   ```
+
+## Notes
+
+- Default server URL: `http://localhost:8000`
+- If startup fails, check:
+  - `config.env` exists and has valid `DB` and `SECRET`
+  - MongoDB is reachable
+  - dependencies were installed successfully
