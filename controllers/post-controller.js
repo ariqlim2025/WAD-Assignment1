@@ -1,3 +1,5 @@
+const { Post, findSinglePost }      = require('../models/post');
+const { User, addUser, findByEmail, findByUsername, findByID, updateDetails, updatePassword, deleteUser} = require('../models/user');
 //import models
 const Post      = require('../models/post');
 const User      = require('../models/user');
@@ -114,6 +116,40 @@ exports.showPosts = async (req, res) => {
 //create post
 exports.createpost = async(req,res) => {
     try {
+        // Get data from database
+        const posts = await Post.find().populate('authorId').populate('communityId');
+        const comments = await Comment.find().populate('authorId');
+        const postId = req.params.id;
+        const user_id = req.session.user.user_id; 
+        // placeholder
+        // const user_id = '69bf916c4e7188eacfdc67a7';
+
+        console.log(user_id)
+
+        let currentPost = posts.find(post => post._id.toString() === postId) || null; 
+
+        let community;
+        let currentComments = [];
+
+        if (currentPost) {
+            community = currentPost.communityId || null
+        }
+
+        comments.forEach((comment) => {
+            if (comment.postId.toString() === postId) {
+                currentComments.push(comment);
+            }
+        })
+
+
+        console.log(currentPost);
+        // console.log(comments);
+
+        // console.log(currentComments)
+
+        res.render('show', {currentPost, community, currentComments, user_id});
+    } catch (error) {
+        res.status(500).send(`Error showing post: ${error.message}`);
         // get data sent from HTML form
         const {title, content,communityId} = req.body;
 
