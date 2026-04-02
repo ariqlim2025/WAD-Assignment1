@@ -66,6 +66,7 @@ exports.createComment = async (req, res) => {
                 community: community,
                 currentComments: currentComments,
                 user_id: user_id,
+                postMsg: undefined,
                 errors
             });
 
@@ -82,6 +83,7 @@ exports.createComment = async (req, res) => {
                 community: community,
                 currentComments: currentComments,
                 user_id: user_id,
+                postMsg: undefined,
                 errors
             });
         }
@@ -134,6 +136,7 @@ exports.showEditComment = async (req, res) => {
                 currentComment, 
                 community, 
                 user_id: user_id,
+                postMsg: undefined,
                 errors
             });
         }
@@ -148,6 +151,7 @@ exports.showEditComment = async (req, res) => {
                 currentComment, 
                 community, 
                 user_id: user_id,
+                postMsg: undefined,
                 errors
             });
         }
@@ -162,6 +166,7 @@ exports.showEditComment = async (req, res) => {
                 currentComment, 
                 community, 
                 user_id: user_id,
+                postMsg: undefined,
                 errors
             });
         }
@@ -343,6 +348,7 @@ exports.deleteComment = async (req, res) => {
                 community: community,
                 currentComments: currentComments,
                 user_id: user_id,
+                postMsg: undefined,
                 errors
             });
         }
@@ -357,6 +363,7 @@ exports.deleteComment = async (req, res) => {
                 community: community,
                 currentComments: currentComments,
                 user_id: user_id,
+                postMsg: undefined,
                 errors
             });
         }
@@ -371,6 +378,7 @@ exports.deleteComment = async (req, res) => {
                 community: community,
                 currentComments: currentComments,
                 user_id: user_id,
+                postMsg: undefined,
                 errors
             });
         }

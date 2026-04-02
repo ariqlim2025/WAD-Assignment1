@@ -163,8 +163,10 @@
             <%  if (isAuthenticatedPost) {%>
             <!--author view-->
             <h3>Edit Post</h3>
+            <p class="post-body"><%= postMsg %></p>
             <form action="/updatepost" method="POST">
                 <input type="hidden" name="postId" value="<%= currentPost._id %>">
+                <input type="hidden" name="communityid" value="<%= currentPost.communityId %>">
                 <input type="text" name="title" value="<%= currentPost.title %>"><br><br>
                 <textarea name="content"><%= currentPost.content %></textarea><br><br>
                 <button type="submit">Save Changes</button>

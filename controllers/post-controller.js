@@ -160,6 +160,7 @@ exports.showSinglePost = async (req, res) => {
             community: community,
             currentComments: currentComments,
             user_id: user_id,
+            postMsg: undefined,
             errors
         });
     } catch (error) {
@@ -214,6 +215,24 @@ exports.updatePost = async (req, res) => {
 
         const post = await Post.findById(postId);
 
+        // get current post object, populate authorid and communityid
+        let currentPost = await Post.findById(postId).populate('authorId').populate('communityId');
+
+        // Get old title & content (to validate if they actually changed)
+        const old_title = post.title;
+        const old_content = post.content;
+
+        // get community for current post to render
+        const community = currentPost.communityId;
+
+        const errors = [];
+
+        // post msg to display when change has been made / not successful
+        let postMsg = '';
+
+        // get all comments under the selected post 
+        const currentComments = await Comment.find({ postId: postId }).populate('authorId');
+
         if (!post) {
             return res.send('Post not found');
         }
@@ -226,12 +245,33 @@ exports.updatePost = async (req, res) => {
             return res.send('Title and content are required');
         }
 
-        post.title = title;
-        post.content = content;
-        post.updatedAt = new Date();
+        if (title === old_title && content === old_content) {
+            postMsg = 'No changes were made, title and content are the same!';
+            return res.render('show', {
+                currentPost: currentPost,
+                community: community,
+                currentComments: currentComments,
+                user_id: user_id,
+                postMsg,
+                errors
+            });
+        }
 
-        await post.save();
-        res.redirect('/');
+        // Update post content
+        await Post.updatePostContent(_id = postId, title, content, updatedAt = new Date());
+        postMsg = "Post edited successfully!"
+        
+        // get current post object to render new post content
+        currentPost = await Post.findById(postId).populate('authorId').populate('communityId');
+
+        res.render('show', {
+            currentPost: currentPost,
+            community: community,
+            currentComments: currentComments,
+            user_id: user_id,
+            postMsg,
+            errors
+        });
     } catch (err) {
         console.error(err);
         res.send('Error updating post');
