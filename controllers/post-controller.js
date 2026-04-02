@@ -1,9 +1,11 @@
-const { Post, findSinglePost }      = require('../models/post');
+//import models
+const Post      = require('../models/post');
 const User      = require('../models/user');
 const Community = require('../models/community');
 const { Comment, addComment, removeComment } = require('../models/comment');
 const { Vote, retrieveAllVotes } = require('../models/vote');
 const Bookmark  = require('../models/bookmark');
+
 
 // Controller function to list home page with all posts
 exports.showPosts = async (req, res) => {
@@ -110,18 +112,7 @@ exports.showPosts = async (req, res) => {
     };
 
 //create post
-
-exports.showCreatePage = (req, res) => {
-    const communities = [
-        { _id: '650000000000000000000001', name: 'javascript' },
-        { _id: '650000000000000000000002', name: 'webdev' },
-        { _id: '650000000000000000000003', name: 'funny' }
-    ];
-    res.render('posts', { post: null, communityList: communities });
-};
-
-// ensure that the post is with the correct inputs
-exports.validatepost = async(req,res) => {
+exports.createpost = async(req,res) => {
     try {
         // get data sent from HTML form
         const {title, content,communityId} = req.body;

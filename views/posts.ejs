@@ -44,17 +44,21 @@
         <input type="text" name="title" placeholder="Title" required><br><br>
         <!-- Text area for post content -->
         <textarea name="content" placeholder="Write something..." required></textarea><br><br>
-        <!-- Optional: community ID -->
-        <label for="community">Choose a community:</label>
+
+        <!-- Dropdown of all the commuinities -->
         <select name="communityId" required>
-            <option value="" disabled selected>Select a community</option>
-            <% communityList.forEach(c=> { %> <!--Show the array of data community is providing from the database-->
-                <option value="<%= c._id %>">r/<%= c.name %></option> <!--When submit, it shows the databaseID to the server, c.name is the visible text -> print the data directly onto thge webpage-->
-            <!--r/ identifies the community-->
-            <% }) %>
-        </select>
-        <br><br>
-        <button type="submit">Create Post</button>
+            <% if (communities.length === 0) { %>
+                <option value="" disabled selected>No communities available - create one first</option>
+            <% } else { %>
+                <option value="" disabled selected>Select a community</option>
+                <% communities.forEach(function(community) { %>
+                    <option value="<%= community._id %>"><%= community.name %></option>
+                <% }); %>
+            <% } %>
+        </select><br><br>
+
+        <!-- Submit button -->
+        <button type="submit">Post</button>
     </form>
 <% } %>
     <br>
