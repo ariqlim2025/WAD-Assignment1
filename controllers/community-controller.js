@@ -88,16 +88,8 @@ exports.createCommunity = async (req, res) => {
             createdBy: user_id 
         };
         await Community.createCommunity(newCommunity);
-
-        // show success message
-        return res.render('createCommunity', {
-            user_id,
-            community_name,
-            description_details,
-            communityNameError: '',
-            communityDescriptionError: '',
-            otherError: ''
-        });
+        req.session.communitySuccess = `Community: (${community_name}) created`;
+        return res.redirect('/communities');
 
     } catch (error) {
         // If two requests race, MongoDB throws duplicate key error (11000)
@@ -129,10 +121,13 @@ exports.createCommunity = async (req, res) => {
 exports.showCommunitiesPage = async (req, res) => {
     const user_id = req.session.user.user_id;
     const communities = await Community.allCommunities();
+    const communitySuccess = req.session.communitySuccess || '';
+    delete req.session.communitySuccess;
 
     res.render('showCommunity', {
         user_id,
-        communities: communities
+        communities: communities,
+        communitySuccess
     });
 }
 

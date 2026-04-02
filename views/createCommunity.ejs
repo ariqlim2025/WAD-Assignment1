@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WADsUp</title>
-    <link rel="icon" type="image/png" href="/assets/app-logo-2.png">
+    <title>Wadsup</title>
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/app-logo-2.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/app-logo-2.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/app-logo-2.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -14,10 +16,9 @@
     <%- include('header') %>
 
     <section class="main-content">
-        
-        <!-- back button -->
-        <p style="color: #fff; margin-bottom: 12px;"><a href="/communities" style="color: #9ec5ff;">← Back to communities</a></p>
-        
+
+        <a href="/communities" class="back-link">&larr; Back to communities</a>
+
         <div class="community-form-card">
             <h2 class="community-form-title">Create Community</h2>
 
@@ -50,3 +51,6 @@
     </section>
 </body>
 </html>
+
+
+

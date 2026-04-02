@@ -8,7 +8,8 @@ exports.showBookmarks = async (req, res) => {
         const bookmarkList = await Bookmark.viewAllBookmarksByUser(user_id)
         const validBookmarks = [];
         const bookmarkError = req.query.error || '';
-        const bookmarkSuccess = req.query.success || '';
+        const bookmarkSuccess = req.session.bookmarkSuccess || req.query.success || '';
+        delete req.session.bookmarkSuccess;
 
         for (let i = 0; i < bookmarkList.length; i++) {
             if (bookmarkList[i].postId) {
@@ -89,6 +90,11 @@ exports.editBookmark = async (req, res) => {
             return res.redirect(`/bookmarks/edit?postId=${postId}&error=Note cannot be empty`);
         }
 
+        const oldNote = (bookmark.note || '').trim();
+        if (note === oldNote) {
+            return res.redirect(`/bookmarks/edit?postId=${postId}&error=No changes were made, note is the same`);
+        }
+
         await Bookmark.editBookmark(user_id, postId, note)
         return res.redirect(`/bookmarks/edit?postId=${postId}&success=Bookmark updated successfully`);
     } catch (error) {
@@ -134,7 +140,8 @@ exports.deleteBookmark = async (req, res) => {
             return res.redirect('/bookmarks?error=Bookmark not found');
         }
 
-        return res.redirect('/bookmarks?success=Bookmark deleted successfully');
+        req.session.bookmarkSuccess = 'Bookmark deleted successfully';
+        return res.redirect('/bookmarks');
     } catch (error) {
         return res.status(500).json({ error: error.message });
     }

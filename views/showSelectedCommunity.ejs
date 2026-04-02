@@ -3,34 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WADsUp</title>
-    <link rel="icon" type="image/png" href="/assets/app-logo-2.png">
+    <title>Wadsup</title>
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/app-logo-2.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/app-logo-2.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/app-logo-2.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <!-- Navbar -->
     <%- include('header') %>
 
-    <!-- Main Content -->
     <section class="main-content">
-        <!-- back buttons -->
-        <p style="color: #fff; margin-bottom: 12px;"><a href="/" style="color: #9ec5ff;"><- Back to home</a></p>
-        <p style="color: #fff; margin-bottom: 12px;"><a href="/communities" style="color: #9ec5ff;"><- Back to communities</a></p>
+        <a href="/" class="back-link">&larr; Back to home</a><br>
+        <a href="/communities" class="back-link">&larr; Back to communities</a>
 
         <% if (otherError) { %>
-            
+
             <div class="selected-community-label">
                 <div class="community-label-row">
-                    <span class="community-label-title" style="color: tomato;"><%= otherError %></span>
+                    <span class="error-label"><%= otherError %></span>
                 </div>
             </div>
 
         <% } else { %>
-            <!-- Selected Community Label -->
-            
             <div class="selected-community-label">
                 <div class="community-label-row">
                     <span class="community-label-title"><%= community.name %></span>
@@ -50,43 +47,28 @@
                 <p class="community-label-description"><%= community.description %></p>
             </div>
 
-            <!-- View all the posts here -->
             <% if (posts.length === 0) { %>
                 <p class="no-posts">No posts yet. Be the first to create a post!</p>
             <% } else { %>
                 <% for (let i = 0; i < posts.length; i++) { %>
                     <div class="post-card">
-                        <!-- Vote Column -->
                         <div class="vote-column">
-                            <!-- Upvote form -->
                             <form action="/vote" method="POST">
                                 <input type="hidden" name="postId" value="<%= posts[i]._id %>">
                                 <input type="hidden" name="value" value="1">
-                                <% if (posts[i].userVote === 1) { %>
-                                    <button type="submit" style="background: none; border: none; color: #00FF00; cursor: pointer; font-size: 18px;">&#9650;</button>
-                                <% } else { %>
-                                    <button type="submit" style="background: none; border: none; color: #888; cursor: pointer; font-size: 18px;">&#9650;</button>
-                                <% } %>
+                                <button type="submit" class="vote-btn <%= posts[i].userVote === 1 ? 'vote-btn--active-up' : '' %>">&#9650;</button>
                             </form>
-                            
-                            <!-- Vote Score -->
+
                             <span class="vote-score"><%= posts[i].score %></span>
 
-                            <!-- Downvote form -->
                             <form action="/vote" method="POST">
                                 <input type="hidden" name="postId" value="<%= posts[i]._id %>">
                                 <input type="hidden" name="value" value="-1">
-                                <% if (posts[i].userVote === -1) { %>
-                                    <button type="submit" style="background: none; border: none; color: #FA003F; cursor: pointer; font-size: 18px;">&#9660;</button>
-                                <% } else { %>
-                                    <button type="submit" style="background: none; border: none; color: #888; cursor: pointer; font-size: 18px;">&#9660;</button>
-                                <% } %>
+                                <button type="submit" class="vote-btn <%= posts[i].userVote === -1 ? 'vote-btn--active-down' : '' %>">&#9660;</button>
                             </form>
                         </div>
 
-                        <!-- Post Content -->
                         <div class="post-content">
-                                                            
                             <a href="/communities/<%= posts[i].communityId.name %>" class="community-title">
                                 <h3><%= posts[i].communityId.name %></h3>
                             </a>
@@ -100,11 +82,11 @@
                             <p class="post-comment-count"><%= posts[i].commentCount %> Comments</p>
 
                             <% if (posts[i].authorId && posts[i].authorId._id && posts[i].authorId._id.toString() === user_id.toString()) { %>
-                                <div style="margin-top: 10px;">
-                                    <a href="/?id=<%= posts[i]._id %>" style="margin-right: 10px;">Edit</a>
-                                    <form action="/deletepost" method="POST" style="display: inline;" onsubmit="return confirm('Delete this post forever?')">
+                                <div class="post-actions">
+                                    <a href="/posts/<%= posts[i]._id %>">Edit</a>
+                                    <form action="/deletepost" method="POST" class="post-actions__form" onsubmit="return confirm('Delete this post forever?')">
                                         <input type="hidden" name="postId" value="<%= posts[i]._id %>">
-                                        <button type="submit" style="background: none; border: none; color: #c62828; text-decoration: underline; cursor: pointer; padding: 0;">Delete</button>
+                                        <button type="submit" class="post-actions__delete">Delete</button>
                                     </form>
                                 </div>
                             <% } %>
@@ -117,3 +99,6 @@
 
 </body>
 </html>
+
+
+

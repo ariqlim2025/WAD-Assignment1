@@ -3,71 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WADsUp</title>
-    <link rel="icon" type="image/png" href="/assets/app-logo-2.png">
+    <title>Wadsup</title>
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/app-logo-2.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/app-logo-2.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/app-logo-2.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <!-- Navbar -->
     <%- include('header') %>
 
-    <!-- Main Content -->
     <section class="main-content">
-        <!-- Create Post Button -->
-        <a href="/posts/new" class="create-post-btn">+ Create Post</a>
-        <a href="/communities" class="create-post-btn">All Community</a>
+        <div class="home-actions">
+            <a href="/posts/new" class="create-post-btn">+ Create Post</a>
+            <a href="/communities" class="create-post-btn">All Communities</a>
+        </div>
 
         <% if (homeError) { %>
-            <p style="color: #ff8a80;"><strong><%= homeError %></strong></p>
+            <p class="msg-error"><strong><%= homeError %></strong></p>
         <% } %>
 
         <% if (homeSuccess) { %>
-            <p style="color: #9be59b;"><strong><%= homeSuccess %></strong></p>
+            <p class="msg-success"><strong><%= homeSuccess %></strong></p>
         <% } %>
 
-        <!-- View all the posts here -->
         <% if (posts.length === 0) { %>
             <p class="no-posts">No posts yet. Be the first to create a post!</p>
         <% } else { %>
             <% for (let i = 0; i < posts.length; i++) { %>
                 <div class="post-card">
-                    <!-- Vote Column -->
                     <div class="vote-column">
-                        <!-- Upvote form -->
                         <form action="/vote" method="POST">
                             <input type="hidden" name="postId" value="<%= posts[i]._id %>">
                             <input type="hidden" name="value" value="1">
-                            <button type="submit" style="background: none; border: none; color: <%= posts[i].userVote === 1 ? '#00FF00' : '#888' %>; cursor: pointer; font-size: 18px;">&#9650;</button>
+                            <button type="submit" class="vote-btn <%= posts[i].userVote === 1 ? 'vote-btn--active-up' : '' %>">&#9650;</button>
                         </form>
-                        
-                        <!-- Vote Score -->
+
                         <span class="vote-score"><%= posts[i].score %></span>
 
-                        <!-- Downvote form -->
                         <form action="/vote" method="POST">
                             <input type="hidden" name="postId" value="<%= posts[i]._id %>">
                             <input type="hidden" name="value" value="-1">
-                            <button type="submit" style="background: none; border: none; color: <%= posts[i].userVote === -1 ? '#FA003F' : '#888' %>; cursor: pointer; font-size: 18px;">&#9660;</button>
+                            <button type="submit" class="vote-btn <%= posts[i].userVote === -1 ? 'vote-btn--active-down' : '' %>">&#9660;</button>
                         </form>
                     </div>
 
-                    <!-- Post Content -->
                     <div class="post-content">
-                        <!-- For the case where there is no community name -->
-                        <!-- But all posts should have a community name -->
                         <% if (!posts[i].communityId) { %>
-
                             <h3>No community</h3>
-
                         <% } else { %>
-                                                        
                             <a href="/communities/<%= posts[i].communityId.name %>" class="community-title">
                                 <h3><%= posts[i].communityId.name %></h3>
                             </a>
-
                         <% } %>
 
                         <a href="/posts/<%= posts[i]._id%>" class="post-title">
@@ -78,11 +67,11 @@
                         <p class="post-comment-count"><%= posts[i].commentCount %> Comments</p>
 
                         <% if (posts[i].authorId && posts[i].authorId._id && posts[i].authorId._id.toString() === user_id.toString()) { %>
-                            <div style="margin-top: 10px;">
-                                <a href="/?id=<%= posts[i]._id %>" style="margin-right: 10px;">Edit</a>
-                                <form action="/deletepost" method="POST" style="display: inline;" onsubmit="return confirm('Delete this post forever?')">
+                            <div class="post-actions">
+                                <a href="/posts/<%= posts[i]._id %>">Edit</a>
+                                <form action="/deletepost" method="POST" class="post-actions__form" onsubmit="return confirm('Delete this post forever?')">
                                     <input type="hidden" name="postId" value="<%= posts[i]._id %>">
-                                    <button type="submit" style="background: none; border: none; color: #c62828; text-decoration: underline; cursor: pointer; padding: 0;">Delete</button>
+                                    <button type="submit" class="post-actions__delete">Delete</button>
                                 </form>
                             </div>
                         <% } %>
@@ -94,3 +83,6 @@
 
 </body>
 </html>
+
+
+

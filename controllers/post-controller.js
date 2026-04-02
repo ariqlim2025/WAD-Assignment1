@@ -11,7 +11,9 @@ exports.showPosts = async (req, res) => {
         const user_id = req.session.user.user_id;
         const communities = await Community.allCommunities();
         const homeError = req.query.error || '';
-        const homeSuccess = req.query.success || '';
+        const flashHomeSuccess = req.session.homeSuccess || '';
+        delete req.session.homeSuccess;
+        const homeSuccess = flashHomeSuccess || req.query.success || '';
         const postError = req.query.error || '';
         const postSuccess = req.query.success || '';
 
@@ -221,7 +223,8 @@ exports.createPost = async (req, res) => {
         };
 
         await Post.createPost(newPost);
-        return res.redirect('/?success=Post created successfully');
+        req.session.homeSuccess = 'Post created successfully';
+        return res.redirect('/');
     } catch (err) {
         return res.status(500).json({ error: err.message });
     }

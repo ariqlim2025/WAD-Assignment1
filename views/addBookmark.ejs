@@ -1,30 +1,45 @@
-<html>
-<head></head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Bookmark &middot; Wadsup</title>
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/app-logo-2.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/app-logo-2.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/app-logo-2.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
 <body>
+    <section class="main-content">
+        <div>
+            <a href="/posts/<%= postId %>" class="back-link">Back to Post</a>
+            &nbsp;|&nbsp;
+            <a href="/bookmarks" class="back-link">Back to Bookmarks</a>
+            &nbsp;|&nbsp;
+            <a href="/" class="back-link">Back to Home</a>
+        </div>
 
-  <h1>Add Bookmark</h1>
-  <hr>
-  <p>
-    <a href="/posts/<%= postId %>">Back to Post</a>
-    &nbsp;|&nbsp;
-    <a href="/bookmarks">Back to Bookmarks</a>
-    &nbsp;|&nbsp;
-    <a href="/">Back to Home</a>
-  </p>
+        <% if (bookmarkError) { %>
+            <p class="msg-error"><strong><%= bookmarkError %></strong></p>
+        <% } %>
 
-  <% if (bookmarkError) { %>
-    <p style="color: #c62828;"><strong><%= bookmarkError %></strong></p>
-  <% } %>
-
-<%- // gonna add post title and post content later %>
-
-  <form action="/bookmarks" method="post">
-    <input type="hidden" name="postId" value="<%= postId %>">
-    <p><label for="note"><strong>Note</strong></label></p>
-    <textarea name="note" id="note" rows="4" cols="40" placeholder="Write your note here" required></textarea>
-    <br><br>
-    <button type="submit">Save Bookmark</button>
-  </form>
-
+        <div class="form-card">
+            <h2>Add Bookmark</h2>
+            <form action="/bookmarks" method="post">
+                <input type="hidden" name="postId" value="<%= postId %>">
+                <div class="form-field">
+                    <label for="note">Note</label>
+                    <textarea name="note" id="note" rows="4" placeholder="Write your note here" class="form-textarea" required></textarea>
+                </div>
+                <button type="submit" class="form-submit">Save Bookmark</button>
+            </form>
+        </div>
+    </section>
 </body>
 </html>
+
+
+

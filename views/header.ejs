@@ -1,25 +1,24 @@
 <!-- Navbar (Consistent across all pages) -->
 <nav>
     <div class="nav-logo">
-        <img src="/assets/app-logo-2.png" alt="WADsUP Logo">
-        <a href="/">WADsUP</a>
+        <img src="/assets/app-logo-2.png" alt="Wadsup Logo">
+        <a href="/">Wadsup</a>
     </div>
 
-    <div class="nav-tagline">Your Daily KetchUp</div>
+    <div class="nav-tagline">Your Daily Ketchup</div>
 
     <!-- If user is not logged in, display register / login buttons -->
     <% if (!user_id){ %>
-        <div>
+        <div class="nav-actions">
             <a href="/login" class="nav-btn">Log-in</a>
             <a href="/register" class="nav-btn">Register</a>
         </div>
     <% } else { %>
         <!-- user is logged in, display logout /profile button -->
-        <div>
+        <div class="nav-actions">
             <a href="/bookmarks" class="nav-btn">Bookmarks</a>
-            <a href="/logout" class="nav-btn">LogOut</a>
             <a href="/profile" class="nav-btn">Profile</a>
+            <a href="/logout" class="nav-btn nav-btn-danger">LogOut</a>
         </div>
     <% } %>
 </nav>
-<hr>

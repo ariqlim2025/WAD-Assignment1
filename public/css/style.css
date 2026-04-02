@@ -1,6 +1,46 @@
+/* ==================== Variables ==================== */
+:root {
+    --bg: #f5f5f0;
+    --bg-card: #ffffff;
+    --border: #ddd;
+    --border-light: #edeff1;
+    --text: #1a1a1b;
+    --text-muted: #7c7c7c;
+    --text-link: #1a73e8;
+    --accent: #ff4500;
+    --accent-hover: #e03d00;
+    --upvote: #ff4500;
+    --downvote: #7193ff;
+    --vote-default: #878a8c;
+    --error: #cc3700;
+    --success: #46820c;
+}
+
+/* ==================== Reset / Base ==================== */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
 body {
     font-family: 'Poppins', sans-serif;
-    background: #141E33;
+    background: var(--bg);
+    color: var(--text);
+    margin: 0;
+    padding: 0;
+    line-height: 1.5;
+}
+
+a {
+    color: var(--text-link);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+h1, h2, h3, h4 {
+    margin-top: 0;
 }
 
 /* ==================== Navbar ==================== */
@@ -8,6 +48,10 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border-light);
+    padding: 10px 24px;
+    position: relative;
 }
 
 .nav-logo {
@@ -17,66 +61,199 @@ nav {
 }
 
 .nav-logo img {
-    width: 50px;
-    height: 50px;
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
 }
 
 .nav-logo a {
-    font-size: 40px;
-    font-weight: bold;
-    color: white;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text);
+    text-decoration: none;
+}
+
+.nav-logo a:hover {
     text-decoration: none;
 }
 
 .nav-tagline {
-    font-size: 30px;
-    color: #D9D9D9;
+    font-size: 16px;
+    color: var(--text-muted);
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
 }
 
 .nav-btn {
-    padding: 8px 16px;
-    margin-left: 10px;
+    padding: 6px 14px;
+    margin-left: 0;
     text-decoration: none;
-    color: white;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    transition: background 0.15s;
+}
+
+.nav-btn:hover {
+    background: var(--border-light);
+    text-decoration: none;
+}
+
+.nav-btn-danger {
+    color: var(--error);
+    border-color: var(--error);
+}
+
+.nav-btn-danger:hover {
+    background: #fdeae3;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid var(--border-light);
+    margin: 0;
 }
 
 /* ==================== Main Content ==================== */
 .main-content {
-    max-width: 900px;
-    margin: 20px auto;
-    padding: 0 15px;
+    max-width: 720px;
+    margin: 24px auto;
+    padding: 0 16px;
+}
+
+/* ==================== Buttons ==================== */
+.btn {
+    display: inline-block;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+}
+
+.btn:hover {
+    text-decoration: none;
+}
+
+.btn--primary {
+    background: var(--accent);
+    color: #fff;
+}
+
+.btn--primary:hover {
+    background: var(--accent-hover);
+    color: #fff;
+}
+
+.btn--danger {
+    background: #cc3700;
+    color: #fff;
+}
+
+.btn--danger:hover {
+    background: #a82e00;
+}
+
+.btn--outline {
+    background: none;
+    color: var(--text);
+    border: 1px solid var(--border);
+}
+
+.btn--outline:hover {
+    background: var(--border-light);
+}
+
+/* ==================== Action Buttons Row ==================== */
+.home-actions {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.home-actions .create-post-btn {
+    flex: 1 1 220px;
+    margin-bottom: 0;
 }
 
 .create-post-btn {
     display: block;
     text-align: center;
-    padding: 12px;
-    background-color: #4A7DFC;
+    padding: 10px;
+    background: var(--accent);
     color: #fff;
     text-decoration: none;
-    border-radius: 6px;
-    font-size: 16px;
-    font-weight: bold;
-    margin-bottom: 20px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+.create-post-btn:hover {
+    background: var(--accent-hover);
+    text-decoration: none;
+}
+
+/* ==================== Messages ==================== */
+.msg-error {
+    color: var(--error);
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.msg-success {
+    color: var(--success);
+    font-weight: 600;
+    margin-bottom: 12px;
 }
 
 .no-posts {
     text-align: center;
-    color: #888;
-    font-size: 16px;
+    color: var(--text-muted);
+    font-size: 15px;
+    padding: 40px 0;
+}
+
+/* ==================== Back Link ==================== */
+.back-link {
+    display: inline-block;
+    color: var(--text-link);
+    font-size: 14px;
+    margin-bottom: 12px;
+    text-decoration: none;
+}
+
+.back-link:hover {
+    text-decoration: underline;
 }
 
 /* ==================== Post Card ==================== */
 .post-card {
     display: flex;
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 15px;
-    margin-bottom: 15px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 12px 16px;
+    margin-bottom: 12px;
+}
+
+.post-card:hover {
+    border-color: #b8b8b8;
 }
 
 /* ==================== Vote Column ==================== */
@@ -84,98 +261,343 @@ nav {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-right: 15px;
-    min-width: 40px;
+    margin-right: 12px;
+    min-width: 36px;
+}
+
+.vote-btn {
+    background: none;
+    border: none;
+    color: var(--vote-default);
+    cursor: pointer;
+    font-size: 20px;
+    padding: 2px 4px;
+    line-height: 1;
+}
+
+.vote-btn:hover {
+    color: #555;
+}
+
+.vote-btn--active-up {
+    color: var(--upvote);
+}
+
+.vote-btn--active-down {
+    color: var(--downvote);
 }
 
 .vote-score {
-    font-weight: bold;
-    font-size: 14px;
-    margin: 4px 0;
+    font-weight: 700;
+    font-size: 13px;
+    margin: 2px 0;
+    color: var(--text);
 }
 
 /* ==================== Post Content ==================== */
 .post-content {
     flex: 1;
+    min-width: 0;
 }
 
 .post-title {
     text-decoration: none;
-    color: #333;
+    color: var(--text);
+}
+
+.post-title:hover {
+    text-decoration: underline;
 }
 
 .post-title h3 {
     margin: 0 0 4px 0;
-    font-size: 18px;
+    font-size: 16px;
+    font-weight: 600;
 }
 
 .post-author {
-    margin: 0 0 8px 0;
+    margin: 0 0 6px 0;
     font-size: 12px;
-    color: #888;
+    color: var(--text-muted);
 }
 
 .post-community {
-    margin: 0 0 8px 0;
+    margin: 0 0 6px 0;
     font-size: 12px;
-    color: #888;
+    color: var(--text-muted);
 }
 
 .post-body {
-    margin: 0 0 10px 0;
+    margin: 0 0 8px 0;
     font-size: 14px;
     color: #555;
     overflow: hidden;
+    line-height: 1.5;
 }
 
 .post-comment-count {
     font-size: 12px;
-    color: #4A7DFC;
+    color: var(--text-muted);
     text-decoration: none;
+    font-weight: 500;
 }
 
-/* ==================== Community Content ==================== */
-
-.community-title h3 {
-    margin: 0 0 4px 0;
-    font-size: 18px;
+.post-comment-count:hover {
+    color: var(--text);
 }
 
-.link-button {
+/* ==================== Post Actions (Edit/Delete) ==================== */
+.post-actions {
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 12px;
+}
+
+.post-actions a {
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.post-actions a:hover {
+    color: var(--text);
+}
+
+.post-actions__form {
+    display: inline;
+}
+
+.post-actions__delete {
     background: none;
     border: none;
-    color: blue; /* link color */
-    text-decoration: underline;
+    color: var(--error);
     cursor: pointer;
     padding: 0;
-    font-size: 18px; /* Inherit font styles */
+    font-size: 12px;
+    font-family: inherit;
+    font-weight: 500;
 }
 
-.selected-community-label {
-    display: block;
-    text-align: center;
-    padding: 12px 16px;
-    background-color: #4A7DFC;
-    color: #fff;
+.post-actions__delete:hover {
+    text-decoration: underline;
+}
+
+/* ==================== Community Title ==================== */
+.community-title {
     text-decoration: none;
-    border-radius: 6px;
-    font-size: 16px;
-    font-weight: bold;
-    margin-bottom: 20px;
+    color: var(--text-muted);
 }
 
-/* ==================== Create Community Form ==================== */
+.community-title:hover {
+    text-decoration: underline;
+}
+
+.community-title h3 {
+    margin: 0 0 2px 0;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+/* ==================== Selected Community Label ==================== */
+.selected-community-label {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 16px 20px;
+    margin-bottom: 16px;
+}
+
+.community-label-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.community-label-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+}
+
+.community-label-description {
+    margin: 8px 0 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #555;
+}
+
+.error-label {
+    color: var(--error);
+    font-weight: 600;
+}
+
+/* ==================== Community Menu ==================== */
+.community-menu {
+    position: relative;
+    list-style: none;
+}
+
+.community-menu-trigger {
+    cursor: pointer;
+    list-style: none;
+    width: 32px;
+    height: 32px;
+    line-height: 28px;
+    text-align: center;
+    border-radius: 4px;
+    background: var(--border-light);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 18px;
+    user-select: none;
+}
+
+.community-menu-trigger::-webkit-details-marker {
+    display: none;
+}
+
+.community-menu-trigger:hover {
+    background: var(--border);
+}
+
+.community-menu-dropdown {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 4px);
+    min-width: 180px;
+    padding: 4px 0;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    z-index: 20;
+}
+
+.community-menu-item {
+    display: block;
+    width: 100%;
+    padding: 8px 14px;
+    border: none;
+    background: none;
+    font: inherit;
+    font-size: 14px;
+    color: var(--text);
+    text-decoration: none;
+    text-align: left;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.community-menu-item:hover {
+    background: var(--border-light);
+    text-decoration: none;
+}
+
+.community-menu-delete-form {
+    margin: 0;
+    border-top: 1px solid var(--border-light);
+    padding-top: 4px;
+    margin-top: 4px;
+}
+
+.community-menu-danger {
+    color: var(--error);
+}
+
+.community-menu-danger:hover {
+    background: #fff0ed;
+}
+
+/* ==================== Form Card ==================== */
+.form-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 24px;
+    max-width: 480px;
+    margin: 0 auto;
+}
+
+.form-card h1,
+.form-card h2,
+.form-card h3 {
+    margin-bottom: 16px;
+}
+
+.form-field {
+    margin-bottom: 14px;
+}
+
+.form-field label {
+    display: block;
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 4px;
+    color: var(--text);
+}
+
+.form-input,
+.form-textarea,
+.form-select {
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    padding: 8px 12px;
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--text);
+    outline: none;
+}
+
+.form-textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus {
+    border-color: var(--accent);
+}
+
+.form-submit {
+    display: inline-block;
+    padding: 8px 20px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 4px;
+}
+
+.form-submit:hover {
+    background: var(--accent-hover);
+}
+
+/* ==================== Community Form ==================== */
 .community-form-card {
-    background: #fff;
-    border-radius: 10px;
-    padding: 18px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 24px;
     margin: 0 auto;
     max-width: 520px;
 }
 
 .community-form-title {
-    margin: 0 0 14px 0;
-    color: #141E33;
+    margin: 0 0 16px 0;
+    color: var(--text);
     font-size: 20px;
     font-weight: 700;
 }
@@ -191,18 +613,19 @@ nav {
 .community-form-field label {
     display: block;
     font-weight: 600;
-    margin-bottom: 6px;
-    color: #141E33;
+    margin-bottom: 4px;
+    font-size: 14px;
+    color: var(--text);
 }
 
 .community-input,
 .community-textarea {
     width: 100%;
     box-sizing: border-box;
-    border-radius: 8px;
-    border: 1px solid #d0d7e2;
-    background: #f7f9fc;
-    padding: 10px 12px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    padding: 8px 12px;
     font-family: inherit;
     font-size: 14px;
     outline: none;
@@ -214,27 +637,26 @@ nav {
 
 .community-input:focus,
 .community-textarea:focus {
-    border-color: #4A7DFC;
-    box-shadow: 0 0 0 3px rgba(74, 125, 252, 0.15);
+    border-color: var(--accent);
 }
 
 .community-submit-btn {
     width: 100%;
     display: block;
     box-sizing: border-box;
-    padding: 12px;
-    background-color: #4A7DFC;
+    padding: 10px;
+    background: var(--accent);
     color: #fff;
     border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: 700;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
     cursor: pointer;
-    margin-top: 6px;
+    margin-top: 4px;
 }
 
 .community-submit-btn:hover {
-    background-color: #3c6fe0;
+    background: var(--accent-hover);
 }
 
 .community-feedback {
@@ -245,105 +667,417 @@ nav {
 }
 
 .community-feedback-success {
-    color: #0a7a2f;
+    color: var(--success);
 }
 
 .community-feedback-error {
-    color: #c62828;
+    color: var(--error);
 }
 
-.community-label-row {
+/* ==================== Post Page (Single Post View) ==================== */
+.post-page {
+    max-width: 720px;
+    margin: 24px auto;
+    padding: 0 16px;
+}
+
+.post-page .post-card {
+    padding: 24px;
+    margin-bottom: 20px;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 2px;
 }
 
-.community-label-title {
-    margin: 0;
+.post-meta {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
 }
 
-.community-label-description {
-    margin: 12px 0 0;
-    font-weight: 500;
+.post-page .post-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 8px;
+}
+
+.post-page .post-body {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #444;
+}
+
+.post-page .btn,
+.post-page button {
+    font-family: inherit;
+}
+
+/* ==================== Comments ==================== */
+.comments-section {
+    margin-top: 20px;
+}
+
+.comments-section h2 {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--text);
+}
+
+.comment {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 4px;
+    padding: 12px 16px;
+    margin-bottom: 10px;
+}
+
+.comment-author {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 4px;
+}
+
+.comment-text {
     font-size: 14px;
-    line-height: 1.4;
-    opacity: 0.95;
+    line-height: 1.5;
+    color: var(--text);
+    white-space: pre-wrap;
 }
 
-.community-menu {
-    position: relative;
-    list-style: none;
+.comment-form-wrapper {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 16px;
+    margin-top: 16px;
 }
 
-.community-menu-trigger {
-    cursor: pointer;
-    list-style: none;
-    width: 36px;
-    height: 36px;
-    line-height: 32px;
-    text-align: center;
-    border-radius: 6px;
-    background: rgba(255, 255, 255, 0.15);
-    border: 1px solid rgba(255, 255, 255, 0.35);
-    color: #fff;
-    font-size: 20px;
-    user-select: none;
+.comment-form-wrapper h3 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 10px;
 }
 
-.community-menu-trigger::-webkit-details-marker {
-    display: none;
-}
-
-.community-menu-trigger:hover {
-    background: rgba(255, 255, 255, 0.25);
-}
-
-.community-menu-dropdown {
-    position: absolute;
-    right: 0;
-    top: calc(100% + 6px);
-    min-width: 200px;
-    padding: 8px 0;
-    background: #fff;
-    border-radius: 8px;
-    /* Clip hover backgrounds so they don't render outside the rounded box */
-    overflow: hidden;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-    text-align: left;
-    z-index: 20;
-}
-
-.community-menu-item {
-    display: block;
+.comment-form-wrapper textarea {
     width: 100%;
-    padding: 10px 14px;
-    border: none;
-    background: none;
-    font: inherit;
-    color: #141E33;
-    text-decoration: none;
-    text-align: left;
-    cursor: pointer;
     box-sizing: border-box;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    resize: vertical;
+    outline: none;
 }
 
-.community-menu-item:hover {
-    background: #f0f4ff;
+.comment-form-wrapper textarea:focus {
+    border-color: var(--accent);
 }
 
-.community-menu-delete-form {
-    margin: 0;
-    border-top: 1px solid #eee;
-    padding-top: 4px;
+.comment-form-wrapper button {
+    margin-top: 8px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.comment-form-wrapper button:hover {
+    background: var(--accent-hover);
+}
+
+.link-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    padding: 0;
+    font-weight: 500;
+}
+
+.link-btn:hover {
+    color: var(--text);
+    text-decoration: underline;
+}
+
+/* ==================== Edit Comment Page ==================== */
+.edit-page {
+    max-width: 720px;
+    margin: 24px auto;
+    padding: 0 16px;
+}
+
+.edit-page .post-card {
+    padding: 24px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.edit-page .post-title {
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.edit-page .post-meta {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.edit-page .post-body {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #444;
+}
+
+.edit-form-wrapper {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 4px;
+    padding: 20px;
+    margin-top: 8px;
+}
+
+.edit-form-wrapper h3 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.edit-form-wrapper textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    resize: vertical;
+    outline: none;
+    min-height: 100px;
+}
+
+.edit-form-wrapper textarea:focus {
+    border-color: var(--accent);
+}
+
+.edit-form-wrapper button {
+    margin-top: 8px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.edit-form-wrapper button:hover {
+    background: var(--accent-hover);
+}
+
+/* ==================== Auth Page ==================== */
+.auth-page {
+    max-width: 400px;
+    margin: 60px auto;
+    padding: 0 16px;
+}
+
+.auth-page h1 {
+    font-size: 24px;
+    margin-bottom: 16px;
+}
+
+.auth-page h2 {
+    font-size: 20px;
+}
+
+.auth-page h3 {
+    font-size: 16px;
+}
+
+.auth-page p {
+    margin-bottom: 12px;
+    font-size: 14px;
+}
+
+.auth-page input[type="text"],
+.auth-page input[type="email"],
+.auth-page input[type="password"],
+.auth-page input[type="date"],
+.auth-page textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
     margin-top: 4px;
 }
 
-.community-menu-danger {
-    color: #c62828;
+.auth-page input:focus,
+.auth-page textarea:focus {
+    border-color: var(--accent);
 }
 
-.community-menu-danger:hover {
-    background: #ffebee;
+.auth-page input[type="submit"],
+.auth-page input[type="button"],
+.auth-page button {
+    padding: 8px 20px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 8px;
+}
+
+.auth-page input[type="submit"]:hover,
+.auth-page input[type="button"]:hover,
+.auth-page button:hover {
+    background: var(--accent-hover);
+}
+
+.auth-page a {
+    color: var(--text-link);
+}
+
+.auth-page .user-error-msg {
+    color: var(--error);
+    font-size: 13px;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 4px 0;
+}
+
+/* Profile-specific */
+.auth-page table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.auth-page table td {
+    padding: 4px 8px 4px 0;
+    vertical-align: top;
+}
+
+.auth-page input[type="checkbox"] {
+    margin-right: 4px;
+}
+
+/* ==================== Bookmark Table ==================== */
+.bookmark-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 14px;
+    margin-top: 12px;
+}
+
+.bookmark-table th,
+.bookmark-table td {
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.bookmark-table th {
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--text-muted);
+    background: #fafafa;
+}
+
+.bookmark-table tr:last-child td {
+    border-bottom: none;
+}
+
+.bookmark-table button {
+    padding: 4px 10px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.bookmark-table button:hover {
+    background: var(--accent-hover);
+}
+
+.bookmark-table a {
+    color: var(--text-link);
+    font-size: 13px;
+}
+
+/* ==================== Utilities ==================== */
+.text-small {
+    font-size: 13px;
+}
+
+.link-button {
+    background: none;
+    border: none;
+    color: var(--text-link);
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 0;
+    font-size: 16px;
+    font-family: inherit;
+}
+
+/* ==================== Responsive ==================== */
+@media (max-width: 600px) {
+    nav {
+        flex-direction: column;
+        gap: 8px;
+        padding: 10px 16px;
+    }
+
+    .nav-tagline {
+        display: none;
+    }
+
+    .main-content,
+    .post-page,
+    .edit-page {
+        padding: 0 12px;
+    }
+
+    .form-card {
+        padding: 16px;
+    }
+
+    .home-actions {
+        gap: 8px;
+    }
 }

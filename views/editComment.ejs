@@ -4,94 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Comment</title>
-    <link rel="icon" type="image/png" href="/assets/app-logo-2.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/app-logo-2.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/app-logo-2.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/app-logo-2.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
-    <style>
-        .edit-page {
-            max-width: 780px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-
-        .post-card {
-            padding: 30px;
-            margin-bottom: 24px;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .post-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-        }
-
-        .post-meta {
-            font-size: 0.8rem;
-            color: #888;
-        }
-
-        .post-body {
-            font-size: 0.95rem;
-            line-height: 1.7;
-            color: #444;
-        }
-
-        .edit-form-wrapper {
-            background: #fff8f0;
-            border: 1px solid #f5c8a0;
-            border-left: 3px solid #e07b00;
-            border-radius: 8px;
-            padding: 24px;
-            margin-top: 8px;
-        }
-
-        .edit-form-wrapper h3 {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: #e07b00;
-            margin-bottom: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .edit-form-wrapper textarea {
-            width: 95%;
-            padding: 12px;
-            border: 1px solid #f5c8a0;
-            border-radius: 6px;
-            font-family: 'Poppins', sans-serif;
-            font-size: 0.9rem;
-            resize: vertical;
-            outline: none;
-            background: #fffaf5;
-            min-height: 120px;
-        }
-
-        .edit-form-wrapper textarea:focus {
-            border-color: #e07b00;
-        }
-
-        .edit-form-wrapper button {
-            margin-top: 10px;
-            background: #e07b00;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            padding: 10px 22px;
-            font-family: 'Poppins', sans-serif;
-            font-size: 0.85rem;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .edit-form-wrapper button:hover {
-            background: #c46a00;
-        }
-    </style>
 </head>
 <body>
     <%- include('header') %>
@@ -104,18 +23,21 @@
         </div>
 
         <% for (let error of errors) { %>
-            <p><%= error %></p>
+            <p class="msg-error"><%= error %></p>
         <% } %>
 
         <div class="edit-form-wrapper">
             <h3>Editing Comment</h3>
             <form action="/posts/<%= currentPost._id %>/edit-comment" method="POST">
                 <input type="hidden" name="commentId" value="<%= currentComment._id %>">
-                <textarea name="newComment" required><%= currentComment.content %></textarea><br>
-                <button type="submit">Make Changes</button>
+                <textarea name="newComment" required><%= currentComment.content %></textarea>
+                <button type="submit">Edit Comment</button>
             </form>
         </div>
     </div>
 
 </body>
 </html>
+
+
+

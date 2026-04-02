@@ -3,38 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WADsUp</title>
-    <link rel="icon" type="image/png" href="/assets/app-logo-2.png">
+    <title>Wadsup</title>
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/app-logo-2.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/app-logo-2.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/app-logo-2.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <!-- Navbar -->
     <%- include('header') %>
 
-    <!-- Main Content -->
     <section class="main-content">
-        <!-- back button -->
-        <p style="color: #fff; margin-bottom: 12px;"><a href="/" style="color: #9ec5ff;">← Back to home</a></p>
-        
+        <a href="/" class="back-link">&larr; Back to home</a>
+
         <a href="/create-community" class="create-post-btn">+ Create Community</a>
 
-        <!-- View all the posts here -->
+        <% if (communitySuccess) { %>
+            <p class="msg-success"><strong><%= communitySuccess %></strong></p>
+        <% } %>
+
         <% if (communities.length === 0) { %>
             <p class="no-posts">No communities yet. Be the first to create a community!</p>
         <% } else { %>
             <% for (let i = 0; i < communities.length; i++) { %>
                 <div class="post-card">
-                    <!-- Post Content -->
                     <div class="post-content">
-
                         <a href="/communities/<%= communities[i].name %>" class="community-title">
                             <h3><%= communities[i].name %></h3>
                         </a>
                         <p class="post-author"><%= communities[i].description %></p>
-
                     </div>
                 </div>
             <% } %>
@@ -43,3 +42,6 @@
 
 </body>
 </html>
+
+
+

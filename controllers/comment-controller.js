@@ -247,6 +247,18 @@ exports.editComment = async (req, res) => {
             });
         }
 
+        const oldComment = (currentComment.content || '').trim();
+        if (newComment === oldComment) {
+            errors.push("No changes were made, comment is the same!");
+            return res.render('editComment', {
+                currentPost,
+                currentComment,
+                community,
+                user_id: user_id,
+                errors
+            });
+        }
+
         // add edited comment to MongoDB via toEditComment from Comment models file
         await Comment.toEditComment(commentId, newComment);
 

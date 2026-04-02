@@ -1,34 +1,51 @@
-<html>
-<head></head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Bookmark &middot; Wadsup</title>
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/app-logo-2.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/app-logo-2.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/app-logo-2.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
 <body>
+    <section class="main-content">
+        <div>
+            <a href="/posts/<%= bookmark.postId._id %>" class="back-link">Back to Post</a>
+            &nbsp;|&nbsp;
+            <a href="/bookmarks" class="back-link">Back to Bookmarks</a>
+            &nbsp;|&nbsp;
+            <a href="/" class="back-link">Back to Home</a>
+        </div>
 
-  <h1>Edit Bookmark</h1>
-  <hr>
-  <p>
-    <a href="/posts/<%= bookmark.postId._id %>">Back to Post</a>
-    &nbsp;|&nbsp;
-    <a href="/bookmarks">Back to Bookmarks</a>
-    &nbsp;|&nbsp;
-    <a href="/">Back to Home</a>
-  </p>
+        <% if (bookmarkError) { %>
+            <p class="msg-error"><strong><%= bookmarkError %></strong></p>
+        <% } %>
 
-  <% if (bookmarkError) { %>
-    <p style="color: #c62828;"><strong><%= bookmarkError %></strong></p>
-  <% } %>
+        <% if (success) { %>
+            <p class="msg-success"><strong><%= bookmarkSuccess || 'Bookmark updated successfully!' %></strong></p>
+        <% } %>
 
-  <% if (success) { %>
-    <p style="color: #2e7d32;"><strong><%= bookmarkSuccess || 'Bookmark updated successfully!' %></strong></p>
-  <% } %>
+        <div class="form-card">
+            <h2>Edit Bookmark</h2>
+            <h3><%= bookmark.postId.title %></h3>
 
-  <h3><%= bookmark.postId.title %></h3>
-
-  <form action="/bookmarks/edit" method="POST">
-    <input type="hidden" name="postId" value="<%= bookmark.postId._id %>">
-    <p><label for="note"><strong>Note</strong></label></p>
-    <textarea name="note" id="note" rows="4" cols="40" required><%= bookmark.note %></textarea>
-    <br><br>
-    <button type="submit">Save</button>
-  </form>
-
+            <form action="/bookmarks/edit" method="POST">
+                <input type="hidden" name="postId" value="<%= bookmark.postId._id %>">
+                <div class="form-field">
+                    <label for="note">Note</label>
+                    <textarea name="note" id="note" rows="4" class="form-textarea" required><%= bookmark.note %></textarea>
+                </div>
+                <button type="submit" class="form-submit">Save</button>
+            </form>
+        </div>
+    </section>
 </body>
 </html>
+
+
+

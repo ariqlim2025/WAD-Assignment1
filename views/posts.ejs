@@ -3,41 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Post</title>
+    <title>Create Post &middot; Wadsup</title>
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/app-logo-2.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/app-logo-2.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/app-logo-2.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <h3>Create Post</h3>
+    <%- include('header') %>
 
-    <% if (postError) { %>
-        <p style="color: #c62828;"><strong><%= postError %></strong></p>
-    <% } %>
+    <section class="main-content">
+        <a href="/" class="back-link">&larr; Back to Home</a>
 
-    <% if (postSuccess) { %>
-        <p style="color: #2e7d32;"><strong><%= postSuccess %></strong></p>
-    <% } %>
+        <div class="form-card">
+            <h2>Create Post</h2>
 
-    <form action="/createpost" method="POST">
-        <!-- Input field for post title -->
-        <input type="text" name="title" placeholder="Title" required><br><br>
-        <!-- Text area for post content -->
-        <textarea name="content" placeholder="Write something..." required></textarea><br><br>
-
-        <!-- Dropdown of all the commuinities -->
-        <select name="communityId" required>
-            <% if (communities.length === 0) { %>
-                <option value="" disabled selected>No communities available - create one first</option>
-            <% } else { %>
-                <option value="" disabled selected>Select a community</option>
-                <% communities.forEach(function(community) { %>
-                    <option value="<%= community._id %>"><%= community.name %></option>
-                <% }); %>
+            <% if (postError) { %>
+                <p class="msg-error"><strong><%= postError %></strong></p>
             <% } %>
-        </select><br><br>
 
-        <!-- Submit button -->
-        <button type="submit">Post</button>
-    </form>
-    <br>
-    <a href="/">Back to Home</a>
+            <% if (postSuccess) { %>
+                <p class="msg-success"><strong><%= postSuccess %></strong></p>
+            <% } %>
+
+            <form action="/createpost" method="POST">
+                <div class="form-field">
+                    <label for="title">Title</label>
+                    <input type="text" name="title" id="title" placeholder="Title" class="form-input" required>
+                </div>
+                <div class="form-field">
+                    <label for="content">Content</label>
+                    <textarea name="content" id="content" placeholder="Write something..." class="form-textarea" rows="5" required></textarea>
+                </div>
+                <div class="form-field">
+                    <label for="communityId">Community</label>
+                    <select name="communityId" id="communityId" class="form-select" required>
+                        <% if (communities.length === 0) { %>
+                            <option value="" disabled selected>No communities available - create one first</option>
+                        <% } else { %>
+                            <option value="" disabled selected>Select a community</option>
+                            <% communities.forEach(function(community) { %>
+                                <option value="<%= community._id %>"><%= community.name %></option>
+                            <% }); %>
+                        <% } %>
+                    </select>
+                </div>
+                <button type="submit" class="form-submit">Post</button>
+            </form>
+        </div>
+    </section>
 </body>
 </html>
+
+
+
