@@ -151,7 +151,36 @@
             <h1 class="post-title"><%= currentPost.title %></h1>
             <p class="post-meta">posted by u/<%= currentPost.authorId.username %> in <%= community.name %></p><br>
             <p class="post-body"><%= currentPost.content %></p>
+
+            <% let isAuthenticatedPost; %>
+
+            <% if (currentPost.authorId._id.toString() === user_id) { %>
+                <% isAuthenticatedPost = true %>
+            <% } else { %>
+                 <% isAuthenticatedPost = false %>
+            <% } %>
+
+            <%  if (isAuthenticatedPost) {%>
+            <!--author view-->
+            <h3>Edit Post</h3>
+            <form action="/updatepost" method="POST">
+                <input type="hidden" name="postId" value="<%= currentPost._id %>">
+                <input type="text" name="title" value="<%= currentPost.title %>"><br><br>
+                <textarea name="content"><%= currentPost.content %></textarea><br><br>
+                <button type="submit">Save Changes</button>
+            </form>
+
+            <br>
+
+            <h3>Delete Post</h3>
+            <form action="/deletepost" method="POST" onsubmit="return confirm('Delete this post forever?')">
+                <input type="hidden" name="postId" value="<%= currentPost._id %>">
+                <button type="submit">Delete Post</button>
+            </form>
         </div>
+        <% } %>
+    </div>
+
         <% for (let error of errors) { %>
             <p><%= error %></p>
         <% } %>

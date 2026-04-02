@@ -152,6 +152,7 @@ exports.showSinglePost = async (req, res) => {
                 currentComments[i].authorId = { _id: 'deleted', username: 'deleted_user' };
             }
         }
+        console.log(currentComments)
 
         // Display show.ejs (webpage that shows single post)
         res.render('show', {
