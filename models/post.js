@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 
 const postSchema = new mongoose.Schema({
-    title:       { type: String, required: true },
+    title:       { type: String, required: [true, "Title is mandatory"]},
     content:     { type: String, required: true },
     authorId:    { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     communityId: { type: mongoose.Schema.Types.ObjectId, ref: 'Community' },
