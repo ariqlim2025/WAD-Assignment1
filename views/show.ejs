@@ -1,0 +1,192 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post: <%= currentPost.title %></title>
+    <link rel="icon" type="image/png" href="/assets/app-logo-2.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .post-page {
+            max-width: 780px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .post-page .post-card {
+            padding: 30px;
+            margin-bottom: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+        }
+
+        .post-meta {
+            font-size: 0.8rem;
+            color: #888;
+            margin-bottom: 8px;
+        }
+
+        .post-page .post-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .post-page .post-body {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: #444;
+        }
+
+        .comments-section {
+            margin-top: 24px;
+        }
+
+        .comments-section h2 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #f9f9f9;
+        }
+
+        .comment {
+            background: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-left: 3px solid #ff4500;
+            border-radius: 8px;
+            padding: 14px 18px;
+            margin-bottom: 12px;
+        }
+
+        .comment-author {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: #ff4500;
+            margin-bottom: 6px;
+        }
+
+        .comment-text {
+            font-size: 0.9rem;
+            line-height: 1.65;
+            color: #333;
+            white-space: pre-wrap;
+        }
+
+        .comment-form-wrapper {
+            background: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 24px;
+        }
+
+        .comment-form-wrapper h3 {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 12px;
+        }
+
+        .comment-form-wrapper textarea {
+            width: 95%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+            resize: vertical;
+            outline: none;
+        }
+
+        .comment-form-wrapper textarea:focus {
+            border-color: #ff4500;
+        }
+
+        .comment-form-wrapper button {
+            margin-top: 10px;
+            background: #ff4500;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 10px 22px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .comment-form-wrapper button:hover {
+            background: #e03d00;
+        }
+
+        .link-btn {
+            background: none;
+            border: none;
+            color: #ff4500;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.8rem;
+            padding: 0;
+            text-decoration: underline;
+        }
+
+        .link-btn:hover {
+            color: #e03d00;
+        }
+    </style>
+</head>
+<body>
+    <%- include('header') %>
+
+    <div class="post-page">
+
+        <!-- Post Card -->
+        <div class="post-card">
+            <h1 class="post-title"><%= currentPost.title %></h1>
+            <p class="post-meta">posted by u/<%= currentPost.authorId.username %> in <%= community.name %></p><br>
+            <p class="post-body"><%= currentPost.content %></p>
+        </div>
+
+        <!-- Comments Section -->
+        <div class="comments-section">
+            <h2>Comments (<%= currentComments.length %>)</h2>
+
+            <% currentComments.forEach((comment) => { %>
+                <div class="comment">
+                    <p class="comment-author">u/<%= comment.authorId.username %></p>
+                    <p class="comment-text"><%= comment.content %></p>
+
+                    <% if (isAuthenticated) { %>
+
+                        <form action="./<%= currentPost._id %>/edit-comment" method="GET">
+                            <input type="hidden" name="commentId" value="<%= comment._id %>">
+                            <!-- <%= comment._id%> -->
+                            <button type="submit" class="link-btn">Edit</button>
+                        </form>
+
+                        <form action="./<%= currentPost._id %>/delete-comment" method="POST">
+                            <input type="hidden" name="commentId" value="<%= comment._id %>">
+                            <button type="submit" class="link-btn">Delete</button>
+                        </form>
+                    <% } %>
+                </div>
+            <% }) %>
+
+            <!-- Comment Form -->
+            <div class="comment-form-wrapper">
+                <h3>Leave a comment</h3>
+                <form action="./<%= currentPost._id %>" method="post">
+                    <textarea name="newComment" rows="4" placeholder="What are your thoughts?"></textarea>
+                    <button type="submit">Post Comment</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

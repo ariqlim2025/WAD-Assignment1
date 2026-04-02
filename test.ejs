@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <%- include('header') %>
+
+    <h1><%= currentPost.title %></h1>
+    <p>posted by u/<%= currentPost.authorId.username %> in <%= community %></p>
+    <p><%= currentPost.content %></p>
+
+    <form action="./edit-comment" method="POST">
+        <input type="hidden" name="commentId" value="<%= currentComment._id %>">
+        <textarea name="newComment">
+            <%= currentComment.content %>
+        </textarea><br>
+        <button type="submit">Make Changes</button>
+    </form>
+
+</body>
+</html>

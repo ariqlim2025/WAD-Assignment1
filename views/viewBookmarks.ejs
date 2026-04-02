@@ -1,0 +1,37 @@
+<html>
+<head></head>
+<body>
+
+  <h1>My Bookmarks</h1>
+  <hr>
+
+  <p>You have <strong><%= bookmarkList.length %></strong> bookmark(s)</p>
+
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Post</th>
+        <th>Note</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for (let bookmark of bookmarkList) { %>
+        <tr>
+          <td><%= bookmark.postId.title %></td>
+          <td><%= bookmark.note %></td>
+          <td>
+            <a href="/bookmarks/edit?postId=<%= bookmark.postId._id %>"><button>Edit</button></a>
+            &nbsp;
+            <form action="/bookmarks/delete" method="post">
+              <input type="hidden" name="postId" value="<%= bookmark.postId._id %>">
+              <button type="submit">Delete</button>
+            </form>
+          </td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+
+</body>
+</html>

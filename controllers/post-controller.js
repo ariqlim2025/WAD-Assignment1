@@ -1,9 +1,8 @@
-//import models
-const Post      = require('../models/post');
+const { Post, findSinglePost }      = require('../models/post');
 const User      = require('../models/user');
 const Community = require('../models/community');
-const Comment   = require('../models/comment');
-const Vote      = require('../models/vote');
+const { Comment, addComment, removeComment } = require('../models/comment');
+const { Vote, retrieveAllVotes } = require('../models/vote');
 const Bookmark  = require('../models/bookmark');
 
 // Controller function to list home page with all posts

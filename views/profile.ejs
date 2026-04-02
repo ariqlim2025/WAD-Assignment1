@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WADsUp</title>
+    <link rel="icon" type="image/png" href="/assets/app-logo-2.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="/css/style.css"> -->
+</head>
+<body>
+    <!-- Navbar -->
+
+    <!-- Main content -->
+    <form action="/profile" method="post">
+        <ul>
+            <%- userError %>
+            <%- emailError %>
+        </ul>
+        <h1><%- updated ? "Updated!" : "" %></h1>
+        <table>
+            <tr>
+                <td colspan="2"><h3>Username</h3></td>
+            </tr>
+            <tr>
+                <td><input type="text" name="username" value="<%= username %>" id="usernameInput" readonly></td>
+                <td><input type="checkbox" id="usernameCheck" name="usernameCheck">Edit?</td>
+            </tr>
+            <tr>
+                <td colspan="2"><h3>Email</h3></td>
+            </tr>
+            <tr>
+                <td><input type="email" name="email" value="<%= email %>" id="emailInput" readonly></td>
+                <td><input type="checkbox" id="emailCheck" name="emailCheck">Edit?</td>
+            </tr>
+            <tr>
+                <td colspan="2"><h3>Bio</h3></td>
+            </tr>
+            <tr>
+                <td><textarea name="bio" rows="5" cols="25" id="bioInput" readonly><%= bio %></textarea></td>
+                <td><input type="checkbox" id="bioCheck" name="bioCheck">Edit?</td>
+            </tr>
+        </table>
+        <br>
+        <input type="submit" value="Apply change" id="applyBtn" disabled>
+        <script>
+            // Checkboxes
+            const usernameCheck = document.getElementById('usernameCheck');
+            const emailCheck = document.getElementById('emailCheck');
+            const bioCheck = document.getElementById('bioCheck');
+
+            // Input fields
+            const userInput = document.getElementById('usernameInput');
+            const emailInput = document.getElementById('emailInput');
+            const bioInput = document.getElementById('bioInput');
+
+            // Apply (submit) button
+            const applyBtn = document.getElementById('applyBtn');
+
+            // Store original inputs to check for later
+            const originalValues = {username: userInput.value, email: emailInput.value, bio: bioInput.value };
+
+
+            // Allow change in inputs when corresponding checkboxes is checked
+            usernameCheck.addEventListener('change', function () { userInput.readOnly = !this.checked; });
+            emailCheck.addEventListener('change', function () { emailInput.readOnly = !this.checked; });
+            bioCheck.addEventListener('change', function () { bioInput.readOnly = !this.checked; });
+
+            // If any changes update button IF the logic shows TRUE
+            usernameCheck.addEventListener('change', updateButton);
+            emailCheck.addEventListener('change', updateButton);
+            bioCheck.addEventListener('change', updateButton);
+
+            userInput.addEventListener('input', updateButton);
+            emailInput.addEventListener('input', updateButton);
+            bioInput.addEventListener('input', updateButton);
+
+            // Update button status if any changes were made
+            function updateButton() {
+                applyBtn.disabled = !hasChanges();
+            }
+
+            // Logic to check if any checkboxes are checked and their corresponding input field is changed
+            function hasChanges() {
+                return (
+                    usernameCheck.checked && userInput.value !== originalValues.username ||
+                    emailCheck.checked && emailInput.value !== originalValues.email ||
+                    bioCheck.checked && bioInput.value !== originalValues.bio
+                );
+            }
+        </script>
+    </form>
+    <a href="/deleteAccount"><input type="button" value="Delete Account"></a>
+</body>
+</html>

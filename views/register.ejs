@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WADsUp</title>
+    <link rel="icon" type="image/png" href="/assets/app-logo-2.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="/css/style.css"> -->
+</head>
+<body>
+    <!-- Navbar -->
+
+    <!-- Main Content -->
+    <section class="main-content">
+        <form action="/register" method="post">
+            <h1>Register</h1>
+            <p>
+                <ul class="user-error-msg"><strong><%- usernameError %></strong></ul>
+                <strong>Username</strong><br>
+                <input type="text" name="username" value="<%= username %>" required>
+            </p>
+            <p>
+                <ul class="user-error-msg"><strong><%- emailError %></strong></ul>
+                <strong>Email</strong><br>
+                <input type="email" name="email" value="<%= email %>" required>
+            </p>
+            <p>
+                <ul class="user-error-msg"><strong><%- passError %></strong></ul>
+                <strong>Password</strong><br>
+                <input type="password" name="password" required>
+            </p>
+            <p>
+                <strong>Confirm Password</strong><br>
+                <input type="password" name="confirmPassword" required>
+            </p>
+            <p>
+                <ul class="user-error-msg"><strong><%- ageError %></strong></ul>
+                <strong>Date of Birth</strong><br>
+                <input type="date" name="dateBirth" value="<%= dateBirth %>" required>
+            </p>
+            <input type="submit" value="Register">
+        </form>
+        <p>Already have an account? Log in <a href="/login">here.</a></p>
+    </section>
+</body>
+</html>
