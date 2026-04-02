@@ -6,38 +6,6 @@
     <title>Post</title>
 </head>
 <body>
-    <!--only when the post exists, then the user can edit or delete-->
-    <%  if (typeof post !== "undefined" && post !== null) {%>
-        <!--post exists-->
-        <% if (post.authorId && post.authorId._id.toString() === currentUserId) {%>
-        <!--author view-->
-        <h3>Edit Post</h3>
-        <form action="/updatepost" method="POST">
-            <input type="hidden" name="postId" value="<%= post._id %>">
-            <input type="text" name="title" value="<%= post.title %>"><br><br>
-            <textarea name="content"><%= post.content %></textarea><br><br>
-            <button type="submit">Save Changes</button>
-        </form>
-
-        <br>
-
-        <h3>Delete Post</h3>
-        <form action="/deletepost" method="POST" onsubmit="return confirm('Delete this post forever?')">
-            <input type="hidden" name="postId" value="<%= post._id %>">
-            <button type="submit">Delete Post</button>
-        </form>
-
-        <% } else {%>
-            <!--Visitor View-->
-            <h3><%= post.title %></h3>
-            <p><%= post.content %></p>
-            <p><em>Author ID: <%= post.authorId._id %></em></p>
-            <p>(You are viewing this post in read-only mode)</p>
-
-            <% } %>
-        
-    <% } else {%>
-        <!--post does not exist-->
     <h3>Create Post</h3>
     <form action="/createpost" method="POST">
         <!-- Input field for post title -->
@@ -60,7 +28,6 @@
         <!-- Submit button -->
         <button type="submit">Post</button>
     </form>
-<% } %>
     <br>
     <a href="/">Back to Home</a>
 </body>
