@@ -11,11 +11,13 @@ exports.createComment = async (req, res) => {
 
 
         // PLACEHOLDER USER !!!
-        const placeholderUser = await User.findOne({ username: 'AdminTester' });
+        // const placeholderUser = await User.findOne({ username: 'AdminTester' });
+        const userId = req.session.user?.user_id;
 
         let newComment = {
             content : commentContent,
-            authorId: placeholderUser,       // PLACEHOLDER USER !!!
+            authorId: userId,
+            // authorId: placeholderUser,       // PLACEHOLDER USER !!!
             postId: postId,
             createdAt: Date.now(),
             updatedAt: Date.now()

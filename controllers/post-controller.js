@@ -1,6 +1,7 @@
 const Post = require('../models/post');
 const Comment = require('../models/comment');
 const Vote = require('../models/vote');
+const Community = require('../models/community');
 
 
 // ------------ CONTROLLLER FUNCTION TO SHOW ALL POSTS ------------
@@ -95,5 +96,31 @@ exports.showSinglePost = async (req, res) => {
         });
     } catch (error) {
         res.status(500).send(`Error showing post: ${error.message}`);
+    }
+};
+
+
+// ------------ CONTROLLER FUNCTION TO SHOW CREATE POST PAGE ------------
+exports.showCreatePost = async (req, res) => {
+    try {
+        const communities = await Community.allCommunities();
+        const currentUserId = req.session.user?.user_id || null;
+        res.render('create-post', { communities, user_id: currentUserId });
+    } catch (error) {
+        res.status(500).send(`Error loading create post page: ${error.message}`);
+    }
+};
+
+
+// ------------ CONTROLLER FUNCTION TO CREATE A NEW POST ------------
+exports.createPost = async (req, res) => {
+    try {
+        const { title, content, communityId } = req.body;
+        const authorId = req.session.user.user_id;
+
+        await Post.Post.create({ title, content, authorId, communityId });
+        res.redirect('/');
+    } catch (error) {
+        res.status(500).send(`Error creating post: ${error.message}`);
     }
 };

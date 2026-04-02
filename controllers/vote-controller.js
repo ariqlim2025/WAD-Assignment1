@@ -19,7 +19,7 @@ exports.addVote = async (req, res) => {
     // Validation - if database down / load fail
     try {
         // Check if the user has already voted on this post and what was his vote
-        const existingVote = await Vote.findOneVote(userId, postId);    
+        const existingVote = await Vote.findOneVote(user_id, postId);    
 
         // console.log(existingVote);
         if (existingVote) {
@@ -43,7 +43,7 @@ exports.addVote = async (req, res) => {
             }
         }
         else {
-            await Vote.createOneVote(userId, postId, selected_value);
+            await Vote.createOneVote(user_id, postId, selected_value);
         }
         // res.redirect('/');
         // stay on current page instead of redirecting back to root page

@@ -8,6 +8,7 @@ router.get('/register', userController.showRegister);
 router.post('/register', userController.handleRegister);
 router.get('/login', userController.showLogin);
 router.post('/login', userController.handleLogin);
+router.get('/logout', userController.handleLogout);
 router.get('/profile', authMiddleware.isLoggedIn, userController.showProfile);
 router.post('/profile', authMiddleware.isLoggedIn, userController.handleProfile);
 router.get('/forgetPass', userController.showForget);

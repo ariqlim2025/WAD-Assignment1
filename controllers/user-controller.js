@@ -162,7 +162,7 @@ exports.handleLogin = async (req, res) => {
         };
     }
 
-    if (req.session.user) { return res.redirect('/profile'); }
+    if (req.session.user) { return res.redirect('/'); }
     res.render("login", { loginCred, loginMsg });
 };
 
@@ -351,6 +351,12 @@ exports.handlePass = async (req, res) => {
         emailError: undefined,
         passError,
         password
+    });
+};
+
+exports.handleLogout = (req, res) => {
+    req.session.destroy(() => {
+        res.redirect('/');
     });
 };
 

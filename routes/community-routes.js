@@ -2,10 +2,10 @@ const express = require('express');
 const router = express.Router();
 
 const communityController = require("../controllers/community-controller");
-// add your community routes here later
+const authMiddleware = require("../middleware/auth-middleware");
 
-router.get("/create-community", communityController.showCreateCommunityPage);
-router.post("/create-community", communityController.createCommunity);
+router.get("/create-community", authMiddleware.isLoggedIn, communityController.showCreateCommunityPage);
+router.post("/create-community", authMiddleware.isLoggedIn, communityController.createCommunity);
 
 router.get("/communities", communityController.showCommunitiesPage);
 

@@ -148,6 +148,8 @@
 
     <div class="post-page">
 
+        <p style="color: #fff; margin-bottom: 12px;"><a href="/" style="color: #9ec5ff;">&larr; Back to home</a></p>
+
         <!-- Post Card -->
         <div class="post-card">
             <h1 class="post-title"><%= currentPost.title %></h1>
@@ -164,11 +166,10 @@
                     <p class="comment-author">u/<%= comment.authorId.username %></p>
                     <p class="comment-text"><%= comment.content %></p>
 
-                    <% if (isAuthenticated) { %>
+                    <% if (isAuthenticated && comment.authorId._id.toString() === user_id.toString()) { %>
 
                         <form action="./<%= currentPost._id %>/edit-comment" method="GET">
                             <input type="hidden" name="commentId" value="<%= comment._id %>">
-                            <!-- <%= comment._id%> -->
                             <button type="submit" class="link-btn">Edit</button>
                         </form>
 
