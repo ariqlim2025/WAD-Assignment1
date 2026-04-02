@@ -7,6 +7,7 @@ const bookmarkSchema = new mongoose.Schema({
     note:      { type: String, required: true },
     createdAt: { type: Date, default: Date.now }
 })
+bookmarkSchema.index({ userId: 1, postId: 1 }, { unique: true });
 
 const Bookmark = mongoose.model('Bookmark', bookmarkSchema, "bookmarks");
 exports.createBookmark = function(newBookmark) {

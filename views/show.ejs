@@ -151,16 +151,19 @@
             <h1 class="post-title"><%= currentPost.title %></h1>
             <p class="post-meta">posted by u/<%= currentPost.authorId.username %> in <%= community.name %></p><br>
             <p class="post-body"><%= currentPost.content %></p>
-
-            <% let isAuthenticatedPost; %>
-
-            <% if (currentPost.authorId._id.toString() === user_id) { %>
-                <% isAuthenticatedPost = true %>
+            <br>
+            <% if (isBookmarked) { %>
+                <p><strong>Added to Bookmarks</strong></p>
+                <a href="/bookmarks"><button type="button">View Bookmarks</button></a>
             <% } else { %>
-                 <% isAuthenticatedPost = false %>
+                <form action="/addBookmark" method="GET">
+                    <input type="hidden" name="postId" value="<%= currentPost._id %>">
+                    <button type="submit">Add to Bookmarks</button>
+                </form>
             <% } %>
+            <br>
 
-            <%  if (isAuthenticatedPost) {%>
+            <% if (currentPost.authorId && currentPost.authorId._id && currentPost.authorId._id.toString() === user_id.toString()) { %>
             <!--author view-->
             <h3>Edit Post</h3>
             <p class="post-body"><%= postMsg %></p>
@@ -179,8 +182,8 @@
                 <input type="hidden" name="postId" value="<%= currentPost._id %>">
                 <button type="submit">Delete Post</button>
             </form>
+            <% } %>
         </div>
-        <% } %>
     </div>
 
         <% for (let error of errors) { %>

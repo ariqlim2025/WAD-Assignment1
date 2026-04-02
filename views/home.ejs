@@ -20,6 +20,14 @@
         <a href="/posts/new" class="create-post-btn">+ Create Post</a>
         <a href="/communities" class="create-post-btn">All Community</a>
 
+        <% if (homeError) { %>
+            <p style="color: #ff8a80;"><strong><%= homeError %></strong></p>
+        <% } %>
+
+        <% if (homeSuccess) { %>
+            <p style="color: #9be59b;"><strong><%= homeSuccess %></strong></p>
+        <% } %>
+
         <!-- View all the posts here -->
         <% if (posts.length === 0) { %>
             <p class="no-posts">No posts yet. Be the first to create a post!</p>
@@ -68,6 +76,16 @@
                         <p class="post-author"><%= posts[i].author.username %></p>
                         <p class="post-body"><%= posts[i].content %></p>
                         <p class="post-comment-count"><%= posts[i].commentCount %> Comments</p>
+
+                        <% if (posts[i].authorId && posts[i].authorId._id && posts[i].authorId._id.toString() === user_id.toString()) { %>
+                            <div style="margin-top: 10px;">
+                                <a href="/?id=<%= posts[i]._id %>" style="margin-right: 10px;">Edit</a>
+                                <form action="/deletepost" method="POST" style="display: inline;" onsubmit="return confirm('Delete this post forever?')">
+                                    <input type="hidden" name="postId" value="<%= posts[i]._id %>">
+                                    <button type="submit" style="background: none; border: none; color: #c62828; text-decoration: underline; cursor: pointer; padding: 0;">Delete</button>
+                                </form>
+                            </div>
+                        <% } %>
                     </div>
                 </div>
             <% } %>

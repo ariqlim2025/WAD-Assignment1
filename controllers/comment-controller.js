@@ -1,5 +1,6 @@
 const Comment = require('../models/comment');
 const Post = require('../models/post');
+const Bookmark = require('../models/bookmark');
 
 // upload comment to the database
 exports.createComment = async (req, res) => {
@@ -22,6 +23,11 @@ exports.createComment = async (req, res) => {
 
         // Get currentPost Post object, reference findSinglePost function from post.js models file
         const currentPost = await Post.findSinglePost(postId).populate('authorId').populate('communityId');
+
+        // If current post cannot be retrieved
+        if (!currentPost) {
+            return res.send("Post not found");
+        }
         
         // Get community of current post
         // declare community variable
@@ -55,6 +61,11 @@ exports.createComment = async (req, res) => {
 
         // If error exists
         const errors = []
+        let isBookmarked = false;
+        const existingBookmark = await Bookmark.findBookmarkByUserAndPost(user_id, postId)
+        if (existingBookmark) {
+            isBookmarked = true;
+        }
 
 
         // ERROR HANDLING
@@ -67,25 +78,11 @@ exports.createComment = async (req, res) => {
                 currentComments: currentComments,
                 user_id: user_id,
                 postMsg: undefined,
+                isBookmarked: isBookmarked,
                 errors
             });
 
             // return res.send('Comment cannot be empty')
-        }
-
-        // If current post cannot be retrieved
-        if (!currentPost) {
-            // return res.send("Post not found");
-
-            errors.push('Post not found')
-            return res.render('show', {
-                currentPost: currentPost,
-                community: community,
-                currentComments: currentComments,
-                user_id: user_id,
-                postMsg: undefined,
-                errors
-            });
         }
 
         // create new comment object
@@ -129,46 +126,17 @@ exports.showEditComment = async (req, res) => {
 
         // in case current post doesnt exist, current comment doesnt exist (cannot be found)
         if (!currentPost || !currentComment) {
-            // return res.send("Post or comment not found");
-            errors.push("Post or comment not found")
-            res.render('show', {
-                currentPost, 
-                currentComment, 
-                community, 
-                user_id: user_id,
-                postMsg: undefined,
-                errors
-            });
+            return res.send("Post or comment not found");
         }
 
         // in case comment does not belong to current post
         if (currentComment.postId.toString() !== postId.toString()) {
-            // return res.send("Comment does not belong to this post");
-
-            errors.push("Comment does not belong to this post")
-            res.render('show', {
-                currentPost, 
-                currentComment, 
-                community, 
-                user_id: user_id,
-                postMsg: undefined,
-                errors
-            });
+            return res.send("Comment does not belong to this post");
         }
 
         // in case current comment has no author id, or comment id does not match logged in user
         if (!currentComment.authorId || currentComment.authorId.toString() !== user_id.toString()) {
-            // return res.send("Unauthorized");
-
-            errors.push("Unauthorized")
-            res.render('show', {
-                currentPost, 
-                currentComment, 
-                community, 
-                user_id: user_id,
-                postMsg: undefined,
-                errors
-            });
+            return res.send("Unauthorized");
         }
 
         let community;
@@ -208,6 +176,10 @@ exports.editComment = async (req, res) => {
         // get current post using findSinglePost from Post models file, then populate
         const currentPost = await Post.findSinglePost(postId).populate('authorId').populate('communityId');
 
+        if (!currentPost) {
+            return res.send("Post not found");
+        }
+
         // Get community of current post
         // declare community variable
         let community;
@@ -230,16 +202,7 @@ exports.editComment = async (req, res) => {
 
         // if current comment cannot be retrieved
         if (!currentComment) {
-            // return res.send("Comment not found");
-
-            errors.push("Comment not found")
-            return res.render('editComment', {
-                currentPost, 
-                currentComment, 
-                community, 
-                user_id: user_id,
-                errors
-            });
+            return res.send("Comment not found");
         }
 
         // if comment's post id does not match actual post id
@@ -311,6 +274,10 @@ exports.deleteComment = async (req, res) => {
         // get current post details using findSinglePost from Post models file, then populate
         const currentPost = await Post.findSinglePost(postId).populate('authorId').populate('communityId');
 
+        if (!currentPost) {
+            return res.send("Post not found");
+        }
+
         // Get community of current post
         // declare community variable
         let community;
@@ -329,14 +296,13 @@ exports.deleteComment = async (req, res) => {
             currentPost.authorId = { username: 'deleted_user' };
         }
 
-        // Handle case where user gets deleted for POSTS
-        // Keep the post and its contents, but the username is now 'deleted_user'
-        if (!currentPost.authorId) {
-            currentPost.authorId = { username: 'deleted_user' };
-        }
-
         // get all comments under current post
         const currentComments = await Comment.find({ postId: postId }).populate('authorId');
+        let isBookmarked = false;
+        const existingBookmark = await Bookmark.findBookmarkByUserAndPost(user_id, postId)
+        if (existingBookmark) {
+            isBookmarked = true;
+        }
 
         // if cannot find comment
         if (!currentComment) {
@@ -349,6 +315,7 @@ exports.deleteComment = async (req, res) => {
                 currentComments: currentComments,
                 user_id: user_id,
                 postMsg: undefined,
+                isBookmarked: isBookmarked,
                 errors
             });
         }
@@ -364,6 +331,7 @@ exports.deleteComment = async (req, res) => {
                 currentComments: currentComments,
                 user_id: user_id,
                 postMsg: undefined,
+                isBookmarked: isBookmarked,
                 errors
             });
         }
@@ -379,6 +347,7 @@ exports.deleteComment = async (req, res) => {
                 currentComments: currentComments,
                 user_id: user_id,
                 postMsg: undefined,
+                isBookmarked: isBookmarked,
                 errors
             });
         }

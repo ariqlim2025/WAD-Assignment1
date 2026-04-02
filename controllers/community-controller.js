@@ -138,9 +138,9 @@ exports.showCommunitiesPage = async (req, res) => {
 
 // show the community that the user selected
 exports.showSelectedCommunity = async (req, res) => {
+    const user_id = req.session.user.user_id;
+
     try {
-        const user_id = req.session.user.user_id;
-        
         // get the community name from the url
         const { communitySlug } = req.params;
 
@@ -260,8 +260,9 @@ exports.showSelectedCommunity = async (req, res) => {
 
 // show the edit community page
 exports.showEditCommunityPage = async (req, res) => {
+    const user_id = req.session.user.user_id;
+
     try {
-        const user_id = req.session.user.user_id;
         // get community name from url
         const { communitySlug } = req.params;
 
@@ -274,8 +275,8 @@ exports.showEditCommunityPage = async (req, res) => {
             return res.render('editCommunity', {
                 user_id,
                 communitySlug,
-                community_name: selectedCommunity.name,
-                description_details: selectedCommunity.description,
+                community_name: '',
+                description_details: '',
                 communityNameError: '',
                 communityDescriptionError: '',
                 otherError: "Community cannot be found."
@@ -325,8 +326,8 @@ exports.showEditCommunityPage = async (req, res) => {
         return res.render('editCommunity', {
             user_id,
             communitySlug,
-            community_name: selectedCommunity.name,
-            description_details: selectedCommunity.description,
+            community_name: '',
+            description_details: '',
             communityNameError: '',
             communityDescriptionError: '',
             otherError: "An internal server error occurred."
@@ -489,8 +490,9 @@ exports.updateCommunity = async (req, res) => {
 
 // to delete community
 exports.deleteCommunity = async (req, res) => {
+    const user_id = req.session.user.user_id;
+
     try {
-        const user_id = req.session.user.user_id;
         // community name from url
         const { communitySlug } = req.params;
 
@@ -551,7 +553,6 @@ exports.deleteCommunity = async (req, res) => {
         return res.redirect('/communities');
 
     } catch (error) {
-        const communitySlug = req.params.communitySlug;
         console.error('Error deleting community:', error);
 
         return res.render('showSelectedCommunity', {

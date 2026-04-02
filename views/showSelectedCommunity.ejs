@@ -17,8 +17,8 @@
     <!-- Main Content -->
     <section class="main-content">
         <!-- back buttons -->
-        <p style="color: #fff; margin-bottom: 12px;"><a href="/" style="color: #9ec5ff;">← Back to home</a></p>
-        <p style="color: #fff; margin-bottom: 12px;"><a href="/communities" style="color: #9ec5ff;">← Back to communities</a></p>
+        <p style="color: #fff; margin-bottom: 12px;"><a href="/" style="color: #9ec5ff;"><- Back to home</a></p>
+        <p style="color: #fff; margin-bottom: 12px;"><a href="/communities" style="color: #9ec5ff;"><- Back to communities</a></p>
 
         <% if (otherError) { %>
             
@@ -36,7 +36,7 @@
                     <span class="community-label-title"><%= community.name %></span>
                     <% if (isCreator) { %>
                     <details class="community-menu">
-                        <summary class="community-menu-trigger" aria-label="Community options">⋯</summary>
+                        <summary class="community-menu-trigger" aria-label="Community options">...</summary>
                         <div class="community-menu-dropdown">
                             <a href="/communities/<%= community.name %>/edit" class="community-menu-item">Update community</a>
                             <form action="/communities/<%= community.name %>/delete" method="post" class="community-menu-delete-form"
@@ -62,7 +62,11 @@
                             <form action="/vote" method="POST">
                                 <input type="hidden" name="postId" value="<%= posts[i]._id %>">
                                 <input type="hidden" name="value" value="1">
-                                <button type="submit" style="background: none; border: none; color: <%= posts[i].userVote === 1 ? '#00FF00' : '#888' %>; cursor: pointer; font-size: 18px;">&#9650;</button>
+                                <% if (posts[i].userVote === 1) { %>
+                                    <button type="submit" style="background: none; border: none; color: #00FF00; cursor: pointer; font-size: 18px;">&#9650;</button>
+                                <% } else { %>
+                                    <button type="submit" style="background: none; border: none; color: #888; cursor: pointer; font-size: 18px;">&#9650;</button>
+                                <% } %>
                             </form>
                             
                             <!-- Vote Score -->
@@ -72,7 +76,11 @@
                             <form action="/vote" method="POST">
                                 <input type="hidden" name="postId" value="<%= posts[i]._id %>">
                                 <input type="hidden" name="value" value="-1">
-                                <button type="submit" style="background: none; border: none; color: <%= posts[i].userVote === -1 ? '#FA003F' : '#888' %>; cursor: pointer; font-size: 18px;">&#9660;</button>
+                                <% if (posts[i].userVote === -1) { %>
+                                    <button type="submit" style="background: none; border: none; color: #FA003F; cursor: pointer; font-size: 18px;">&#9660;</button>
+                                <% } else { %>
+                                    <button type="submit" style="background: none; border: none; color: #888; cursor: pointer; font-size: 18px;">&#9660;</button>
+                                <% } %>
                             </form>
                         </div>
 
@@ -90,6 +98,16 @@
                             <p class="post-author"><%= posts[i].author.username %></p>
                             <p class="post-body"><%= posts[i].content %></p>
                             <p class="post-comment-count"><%= posts[i].commentCount %> Comments</p>
+
+                            <% if (posts[i].authorId && posts[i].authorId._id && posts[i].authorId._id.toString() === user_id.toString()) { %>
+                                <div style="margin-top: 10px;">
+                                    <a href="/?id=<%= posts[i]._id %>" style="margin-right: 10px;">Edit</a>
+                                    <form action="/deletepost" method="POST" style="display: inline;" onsubmit="return confirm('Delete this post forever?')">
+                                        <input type="hidden" name="postId" value="<%= posts[i]._id %>">
+                                        <button type="submit" style="background: none; border: none; color: #c62828; text-decoration: underline; cursor: pointer; padding: 0;">Delete</button>
+                                    </form>
+                                </div>
+                            <% } %>
                         </div>
                     </div>
                 <% } %>

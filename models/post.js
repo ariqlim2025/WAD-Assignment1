@@ -16,11 +16,11 @@ exports.find = function(filter) {
 }
 
 exports.findById = function(postId) {
-    return Post.findById(postId);
+    return Post.findOne({ _id: postId });
 }
 
 exports.findSinglePost = function(postId) {
-    return Post.findById(postId);
+    return Post.findOne({ _id: postId });
 }
 
 exports.createPost = function(newPost) {
@@ -30,7 +30,7 @@ exports.createPost = function(newPost) {
 exports.updatePostContent = function(_id, title, content) {
     return Post.updateOne(
         { _id },
-        { $set: { title, content, updatedAt }}
+        { $set: { title: title, content: content, updatedAt: Date.now() }}
     );
 }
 
@@ -39,6 +39,6 @@ exports.deleteMany = function(filter) {
 }
 
 exports.findByIdAndDelete = function(postId) {
-    return Post.findByIdAndDelete(postId);
+    return Post.deleteOne({ _id: postId });
 }
 

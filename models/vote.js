@@ -10,10 +10,6 @@ const voteSchema = new mongoose.Schema({
 
 const Vote = mongoose.model('Vote', voteSchema);
 // ----- Vote Methods -----
-// Retrieve all votes
-exports.retrieveAllVotes = function() {
-    return Vote.find();
-}
 // Retrieve one vote
 exports.findOneVote = function(userId, postId) {
     return Vote.findOne({ userId: userId, postId: postId }); 

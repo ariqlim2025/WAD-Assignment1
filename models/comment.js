@@ -19,20 +19,19 @@ exports.addComment = function(comment) {
 
 // get single comment
 exports.retrieveComment = function(commentId) {
-    return Comment.findById(commentId);
+    return Comment.findOne({ _id: commentId });
 }
 
 // delete a comment from the database
 exports.removeComment = function(commentId) {
-    return Comment.findByIdAndDelete(commentId);
+    return Comment.deleteOne({ _id: commentId });
 }
 
 // find a comment then update it in the database
 exports.toEditComment = function(commentId, newContent) {
-    return Comment.findByIdAndUpdate(
-        commentId,
-        { content: newContent, updatedAt: Date.now() },
-        { new: true }
+    return Comment.updateOne(
+        { _id: commentId },
+        { $set: { content: newContent, updatedAt: Date.now() } }
     );
 }
 

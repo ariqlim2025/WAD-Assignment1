@@ -7,6 +7,15 @@
 </head>
 <body>
     <h3>Create Post</h3>
+
+    <% if (postError) { %>
+        <p style="color: #c62828;"><strong><%= postError %></strong></p>
+    <% } %>
+
+    <% if (postSuccess) { %>
+        <p style="color: #2e7d32;"><strong><%= postSuccess %></strong></p>
+    <% } %>
+
     <form action="/createpost" method="POST">
         <!-- Input field for post title -->
         <input type="text" name="title" placeholder="Title" required><br><br>

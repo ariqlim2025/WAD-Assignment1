@@ -11,7 +11,7 @@ const communitySchema = new mongoose.Schema({
 const Community = mongoose.model('Community', communitySchema);
 
 exports.findCommunityById = function(communityId) {
-    return Community.findById(communityId);
+    return Community.findOne({ _id: communityId });
 };
 
 exports.createCommunity = function(newCommunity) {

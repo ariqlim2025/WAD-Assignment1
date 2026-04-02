@@ -4,6 +4,17 @@
 
   <h1>My Bookmarks</h1>
   <hr>
+  <p>
+    <a href="/">Back to Home</a>
+  </p>
+
+  <% if (bookmarkError) { %>
+    <p style="color: #c62828;"><strong><%= bookmarkError %></strong></p>
+  <% } %>
+
+  <% if (bookmarkSuccess) { %>
+    <p style="color: #2e7d32;"><strong><%= bookmarkSuccess %></strong></p>
+  <% } %>
 
   <p>You have <strong><%= bookmarkList.length %></strong> bookmark(s)</p>
 
@@ -21,6 +32,8 @@
           <td><%= bookmark.postId.title %></td>
           <td><%= bookmark.note %></td>
           <td>
+            <a href="/posts/<%= bookmark.postId._id %>"><button type="button">View Post</button></a>
+            &nbsp;
             <a href="/bookmarks/edit?postId=<%= bookmark.postId._id %>"><button>Edit</button></a>
             &nbsp;
             <form action="/bookmarks/delete" method="post">

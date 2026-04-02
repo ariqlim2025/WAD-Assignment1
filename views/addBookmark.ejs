@@ -4,6 +4,17 @@
 
   <h1>Add Bookmark</h1>
   <hr>
+  <p>
+    <a href="/posts/<%= postId %>">Back to Post</a>
+    &nbsp;|&nbsp;
+    <a href="/bookmarks">Back to Bookmarks</a>
+    &nbsp;|&nbsp;
+    <a href="/">Back to Home</a>
+  </p>
+
+  <% if (bookmarkError) { %>
+    <p style="color: #c62828;"><strong><%= bookmarkError %></strong></p>
+  <% } %>
 
 <%- // gonna add post title and post content later %>
 
@@ -13,8 +24,6 @@
     <textarea name="note" id="note" rows="4" cols="40" placeholder="Write your note here" required></textarea>
     <br><br>
     <button type="submit">Save Bookmark</button>
-    &nbsp;
-    <a href="/bookmarks"><button type="button">Back to Bookmarks</button></a>
   </form>
 
 </body>

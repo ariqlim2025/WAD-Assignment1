@@ -4,9 +4,20 @@
 
   <h1>Edit Bookmark</h1>
   <hr>
+  <p>
+    <a href="/posts/<%= bookmark.postId._id %>">Back to Post</a>
+    &nbsp;|&nbsp;
+    <a href="/bookmarks">Back to Bookmarks</a>
+    &nbsp;|&nbsp;
+    <a href="/">Back to Home</a>
+  </p>
+
+  <% if (bookmarkError) { %>
+    <p style="color: #c62828;"><strong><%= bookmarkError %></strong></p>
+  <% } %>
 
   <% if (success) { %>
-    <p><strong>Bookmark updated successfully!</strong></p>
+    <p style="color: #2e7d32;"><strong><%= bookmarkSuccess || 'Bookmark updated successfully!' %></strong></p>
   <% } %>
 
   <h3><%= bookmark.postId.title %></h3>
@@ -17,8 +28,6 @@
     <textarea name="note" id="note" rows="4" cols="40" required><%= bookmark.note %></textarea>
     <br><br>
     <button type="submit">Save</button>
-    &nbsp;
-    <a href="/bookmarks"><button type="button">Back to Bookmarks</button></a>
   </form>
 
 </body>

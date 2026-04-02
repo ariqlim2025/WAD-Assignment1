@@ -10,20 +10,26 @@ exports.showPosts = async (req, res) => {
         const postId = req.query.id;
         const user_id = req.session.user.user_id;
         const communities = await Community.allCommunities();
+        const homeError = req.query.error || '';
+        const homeSuccess = req.query.success || '';
+        const postError = req.query.error || '';
+        const postSuccess = req.query.success || '';
 
         // Edit page flow (kept from current app behaviour)
         if (postId) {
             const post = await Post.findById(postId).populate('authorId');
 
             if (!post) {
-                return res.send("Post not found");
+                return res.redirect('/?error=Post not found');
             }
 
             return res.render('posts', {
                 post: post,
                 communities: communities,
                 currentUserId: user_id,
-                user_id: user_id
+                user_id: user_id,
+                postError: postError,
+                postSuccess: postSuccess
             });
         }
 
@@ -80,11 +86,12 @@ exports.showPosts = async (req, res) => {
             posts: posts,
             communities: communities,
             currentUserId: user_id,
-            user_id: user_id
+            user_id: user_id,
+            homeError: homeError,
+            homeSuccess: homeSuccess
         });
     } catch (err) {
-        console.error(err);
-        res.send("Error loading posts");
+        return res.status(500).json({ error: err.message });
     }
 };
 
@@ -93,16 +100,19 @@ exports.showCreatePostPage = async (req, res) => {
     try {
         const communities = await Community.allCommunities();
         const user_id = req.session.user.user_id;
+        const postError = req.query.error || '';
+        const postSuccess = req.query.success || '';
 
         res.render('posts', {
             post: null,
             communities: communities,
             currentUserId: user_id,
-            user_id: user_id
+            user_id: user_id,
+            postError: postError,
+            postSuccess: postSuccess
         });
     } catch (error) {
-        console.error(error);
-        res.send("Error loading create post page");
+        return res.status(500).json({ error: error.message });
     }
 };
 
@@ -118,10 +128,17 @@ exports.showSinglePost = async (req, res) => {
 
         // errors array
         const errors = [];
+        let isBookmarked = false;
+        let postMsg = req.query.success || undefined;
+        const queryError = req.query.error || '';
+
+        if (queryError) {
+            errors.push(queryError);
+        }
 
         // if current post cannot be retrieved, send error
         if (!currentPost) {
-            return res.send("Post not found");
+            return res.redirect('/?error=Post not found');
         }
 
         // get all comments under the selected post 
@@ -154,18 +171,23 @@ exports.showSinglePost = async (req, res) => {
         }
         console.log(currentComments)
 
+        const existingBookmark = await Bookmark.findBookmarkByUserAndPost(user_id, postId)
+        if (existingBookmark) {
+            isBookmarked = true;
+        }
+
         // Display show.ejs (webpage that shows single post)
         res.render('show', {
             currentPost: currentPost,
             community: community,
             currentComments: currentComments,
             user_id: user_id,
-            postMsg: undefined,
+            postMsg: postMsg,
+            isBookmarked: isBookmarked,
             errors
         });
     } catch (error) {
-        console.error(error);
-        res.send("Error showing post" + error);
+        return res.status(500).json({ error: error.message });
     }
 };
 
@@ -176,18 +198,19 @@ exports.createPost = async (req, res) => {
         const content = (req.body.content || '').trim();
         const communityId = req.body.communityId;
         const user_id = req.session.user.user_id;
-        const selectedCommunity = await Community.findCommunityById(communityId);
 
         if (!title || !content) {
-            return res.send("Title and content are required");
+            return res.redirect('/posts/new?error=Title and content are required');
         }
 
         if (!communityId) {
-            return res.send("Community is required");
+            return res.redirect('/posts/new?error=Community is required');
         }
 
+        const selectedCommunity = await Community.findCommunityById(communityId);
+
         if (!selectedCommunity) {
-            return res.send("Community not found");
+            return res.redirect('/posts/new?error=Community not found');
         }
 
         const newPost = {
@@ -198,10 +221,9 @@ exports.createPost = async (req, res) => {
         };
 
         await Post.createPost(newPost);
-        res.redirect('/');
+        return res.redirect('/?success=Post created successfully');
     } catch (err) {
-        console.error(err);
-        res.send("Error creating post");
+        return res.status(500).json({ error: err.message });
     }
 };
 
@@ -213,10 +235,22 @@ exports.updatePost = async (req, res) => {
         const content = (req.body.content || '').trim();
         const user_id = req.session.user.user_id;
 
+        if (!postId) {
+            return res.redirect('/?error=Post not found');
+        }
+
         const post = await Post.findById(postId);
+
+        if (!post) {
+            return res.redirect('/?error=Post not found');
+        }
 
         // get current post object, populate authorid and communityid
         let currentPost = await Post.findById(postId).populate('authorId').populate('communityId');
+
+        if (!currentPost) {
+            return res.redirect('/?error=Post not found');
+        }
 
         // Get old title & content (to validate if they actually changed)
         const old_title = post.title;
@@ -226,6 +260,11 @@ exports.updatePost = async (req, res) => {
         const community = currentPost.communityId;
 
         const errors = [];
+        let isBookmarked = false;
+        const existingBookmark = await Bookmark.findBookmarkByUserAndPost(user_id, postId)
+        if (existingBookmark) {
+            isBookmarked = true;
+        }
 
         // post msg to display when change has been made / not successful
         let postMsg = '';
@@ -233,16 +272,12 @@ exports.updatePost = async (req, res) => {
         // get all comments under the selected post 
         const currentComments = await Comment.find({ postId: postId }).populate('authorId');
 
-        if (!post) {
-            return res.send('Post not found');
-        }
-
         if (post.authorId.toString() !== user_id.toString()) {
-            return res.send('Unauthorized');
+            return res.redirect(`/posts/${postId}?error=Unauthorized`);
         }
 
         if (!title || !content) {
-            return res.send('Title and content are required');
+            return res.redirect(`/posts/${postId}?error=Title and content are required`);
         }
 
         if (title === old_title && content === old_content) {
@@ -253,12 +288,13 @@ exports.updatePost = async (req, res) => {
                 currentComments: currentComments,
                 user_id: user_id,
                 postMsg,
+                isBookmarked: isBookmarked,
                 errors
             });
         }
 
         // Update post content
-        await Post.updatePostContent(_id = postId, title, content, updatedAt = new Date());
+        await Post.updatePostContent(postId, title, content);
         postMsg = "Post edited successfully!"
         
         // get current post object to render new post content
@@ -270,11 +306,11 @@ exports.updatePost = async (req, res) => {
             currentComments: currentComments,
             user_id: user_id,
             postMsg,
+            isBookmarked: isBookmarked,
             errors
         });
     } catch (err) {
-        console.error(err);
-        res.send('Error updating post');
+        return res.status(500).json({ error: err.message });
     }
 };
 
@@ -283,23 +319,27 @@ exports.deletePost = async (req, res) => {
     try {
         const postId = req.body.postId;
         const user_id = req.session.user.user_id;
+
+        if (!postId) {
+            return res.redirect('/?error=Post not found');
+        }
+
         const post = await Post.findById(postId);
 
         if (!post) {
-            return res.send("Post not found");
+            return res.redirect('/?error=Post not found');
         }
 
         if (post.authorId.toString() !== user_id.toString()) {
-            return res.send("Unauthorized: You cannot delete posts that do not belong to you");
+            return res.redirect(`/posts/${postId}?error=Unauthorized: You cannot delete posts that do not belong to you`);
         }
 
         await Comment.deleteMany({ postId: postId });
         await Vote.deleteMany({ postId: postId });
         await Bookmark.deleteMany({ postId: postId });
         await Post.findByIdAndDelete(postId);
-        res.redirect('/');
+        return res.redirect('/?success=Post deleted successfully');
     } catch (err) {
-        console.error(err);
-        res.send("Error deleting post. Please try again.");
+        return res.status(500).json({ error: err.message });
     }
 };
