@@ -30,6 +30,7 @@ exports.handleRegister = async (req, res) => {
     let emailError = '';
     let passError = '';
     let ageError = '';
+    let success = false;
 
     if (!dateBirth || dateBirth.indexOf('-') === -1) {
         ageError = '<li>Date of birth is required</li>';
