@@ -16,29 +16,37 @@
         <!-- back button -->
         <p style="color: #fff; margin-bottom: 12px;"><a href="/communities/<%= communitySlug %>" style="color: #9ec5ff;">← Back to community</a></p>
 
-        <div class="community-form-card">
-            <h2 class="community-form-title">Update Community</h2>
-
-            <form class="community-form" action="/communities/<%= communitySlug %>/edit" method="post">
-                <div class="community-form-field">
-                    <label for="community">Enter Community Name:</label>
-                    <input class="community-input" type="text" name="community" id="community" value="<%= community_name %>" required>
+        <% if (otherError) { %>
+            <div class="community-form-card">
+                <div class="community-label-row">
+                    <span class="community-label-title" style="color: tomato;"><%= otherError %></span>
                 </div>
+            </div>
+        <% } else { %>
+        
+            <div class="community-form-card">
+                <h2 class="community-form-title">Update Community</h2>
 
-                <div class="community-form-field">
-                    <label for="description">Enter Community Description:</label>
-                    <textarea class="community-textarea" name="description" id="description" rows="5" required><%= description_details%></textarea>
-                </div>
+                <form class="community-form" action="/communities/<%= communitySlug %>/edit" method="post">
+                    <div class="community-form-field">
+                        <label for="community">Enter Community Name:</label>
+                        <input class="community-input" type="text" name="community" id="community" value="<%= community_name %>" required>
+                    </div>
 
-                <button type="submit" class="community-submit-btn">Save changes</button>
-            </form>
+                    <div class="community-form-field">
+                        <label for="description">Enter Community Description:</label>
+                        <textarea class="community-textarea" name="description" id="description" rows="5" required><%= description_details%></textarea>
+                    </div>
 
-            <% if (communityNameError || communityDescriptionError) { %>
-                <p class="community-feedback community-feedback-error"><%= communityNameError %></p>
-                <p class="community-feedback community-feedback-error"><%= communityDescriptionError %></p>
-            <% } %>
-        </div>
+                    <button type="submit" class="community-submit-btn">Save changes</button>
+                </form>
 
+                <% if (communityNameError || communityDescriptionError) { %>
+                    <p class="community-feedback community-feedback-error"><%= communityNameError %></p>
+                    <p class="community-feedback community-feedback-error"><%= communityDescriptionError %></p>
+                <% } %>
+            </div>
+        <% } %>
     </section>
 </body>
 </html>

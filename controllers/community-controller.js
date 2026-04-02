@@ -13,16 +13,13 @@ exports.showCreateCommunityPage = (req, res) => {
         community_name: '',
         description_details: '',
         communityNameError: '',
-        communityDescriptionError: ''
+        communityDescriptionError: '',
+        otherError: ''
      });
 }
 
 exports.createCommunity = async (req, res) => {
     const user_id = req.session.user.user_id;
-
-    // To validate the name and the description
-    const communityRegex = /^[A-Za-z0-9_]+$/;
-    const descriptionRegex = /^[A-Za-z0-9_.,]+(?: [A-Za-z0-9_.,]+)*$/;
 
     // To store error messages
     let communityNameError = '';
@@ -44,22 +41,10 @@ exports.createCommunity = async (req, res) => {
     if (!community_name) {
         communityNameError = 'Community name is required';
     }
-    else if (!communityRegex.test(community_name)) {
-      communityNameError = "Community name can only contain letters, numbers and '_'";
-    }
-    else {
-        communityNameError = '';
-    }
 
     // validation for description details
     if (!description_details) {
         communityDescriptionError = 'Description detail is required';
-    }
-    else if (!descriptionRegex.test(description_details)) {
-        communityDescriptionError = "Description detail can only contain letters, numbers and '_', single space, commas and full stops";
-    }
-    else {
-        communityDescriptionError = '';
     }
 
     // If validation failed, re-render the same page with error messages.
@@ -69,7 +54,8 @@ exports.createCommunity = async (req, res) => {
             community_name,
             description_details,
             communityNameError,
-            communityDescriptionError
+            communityDescriptionError,
+            otherError: ''
         });
     }
 
@@ -84,7 +70,8 @@ exports.createCommunity = async (req, res) => {
                 community_name,
                 description_details,
                 communityNameError,
-                communityDescriptionError
+                communityDescriptionError,
+                otherError: ''
             });
         }
         
@@ -102,7 +89,8 @@ exports.createCommunity = async (req, res) => {
             community_name,
             description_details,
             communityNameError: '',
-            communityDescriptionError: ''
+            communityDescriptionError: '',
+            otherError: ''
         });
 
     } catch (error) {
@@ -114,17 +102,20 @@ exports.createCommunity = async (req, res) => {
                 community_name,
                 description_details,
                 communityNameError,
-                communityDescriptionError
+                communityDescriptionError,
+                otherError: ''
             });
         }
         // server error
         console.error('Error creating community:', error);
-        return res.send(
-            `<script>
-                alert("An internal server error occurred.");
-                window.location.href = window.location.origin + "/create-community";
-            </script>`
-        );
+        return res.render('createCommunity', {
+            user_id,
+            community_name,
+            description_details,
+            communityNameError,
+            communityDescriptionError,
+            otherError: "An internal server error occurred."
+        });
     }
 }
 
@@ -152,12 +143,14 @@ exports.showSelectedCommunity = async (req, res) => {
 
         // if no community
         if (!selectedCommunity) {
-            return res.send(
-                `<script>
-                    alert("Community cannot be found."); 
-                    window.location.href=window.location.origin + "/communities";
-                </script>`
-            );
+
+            return res.render('showSelectedCommunity', {
+                user_id,
+                community: '',
+                posts: '',
+                isCreator: '',
+                otherError: "Community cannot be found."
+            });
         }
 
         // if there is community, find all related posts
@@ -241,18 +234,21 @@ exports.showSelectedCommunity = async (req, res) => {
             community: selectedCommunity,
             posts,
             isCreator,
+            otherError: ''
         });
 
         
     }
     catch(error) {
         console.error("Error loading selected community: ", error);
-        return res.send(
-            `<script>
-                alert("An internal server error occurred.");
-                window.location.href = window.location.origin + "/communities";
-            </script>`
-        );
+
+        return res.render('showSelectedCommunity', {
+            user_id,
+            community: '',
+            posts: '',
+            isCreator: '',
+            otherError: "An internal server error occurred."
+        });
     }
 }
 
@@ -268,12 +264,16 @@ exports.showEditCommunityPage = async (req, res) => {
 
         // if no such community
         if (!selectedCommunity) {
-            return res.send(
-                `<script>
-                    alert("Community cannot be found.");
-                    window.location.href = window.location.origin + "/communities";
-                </script>`
-            );
+            
+            return res.render('editCommunity', {
+                user_id,
+                communitySlug,
+                community_name: selectedCommunity.name,
+                description_details: selectedCommunity.description,
+                communityNameError: '',
+                communityDescriptionError: '',
+                otherError: "Community cannot be found."
+            });
         }
 
         // check if user is creator of the community again
@@ -288,12 +288,17 @@ exports.showEditCommunityPage = async (req, res) => {
         }
 
         if (!isCreator) {
-            return res.send(
-                `<script>
-                    alert("You can only edit communities you created.");
-                    window.location.href = window.location.origin + "/communities/${communitySlug}";
-                </script>`
-            );
+
+            return res.render('editCommunity', {
+                user_id,
+                communitySlug,
+                community_name: '',
+                description_details: '',
+                communityNameError: '',
+                communityDescriptionError: '',
+                otherError: "You can only edit communities you created."
+            });
+
         }
 
         // if user is creator, then render the edit page
@@ -303,28 +308,29 @@ exports.showEditCommunityPage = async (req, res) => {
             community_name: selectedCommunity.name,
             description_details: selectedCommunity.description,
             communityNameError: '',
-            communityDescriptionError: ''
+            communityDescriptionError: '',
+            otherError: ''
         });
         
     } catch (error) {
         const { communitySlug } = req.params;
         console.error('Error loading edit community page:', error);
-        return res.send(
-            `<script>
-                alert("An internal server error occurred.");
-                window.location.href = window.location.origin + "/communities/${communitySlug}";
-            </script>`
-        );
+       
+        return res.render('editCommunity', {
+            user_id,
+            communitySlug,
+            community_name: selectedCommunity.name,
+            description_details: selectedCommunity.description,
+            communityNameError: '',
+            communityDescriptionError: '',
+            otherError: "An internal server error occurred."
+        });
     }
 }
 
 // after checking if user is the creator, then they can update the community
 exports.updateCommunity = async (req, res) => {
     const user_id = req.session.user.user_id;
-
-    // check the community name and description
-    const communityRegex = /^[A-Za-z0-9_]+$/;
-    const descriptionRegex = /^[A-Za-z0-9_.,]+(?: [A-Za-z0-9_.,]+)*$/;
 
     // string to store errors
     let communityNameError = '';
@@ -349,15 +355,11 @@ exports.updateCommunity = async (req, res) => {
     // validating the name
     if (!community_name) {
         communityNameError = 'Community name is required';
-    } else if (!communityRegex.test(community_name)) {
-        communityNameError = "Community name can only contain letters, numbers and '_'";
     }
 
     // validating the description
     if (!description_details) {
         communityDescriptionError = 'Description detail is required';
-    } else if (!descriptionRegex.test(description_details)) {
-        communityDescriptionError = "Description detail can only contain letters, numbers and '_', single space, commas and full stops";
     }
 
     try {
@@ -366,12 +368,16 @@ exports.updateCommunity = async (req, res) => {
 
         // if not exist
         if (!community) {
-            return res.send(
-                `<script>
-                    alert("Community cannot be found.");
-                    window.location.href = window.location.origin + "/communities/${communitySlug}";
-                </script>`
-            );
+
+            return res.render('editCommunity', {
+                user_id,
+                communitySlug,
+                community_name,
+                description_details,
+                communityNameError,
+                communityDescriptionError: '',
+                otherError: "Community cannot be found."
+            });
         }
 
         // check if user is creator
@@ -386,12 +392,16 @@ exports.updateCommunity = async (req, res) => {
         }
 
         if (!isCreator) {
-            return res.send(
-                `<script>
-                    alert("You can only edit communities you created.");
-                    window.location.href = window.location.origin + "/communities/${communitySlug}";
-                </script>`
-            );
+
+            return res.render('editCommunity', {
+                user_id,
+                communitySlug,
+                community_name: '',
+                description_details: '',
+                communityNameError: '',
+                communityDescriptionError: '',
+                otherError: "You can only edit communities you created."
+            });
         }
 
         // if there is any error, render the error on the page
@@ -402,7 +412,8 @@ exports.updateCommunity = async (req, res) => {
                 community_name,
                 description_details,
                 communityNameError,
-                communityDescriptionError
+                communityDescriptionError,
+                otherError: ''
             });
         }
 
@@ -419,7 +430,8 @@ exports.updateCommunity = async (req, res) => {
                     community_name,
                     description_details,
                     communityNameError,
-                    communityDescriptionError: ''
+                    communityDescriptionError: '',
+                    otherError: ''
                 });
             }
         }
@@ -443,18 +455,23 @@ exports.updateCommunity = async (req, res) => {
                 community_name,
                 description_details,
                 communityNameError: 'Community name already exists',
-                communityDescriptionError: ''
+                communityDescriptionError: '',
+                otherError: ''
             });
         }
 
         console.error('Error updating community:', error);
         // return res.status(500).send('Internal Server Error');
-        return res.send(
-            `<script>
-                alert("An internal server error occurred.");
-                window.location.href = window.location.origin + "/communities/${communitySlug}";
-            </script>`
-        );
+
+        return res.render('editCommunity', {
+            user_id,
+            communitySlug,
+            community_name: '',
+            description_details: '',
+            communityNameError: '',
+            communityDescriptionError: '',
+            otherError: "An internal server error occurred."
+        });
     }
 }
 
@@ -470,12 +487,14 @@ exports.deleteCommunity = async (req, res) => {
 
         // if not found 
         if (!community) {
-            return res.send(
-                `<script>
-                    alert("Community cannot be found.");
-                    window.location.href = window.location.origin + "/communities/${communitySlug}";
-                </script>`
-            );
+
+            return res.render('showSelectedCommunity', {
+                user_id,
+                community: '',
+                posts: '',
+                isCreator: '',
+                otherError: "Community cannot be found."
+            });
         }
 
         // check if user is creator
@@ -490,12 +509,14 @@ exports.deleteCommunity = async (req, res) => {
         }
 
         if (!isCreator) {
-            return res.send(
-                `<script>
-                    alert("You can only edit communities you created.");
-                    window.location.href = window.location.origin + "/communities/${communitySlug}";
-                </script>`
-            );
+
+            return res.render('showSelectedCommunity', {
+                user_id,
+                community: '',
+                posts: '',
+                isCreator: '',
+                otherError: "You can only edit communities you created."
+            });
         }
 
         // delete relevant posts and related post data
@@ -520,11 +541,13 @@ exports.deleteCommunity = async (req, res) => {
     } catch (error) {
         const communitySlug = req.params.communitySlug;
         console.error('Error deleting community:', error);
-        return res.send(
-            `<script>
-                alert("An internal server error occurred.");
-                window.location.href = window.location.origin + "/communities/${communitySlug}";
-            </script>`
-        );
+
+        return res.render('showSelectedCommunity', {
+            user_id,
+            community: '',
+            posts: '',
+            isCreator: '',
+            otherError: "An internal server error occurred."
+        });
     }
 };
