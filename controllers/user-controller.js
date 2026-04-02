@@ -1,5 +1,10 @@
-const bcrypt = require('bcrypt');
-const User   = require('../models/user');
+const bcrypt    = require('bcrypt');
+const User      = require('../models/user');
+const Post      = require('../models/post');
+const Comment   = require('../models/comment');
+const Vote      = require('../models/vote');
+const Bookmark  = require('../models/bookmark');
+const Community = require('../models/community');
 
 exports.showRegister = async (req, res) => {
     if (req.session.user && req.session.user.user_id) {
@@ -460,9 +465,40 @@ exports.handleDelete = async (req, res) => {
         return res.render('deleteAccount', { passError, accountDeleted });
     }
 
-    // Delete user account
+    // Cascade-delete all data owned by this user
     console.log('deleting account...')
-    await User.deleteUser(user_id)
+
+    // 1. Delete all posts by the user and their related data
+    const userPosts = await Post.find({ authorId: user_id });
+    for (const post of userPosts) {
+        await Comment.deleteMany({ postId: post._id });
+        await Vote.deleteMany({ postId: post._id });
+        await Bookmark.deleteMany({ postId: post._id });
+    }
+    await Post.deleteMany({ authorId: user_id });
+
+    // 2. Delete communities created by the user and their related data
+    const userCommunities = await Community.allCommunities();
+    for (const community of userCommunities) {
+        if (community.createdBy && community.createdBy.toString() === user_id.toString()) {
+            const communityPosts = await Post.find({ communityId: community._id });
+            for (const post of communityPosts) {
+                await Comment.deleteMany({ postId: post._id });
+                await Vote.deleteMany({ postId: post._id });
+                await Bookmark.deleteMany({ postId: post._id });
+            }
+            await Post.deleteMany({ communityId: community._id });
+            await Community.deleteCommunity(community._id);
+        }
+    }
+
+    // 3. Delete user's comments, votes, and bookmarks on other people's posts
+    await Comment.deleteMany({ authorId: user_id });
+    await Vote.deleteMany({ userId: user_id });
+    await Bookmark.deleteMany({ userId: user_id });
+
+    // 4. Delete the user account itself
+    await User.deleteUser(user_id);
     req.session.destroy(function() {});
     accountDeleted = true;
 
