@@ -161,6 +161,13 @@
                 <div class="comment">
                     <p class="comment-author">u/<%= comment.authorId.username %></p>
                     <p class="comment-text"><%= comment.content %></p>
+                    <% let isAuthenticated; %>
+
+                    <% if (comment.authorId._id.toString() === user_id) { %>
+                        <% isAuthenticated = true %>
+                    <% } else { %>
+                        <% isAuthenticated = false %>
+                    <% } %>
 
                     <% if (isAuthenticated) { %>
 

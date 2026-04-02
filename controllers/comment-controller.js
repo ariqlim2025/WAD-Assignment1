@@ -1,5 +1,5 @@
 const {Comment, addComment, retrieveComment, removeComment, toEditComment } = require('../models/comment');
-const User = require('../models/user');
+const { User, addUser, findByEmail, findByUsername, findByID, updateDetails, updatePassword, deleteUser} = require('../models/user');
 const Post = require('../models/post')
 
 // upload comment to the database
@@ -7,15 +7,12 @@ exports.createComment = async (req, res) => {
     try {
         const commentContent = req.body.newComment.trim();
         const postId = req.params.id;
-        console.log(commentContent)
-
-
-        // PLACEHOLDER USER !!!
-        const placeholderUser = await User.findOne({ username: 'AdminTester' });
+        const user_id = req.session.user.user_id;
+        console.log(commentContent);
 
         let newComment = {
             content : commentContent,
-            authorId: placeholderUser,       // PLACEHOLDER USER !!!
+            authorId: user_id,       
             postId: postId,
             createdAt: Date.now(),
             updatedAt: Date.now()
@@ -29,7 +26,7 @@ exports.createComment = async (req, res) => {
         res.redirect(`./${postId}`)
         
     } catch(error) {
-        res.status(500).send(`Error creating comment: ${error.message}`);
+        res.status(500).send(`Error creating comment: ${error.message}, in createComment`);
     }
 }
 exports.showEditComment = async (req, res) => {
@@ -48,7 +45,7 @@ exports.showEditComment = async (req, res) => {
 
         res.render('editComment', {currentPost, currentComment, community, user_id:'u001'})
     } catch(error) {
-        res.status(500).send(`Error editing comment: ${error.message}`);
+        res.status(500).send(`Error editing comment: ${error.message}, in showEditComment`);
     }
 }
 // edit comment, and update database accordingly
@@ -66,7 +63,7 @@ exports.editComment = async (req, res) => {
         res.redirect(`/posts/${postId}`)
 
     } catch(error) {
-        res.status(500).send(`Error editing comment: ${error.message}`);
+        res.status(500).send(`Error editing comment: ${error.message}, in editComment`);
     }
 }
 // delete comment, and update database accordingly
@@ -80,7 +77,7 @@ exports.deleteComment = async (req, res) => {
 
         res.redirect(`/posts/${postId}`)
     } catch(error) {
-        res.status(500).send(`Error editing comment: ${error.message}`);
+        res.status(500).send(`Error editing comment: ${error.message}, in deleteComment`);
     }
 
 }
