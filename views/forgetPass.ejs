@@ -37,6 +37,7 @@
                     <input type="password" name="confirmPassword" required>
                 </div>
                 <input type="submit" value="Submit">
+                <a href="/forgetPass"><input type="button" value="Back"></a>
             </form>
             <p <%= emailExists && !passError && password ? "" : "hidden" %>>Password updated! <a href="/login">Login here</a></p>
         </div>
