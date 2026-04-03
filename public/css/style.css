@@ -987,6 +987,18 @@ hr {
     line-height: 1.5;
 }
 
+.auth-logo-bridge {
+    display: flex;
+    justify-content: center;
+    margin: 6px 0 14px;
+}
+
+.auth-logo-bridge-img {
+    width: 72px;
+    height: 72px;
+    object-fit: contain;
+}
+
 .auth-page input[type="text"],
 .auth-page input[type="email"],
 .auth-page input[type="password"],
