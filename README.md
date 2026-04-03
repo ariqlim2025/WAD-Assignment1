@@ -2,7 +2,7 @@
 
 Wadsup is a community forum web application where users can create posts, join communities, comment, vote, and save bookmarks.
 
-Live app: https://wad-assignment1.vercel.app/
+We have hosted the web app online @ https://wad-assignment1.vercel.app/
 
 This README provides the required step-by-step instructions for:
 
@@ -20,19 +20,6 @@ This README provides the required step-by-step instructions for:
    ```bash
    npm install
    ```
-
-4. Create a `config.env` file in the project root (same level as `server.js`) with:
-   ```env
-   DB=<your_mongodb_connection_string>
-   SECRET=<your_session_secret>
-   ```
-   Example:
-   ```env
-   DB=mongodb://127.0.0.1:27017/wadsup
-   SECRET=replace_with_a_long_random_secret
-   ```
-
-5. Make sure your MongoDB database is available (local MongoDB or MongoDB Atlas).
 
 ## b. Run the Application
 
@@ -58,3 +45,15 @@ This README provides the required step-by-step instructions for:
   - `config.env` exists and has valid `DB` and `SECRET`
   - MongoDB is reachable
   - dependencies were installed successfully
+
+## AI Usage Declaration
+
+AI tools were used to:
+
+- generate code for CSS styling
+- generate boilerplate code structures
+- explain code errors and provide debugging hints
+
+All AI-generated output was reviewed, adapted, and tested by the project team before submission.
+
+AI was NOT used for higher order thinking tasks
