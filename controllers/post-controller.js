@@ -181,7 +181,6 @@ exports.showSinglePost = async (req, res) => {
                 currentComments[i].authorId = { _id: 'deleted', username: 'deleted_user' };
             }
         }
-        console.log(currentComments)
 
         const existingBookmark = await Bookmark.findBookmarkByUserAndPost(user_id, postId)
         if (existingBookmark) {

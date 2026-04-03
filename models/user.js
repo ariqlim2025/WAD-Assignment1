@@ -12,6 +12,10 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model('User', userSchema);
 
+function escapeRegex(value) {
+    return String(value || '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 // Create user
 exports.addUser = function(username, email, passwordHash, age) {
     return User.create({username, email, passwordHash, age});
@@ -19,12 +23,16 @@ exports.addUser = function(username, email, passwordHash, age) {
 
 // Read user via Email
 exports.findByEmail = function(email) {
-    return User.findOne({ email: { $regex: `^${email}$`, $options: 'i' }  });
+    return User.findOne({
+        email: { $regex: `^${escapeRegex(email)}$`, $options: 'i' }
+    });
 }
 
 // Read user via Username
 exports.findByUsername = function(username) {
-    return User.findOne({ username: { $regex: `^${username}$`, $options: 'i' } });
+    return User.findOne({
+        username: { $regex: `^${escapeRegex(username)}$`, $options: 'i' }
+    });
 }
 
 // Read user via ID
