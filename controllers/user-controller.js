@@ -7,6 +7,7 @@ const Bookmark  = require('../models/bookmark');
 const Community = require('../models/community');
 
 exports.showRegister = async (req, res) => {
+    // Checks if user is already logged in and redirects them to home page if true
     if (req.session.user && req.session.user.user_id) {
         return res.redirect('/home');
     }
@@ -37,6 +38,7 @@ exports.handleRegister = async (req, res) => {
     let ageError = '';
     let success = false;
 
+    // Check if date of birth is entered
     if (!dateBirth || dateBirth.indexOf('-') === -1) {
         ageError = '<li>Date of birth is required</li>';
         return res.render('register', {
@@ -62,6 +64,7 @@ exports.handleRegister = async (req, res) => {
     if (monthDiff < 0 || (monthDiff === 0 && currDate.getDate() < birthDate.getDate())) { age--; }
     if (age < 13) { ageError = '<li>You must be 13 and above to use the app!</li>'; }
 
+    // Prevents user from registering for an account if below 13 years old
     if (ageError) {
         return res.render('register', {
             usernameError,
@@ -91,6 +94,7 @@ exports.handleRegister = async (req, res) => {
         });
     }
 
+    // Check if password is valid
     let isPassValid;
     [isPassValid, passError] = validPassword(password);
 
@@ -108,6 +112,7 @@ exports.handleRegister = async (req, res) => {
         });
     }
 
+    // Check if username is valid
     let isUsernameValid;
     [isUsernameValid, usernameError] = validUsername(username);
     
@@ -124,6 +129,7 @@ exports.handleRegister = async (req, res) => {
         });
     }
 
+    // Check if email is valid
     let isEmailValid;
     [isEmailValid, emailError] = validEmail(email);
 
@@ -144,6 +150,7 @@ exports.handleRegister = async (req, res) => {
     const existingUsername = await User.findByUsername(username);
     const existingEmail = await User.findByEmail(email);
 
+    // If any of these exists, parse in error msg
     if (existingUsername) { usernameError = '<li>Username already exists</li>'; }
     if (existingEmail) { emailError = '<li>Email already exists</li>'; }
 
@@ -160,6 +167,7 @@ exports.handleRegister = async (req, res) => {
         });
     }
 
+    // Hash password and store it into DB with user credentials
     const passwordHash = await bcrypt.hash(password, 10);
     await User.addUser(username, email, passwordHash, age);
     success = true;
@@ -177,6 +185,7 @@ exports.handleRegister = async (req, res) => {
 };
 
 exports.showLogin = async (req, res) => {
+    // Checks if user is already logged in and redirects them to home page if true
     if (req.session.user && req.session.user.user_id) {
         return res.redirect('/home');
     }
@@ -192,11 +201,14 @@ exports.handleLogin = async (req, res) => {
     // Regular expression check for email format
     const emailCheck = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+    // If login input is an email format then search user in DB via email, else use username
     let userCreds = emailCheck.test(loginCred) ? await User.findByEmail(loginCred) : await User.findByUsername(loginCred);
 
+    // Checks if password matches hashed password stored in DB
     let match = userCreds ? await bcrypt.compare(password, userCreds.passwordHash) : null;
     let loginMsg = !match ? 'Incorrect username or password' : '';
 
+    // Checks if user exists and if there's a match
     if (userCreds && match) {
         req.session.user = {
             user_id: userCreds._id,
@@ -204,14 +216,17 @@ exports.handleLogin = async (req, res) => {
         };
     }
 
+    // Redirects to home page if user logged in, else render login page again with error msg
     if (req.session.user) { return res.redirect('/home'); }
     res.render("login", { loginCred, loginMsg });
 };
 
 exports.showProfile = async (req, res) => {
+    // Get user_id and use it to get user data 
     const user_id = req.session.user.user_id;
     const userCreds = await User.findByID(user_id);
 
+    // If no user found, redirect them back to login
     if (!userCreds) {
         req.session.destroy(function() {
             res.redirect('/login');
@@ -219,6 +234,7 @@ exports.showProfile = async (req, res) => {
         return;
     }
 
+    // Current values
     let username = userCreds.username;
     let email = userCreds.email;
     let bio = userCreds.bio;
@@ -234,9 +250,11 @@ exports.showProfile = async (req, res) => {
 };
 
 exports.handleProfile = async (req, res) => {
+    // Get user_id and use it to get user data 
     const user_id = req.session.user.user_id;
     const userCreds = await User.findByID(user_id);
 
+    // If no user found, redirect them back to login
     if (!userCreds) {
         req.session.destroy(function() {
             res.redirect('/login');
@@ -262,6 +280,7 @@ exports.handleProfile = async (req, res) => {
     // Checks if username or email exists
     let userError, emailError;
 
+    // If username checkbox is checked, check if username format is valid then if it exists or not 
     if (usernameCheck) {
         let isUsernameValid;
         [isUsernameValid, userError] = validUsername(new_username);
@@ -271,7 +290,8 @@ exports.handleProfile = async (req, res) => {
             userError = '<li>Username already exists</li>';
         }
     }
-
+    
+    // If email checkbox is checked, check if email format is valid then if it exists or not
     if (emailCheck) {
         let isEmailValid;
         [isEmailValid, emailError] = validEmail(new_email);
@@ -343,6 +363,7 @@ exports.showForget = async (req, res) => {
         emailExists = true;
     }
     
+    // Sends another GET request but input email into forgetPass.ejs, to display password fields
     res.render('forgetPass', { 
         email,
         emailExists,
@@ -408,6 +429,7 @@ exports.handlePass = async (req, res) => {
         });
     }
 
+    // Checks if new password matches current, if it does then parse in error msg
     const matchPrevious = await bcrypt.compare(password, userCreds.passwordHash);
     
     if (matchPrevious) {
@@ -506,6 +528,7 @@ exports.handleDelete = async (req, res) => {
 }
 
 exports.handleLogout = async (req, res) => {
+    // Destroy session data and redirects back to login
     req.session.destroy(function() {
         res.redirect('/login');
     });
