@@ -21,8 +21,8 @@ exports.showCreateCommunityPage = (req, res) => {
 exports.createCommunity = async (req, res) => {
     const user_id = req.session.user.user_id;
 
-    // Regex to disallow special characters: : / ? # [ ] @ ! $ & ' ( ) * + , ; =
-    const communityRegex = /^[^:/?#\[\]@!$&'()*+,;=]+$/;
+    // Regex to disallow special characters: : / ? # [ ] @ ! $ & ' ( ) * + , ; = %
+    const communityRegex = /^[^:/?#\[\]@!$&'()*+,;=%]+$/;
 
     // To store error messages
     let communityNameError = '';
@@ -45,7 +45,7 @@ exports.createCommunity = async (req, res) => {
         communityNameError = 'Community name is required';
     }
     else if (!communityRegex.test(community_name)) {
-      communityNameError = "Community name cannot contain special characters : / ? # [ ] @ ! $ & ' ( ) * + , ; =";
+      communityNameError = "Community name cannot contain special characters : / ? # [ ] @ ! $ & ' ( ) * + , ; = %";
     }
 
     // validation for description details
@@ -334,8 +334,8 @@ exports.showEditCommunityPage = async (req, res) => {
 exports.updateCommunity = async (req, res) => {
     const user_id = req.session.user.user_id;
 
-    // Regex to disallow special characters: : / ? # [ ] @ ! $ & ' ( ) * + , ; =
-    const communityRegex = /^[^:/?#\[\]@!$&'()*+,;=]+$/;
+    // Regex to disallow special characters: : / ? # [ ] @ ! $ & ' ( ) * + , ; = %
+    const communityRegex = /^[^:/?#\[\]@!$&'()*+,;=%]+$/;
 
     // string to store errors
     let communityNameError = '';
@@ -362,7 +362,7 @@ exports.updateCommunity = async (req, res) => {
         communityNameError = 'Community name is required';
     }
     else if (!communityRegex.test(community_name)) {
-      communityNameError = "Community name cannot contain special characters : / ? # [ ] @ ! $ & ' ( ) * + , ; =";
+      communityNameError = "Community name cannot contain special characters : / ? # [ ] @ ! $ & ' ( ) * + , ; = %";
     }
 
     // validating the description
