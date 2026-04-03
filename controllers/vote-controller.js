@@ -46,7 +46,7 @@ exports.addVote = async (req, res) => {
         }
         // res.redirect('/');
         // stay on current page instead of redirecting back to root page
-        res.redirect(req.get('Referrer') || '/');
+        res.redirect(req.get('Referrer') || '/home');
 
     } catch (error) {
         console.error('Error adding vote:', error);
