@@ -28,9 +28,6 @@ server.use(express.json());
 // 4. set EJS as view engine
 server.set("view engine", "ejs");
 
-// 5. serve static files (CSS, images, favicon, etc.)
-server.use(express.static('public'));
-
 // specify the path to the environment variable file 'config.env'
 dotenv.config({ path: './config.env' });
 
@@ -40,6 +37,9 @@ server.use(session({
     resave: false,
     saveUninitialized: false
 }))
+
+// 5. serve static files (CSS, images, favicon, etc.)
+server.use(express.static('public'));
 
 // 6. use established root routes
 server.use('/', post);

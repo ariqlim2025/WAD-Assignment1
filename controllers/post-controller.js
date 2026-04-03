@@ -22,7 +22,7 @@ exports.showPosts = async (req, res) => {
             const post = await Post.findById(postId).populate('authorId');
 
             if (!post) {
-                return res.redirect('/?error=Post not found');
+                return res.redirect('/home?error=Post not found');
             }
 
             return res.render('posts', {
@@ -150,7 +150,7 @@ exports.showSinglePost = async (req, res) => {
 
         // if current post cannot be retrieved, send error
         if (!currentPost) {
-            return res.redirect('/?error=Post not found');
+            return res.redirect('/home?error=Post not found');
         }
 
         // get all comments under the selected post 
@@ -234,7 +234,7 @@ exports.createPost = async (req, res) => {
 
         await Post.createPost(newPost);
         req.session.homeSuccess = 'Post created successfully';
-        return res.redirect('/');
+        return res.redirect('/home');
     } catch (err) {
         return res.status(500).json({ error: err.message });
     }
@@ -249,20 +249,20 @@ exports.updatePost = async (req, res) => {
         const user_id = req.session.user.user_id;
 
         if (!postId) {
-            return res.redirect('/?error=Post not found');
+            return res.redirect('/home?error=Post not found');
         }
 
         const post = await Post.findById(postId);
 
         if (!post) {
-            return res.redirect('/?error=Post not found');
+            return res.redirect('/home?error=Post not found');
         }
 
         // get current post object, populate authorid and communityid
         let currentPost = await Post.findById(postId).populate('authorId').populate('communityId');
 
         if (!currentPost) {
-            return res.redirect('/?error=Post not found');
+            return res.redirect('/home?error=Post not found');
         }
 
         // Get old title & content (to validate if they actually changed)
@@ -323,13 +323,13 @@ exports.deletePost = async (req, res) => {
         const user_id = req.session.user.user_id;
 
         if (!postId) {
-            return res.redirect('/?error=Post not found');
+            return res.redirect('/home?error=Post not found');
         }
 
         const post = await Post.findById(postId);
 
         if (!post) {
-            return res.redirect('/?error=Post not found');
+            return res.redirect('/home?error=Post not found');
         }
 
         if (post.authorId.toString() !== user_id.toString()) {
@@ -341,7 +341,7 @@ exports.deletePost = async (req, res) => {
         await Bookmark.deleteMany({ postId: postId });
         await Post.findByIdAndDelete(postId);
         req.session.homeSuccess = 'Post deleted successfully';
-        return res.redirect('/');
+        return res.redirect('/home');
     } catch (err) {
         return res.status(500).json({ error: err.message });
     }

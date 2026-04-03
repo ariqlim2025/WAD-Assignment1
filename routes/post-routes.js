@@ -4,7 +4,7 @@ const postController = require('./../controllers/post-controller');
 const authMiddleware = require('./../middleware/auth-middleware');
 
 //GET route to show homepage with all posts 
-router.get('/', authMiddleware.isLoggedIn, postController.showPosts);
+router.get('/home', authMiddleware.isLoggedIn, postController.showPosts);
 
 // GET route to display the createpost page
 router.get('/posts/new', authMiddleware.isLoggedIn, postController.showCreatePostPage);

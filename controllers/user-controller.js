@@ -8,7 +8,7 @@ const Community = require('../models/community');
 
 exports.showRegister = async (req, res) => {
     if (req.session.user && req.session.user.user_id) {
-        return res.redirect('/');
+        return res.redirect('/home');
     }
 
     res.render("register", {
@@ -178,7 +178,7 @@ exports.handleRegister = async (req, res) => {
 
 exports.showLogin = async (req, res) => {
     if (req.session.user && req.session.user.user_id) {
-        return res.redirect('/');
+        return res.redirect('/home');
     }
 
     res.render("login", { loginCred: undefined, loginMsg: undefined });
@@ -204,7 +204,7 @@ exports.handleLogin = async (req, res) => {
         };
     }
 
-    if (req.session.user) { return res.redirect('/'); }
+    if (req.session.user) { return res.redirect('/home'); }
     res.render("login", { loginCred, loginMsg });
 };
 
