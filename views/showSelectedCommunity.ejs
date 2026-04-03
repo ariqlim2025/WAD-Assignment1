@@ -49,6 +49,7 @@
 
             <% if (posts.length === 0) { %>
                 <p class="no-posts">No posts yet. Be the first to create a post!</p>
+                <a href="/posts/new" class="create-post-btn">+ Create Post</a>
             <% } else { %>
                 <% for (let i = 0; i < posts.length; i++) { %>
                     <div class="post-card">
