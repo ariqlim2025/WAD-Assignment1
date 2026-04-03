@@ -3,7 +3,10 @@ const router = express.Router();
 const postController = require('./../controllers/post-controller');
 const authMiddleware = require('./../middleware/auth-middleware');
 
-//GET route to show homepage with all posts 
+// Landing page redirect
+router.get('/', postController.showLanding);
+
+//GET route to show homepage with all posts
 router.get('/home', authMiddleware.isLoggedIn, postController.showPosts);
 
 // GET route to display the createpost page

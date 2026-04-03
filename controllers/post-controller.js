@@ -4,6 +4,11 @@ const Comment = require('../models/comment');
 const Vote = require('../models/vote');
 const Bookmark = require('../models/bookmark');
 
+// Redirect root to landing page
+exports.showLanding = (req, res) => {
+    res.redirect('/index.html');
+};
+
 // Controller function to list home page with all posts
 exports.showPosts = async (req, res) => {
     try {
