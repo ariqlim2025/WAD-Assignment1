@@ -990,12 +990,12 @@ hr {
 .auth-logo-bridge {
     display: flex;
     justify-content: center;
-    margin: 6px 0 14px;
+    margin: 0 0 14px;
 }
 
 .auth-logo-bridge-img {
-    width: 72px;
-    height: 72px;
+    width: 116px;
+    height: 116px;
     object-fit: contain;
 }
 
