@@ -96,7 +96,8 @@ exports.editBookmark = async (req, res) => {
         }
 
         await Bookmark.editBookmark(user_id, postId, note)
-        return res.redirect(`/bookmarks/edit?postId=${postId}&success=Bookmark updated successfully`);
+        req.session.bookmarkEditSuccess = 'Bookmark updated successfully';
+        return res.redirect(`/bookmarks/edit?postId=${postId}`);
     } catch (error) {
         return res.status(500).json({ error: error.message });
     }
@@ -107,7 +108,8 @@ exports.showEditBookmarkForm = async (req, res) => {
         const user_id = req.session.user.user_id
         const postId = req.query.postId
         const bookmarkError = req.query.error || '';
-        const bookmarkSuccess = req.query.success || '';
+        const bookmarkSuccess = req.session.bookmarkEditSuccess || req.query.success || '';
+        delete req.session.bookmarkEditSuccess;
 
         if (!postId) {
             return res.redirect('/bookmarks?error=Bookmark not found');

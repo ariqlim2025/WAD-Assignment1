@@ -222,6 +222,12 @@ hr {
     margin-bottom: 12px;
 }
 
+.msg-info {
+    color: var(--text-muted);
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
 .no-posts {
     text-align: center;
     color: var(--text-muted);
@@ -713,6 +719,46 @@ hr {
     font-family: inherit;
 }
 
+.post-owner-tools {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border-light);
+}
+
+.post-owner-tools h3 {
+    margin: 0 0 10px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.post-owner-form .form-field {
+    margin-bottom: 10px;
+}
+
+.post-owner-form .form-field label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+}
+
+.post-owner-delete {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--border-light);
+}
+
+.post-owner-delete h4 {
+    margin: 0 0 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+}
+
 /* ==================== Comments ==================== */
 .comments-section {
     margin-top: 20px;
@@ -918,6 +964,27 @@ hr {
 .auth-page p {
     margin-bottom: 12px;
     font-size: 14px;
+}
+
+.auth-intro-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 4px;
+    padding: 16px;
+    margin-bottom: 14px;
+}
+
+.auth-intro-card h2 {
+    margin: 0 0 6px;
+    font-size: 18px;
+}
+
+.auth-intro-card p {
+    margin: 0;
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.5;
 }
 
 .auth-page input[type="text"],

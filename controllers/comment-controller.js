@@ -186,10 +186,10 @@ exports.editComment = async (req, res) => {
 
         // Handle case where current post has no community. let community = communityId if true, if not it has no community
         if (currentPost.communityId) {
-            community = currentPost.communityId;
+            community = currentPost.communityId.name;
         }
         else {
-            community = { name: "No community" };
+            community = "No community";
         }
 
         // Handle case where user gets deleted for POSTS

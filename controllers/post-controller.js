@@ -131,7 +131,17 @@ exports.showSinglePost = async (req, res) => {
         // errors array
         const errors = [];
         let isBookmarked = false;
-        let postMsg = req.query.success || undefined;
+        const flashPostSuccess = req.session.postSuccess || '';
+        delete req.session.postSuccess;
+        let postMsg = undefined;
+        let postMsgType = '';
+        if (flashPostSuccess) {
+            postMsg = flashPostSuccess;
+            postMsgType = 'success';
+        } else if (req.query.success) {
+            postMsg = req.query.success;
+            postMsgType = 'success';
+        }
         const queryError = req.query.error || '';
 
         if (queryError) {
@@ -185,6 +195,7 @@ exports.showSinglePost = async (req, res) => {
             currentComments: currentComments,
             user_id: user_id,
             postMsg: postMsg,
+            postMsgType,
             isBookmarked: isBookmarked,
             errors
         });
@@ -291,6 +302,7 @@ exports.updatePost = async (req, res) => {
                 currentComments: currentComments,
                 user_id: user_id,
                 postMsg,
+                postMsgType: 'info',
                 isBookmarked: isBookmarked,
                 errors
             });
@@ -298,20 +310,8 @@ exports.updatePost = async (req, res) => {
 
         // Update post content
         await Post.updatePostContent(postId, title, content);
-        postMsg = "Post edited successfully!"
-        
-        // get current post object to render new post content
-        currentPost = await Post.findById(postId).populate('authorId').populate('communityId');
-
-        res.render('show', {
-            currentPost: currentPost,
-            community: community,
-            currentComments: currentComments,
-            user_id: user_id,
-            postMsg,
-            isBookmarked: isBookmarked,
-            errors
-        });
+        req.session.postSuccess = 'Post edited successfully!';
+        return res.redirect(`/posts/${postId}`);
     } catch (err) {
         return res.status(500).json({ error: err.message });
     }
@@ -341,7 +341,8 @@ exports.deletePost = async (req, res) => {
         await Vote.deleteMany({ postId: postId });
         await Bookmark.deleteMany({ postId: postId });
         await Post.findByIdAndDelete(postId);
-        return res.redirect('/?success=Post deleted successfully');
+        req.session.homeSuccess = 'Post deleted successfully';
+        return res.redirect('/');
     } catch (err) {
         return res.status(500).json({ error: err.message });
     }

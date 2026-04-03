@@ -33,25 +33,34 @@
             <% } %>
 
             <% if (currentPost.authorId && currentPost.authorId._id && currentPost.authorId._id.toString() === user_id.toString()) { %>
-                <h3>Edit Post</h3>
-                <p class="msg-error"><%= postMsg %></p>
-                <form action="/updatepost" method="POST">
-                    <input type="hidden" name="postId" value="<%= currentPost._id %>">
-                    <input type="hidden" name="communityid" value="<%= currentPost.communityId %>">
-                    <div class="form-field">
-                        <input type="text" name="title" value="<%= currentPost.title %>" class="form-input">
-                    </div>
-                    <div class="form-field">
-                        <textarea name="content" class="form-textarea"><%= currentPost.content %></textarea>
-                    </div>
-                    <button type="submit" class="form-submit">Save Changes</button>
-                </form>
+                <div class="post-owner-tools">
+                    <h3>Manage Your Post</h3>
 
-                <h3>Delete Post</h3>
-                <form action="/deletepost" method="POST" onsubmit="return confirm('Delete this post forever?')">
-                    <input type="hidden" name="postId" value="<%= currentPost._id %>">
-                    <button type="submit" class="btn btn--danger">Delete Post</button>
-                </form>
+                    <% if (postMsg) { %>
+                        <p class="<%= postMsgType === 'success' ? 'msg-success' : postMsgType === 'info' ? 'msg-info' : 'msg-error' %>"><%= postMsg %></p>
+                    <% } %>
+
+                    <form action="/updatepost" method="POST" class="post-owner-form">
+                        <input type="hidden" name="postId" value="<%= currentPost._id %>">
+                        <div class="form-field">
+                            <label for="edit-post-title">Title</label>
+                            <input id="edit-post-title" type="text" name="title" value="<%= currentPost.title %>" class="form-input">
+                        </div>
+                        <div class="form-field">
+                            <label for="edit-post-content">Content</label>
+                            <textarea id="edit-post-content" name="content" class="form-textarea"><%= currentPost.content %></textarea>
+                        </div>
+                        <button type="submit" class="form-submit">Save Changes</button>
+                    </form>
+
+                    <div class="post-owner-delete">
+                        <h4>Delete Post</h4>
+                        <form action="/deletepost" method="POST" onsubmit="return confirm('Delete this post forever?')">
+                            <input type="hidden" name="postId" value="<%= currentPost._id %>">
+                            <button type="submit" class="btn btn--danger">Delete Post</button>
+                        </form>
+                    </div>
+                </div>
             <% } %>
         </div>
 
