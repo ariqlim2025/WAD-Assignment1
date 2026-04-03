@@ -1,5 +1,9 @@
 # Wadsup - Setup and Run Guide
 
+Wadsup is a community forum web application where users can create posts, join communities, comment, vote, and save bookmarks.
+
+Live app: https://wad-assignment1.vercel.app/
+
 This README provides the required step-by-step instructions for:
 
 - a. Setting up the application from the submitted folder
